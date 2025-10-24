@@ -1,7 +1,7 @@
 <div class="animate-fade-in">
   <!-- Cabecera con búsqueda y controles -->
   <div class="mb-4 flex gap-2 items-center">
-    <mat-form-field class="w-64" appearance="fill" subscriptSizing="dynamic">
+    <mat-form-field class="flex-[2]" appearance="fill" subscriptSizing="dynamic">
       <mat-label>Buscar</mat-label>
       <mat-icon matPrefix class="mr-2">search</mat-icon>
       <input 
@@ -15,7 +15,7 @@
       }
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="w-28" subscriptSizing="dynamic">
+    <mat-form-field appearance="fill" class="flex-1" subscriptSizing="dynamic">
       <mat-label>Estado</mat-label>
       <mat-select [(ngModel)]="filtroEstado" (ngModelChange)="onFiltroEstadoCambio()">
         <mat-option value="todos">Todos</mat-option>
@@ -24,7 +24,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="w-32" subscriptSizing="dynamic">
+    <mat-form-field appearance="fill" class="flex-1" subscriptSizing="dynamic">
       <mat-label>Ordenar</mat-label>
       <mat-select [(ngModel)]="ordenSeleccionado" (ngModelChange)="onOrdenCambio()">
         <mat-option value="desc">Reciente</mat-option>
