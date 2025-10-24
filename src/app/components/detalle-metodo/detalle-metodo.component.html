@@ -22,11 +22,27 @@
     <!-- Tarjeta principal -->
     <mat-card class="bg-white dark:bg-gray-800 mb-4 overflow-hidden">
       @if (metodo.imagenUrl) {
-        <div class="w-full h-64 -mx-4 -mt-4 mb-4 bg-gray-100 dark:bg-gray-700 flex items-center justify-center p-6">
+        <div class="w-full h-64 -mx-4 -mt-4 mb-4 flex items-center justify-center overflow-hidden"
+             [class.p-6]="!metodo.imagenCompleta"
+             [ngClass]="{
+               'bg-white': metodo.fondoImagen === 'white',
+               'bg-gray-100': !metodo.fondoImagen || metodo.fondoImagen === 'gray',
+               'bg-gray-700': metodo.fondoImagen === 'dark',
+               'bg-blue-100': metodo.fondoImagen === 'blue',
+               'bg-pink-100': metodo.fondoImagen === 'pink',
+               'bg-green-100': metodo.fondoImagen === 'green',
+               'bg-yellow-100': metodo.fondoImagen === 'yellow',
+               'bg-purple-100': metodo.fondoImagen === 'purple',
+               'bg-orange-100': metodo.fondoImagen === 'orange'
+             }">
           <img [src]="metodo.imagenUrl" 
                [alt]="metodo.titulo" 
-               [style.height.%]="metodo.tamanoImagen || 100"
-               class="max-w-full object-contain" />
+               [class.w-full]="metodo.imagenCompleta"
+               [class.h-full]="metodo.imagenCompleta"
+               [class.object-cover]="metodo.imagenCompleta"
+               [class.max-w-full]="!metodo.imagenCompleta"
+               [class.object-contain]="!metodo.imagenCompleta"
+               [style.height.%]="!metodo.imagenCompleta ? (metodo.tamanoImagen || 100) : null" />
         </div>
       } @else {
         <div class="w-full h-48 -mx-4 -mt-4 mb-4 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">

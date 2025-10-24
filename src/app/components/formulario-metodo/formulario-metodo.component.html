@@ -159,7 +159,71 @@
                 <input matSliderThumb [(ngModel)]="tamanoVistaPrevia" name="tamanoVistaPrevia">
               </mat-slider>
             </div>
-            <div class="w-full h-64 bg-white dark:bg-gray-800 rounded flex items-center justify-center p-3 border-2 border-dashed border-gray-300 dark:border-gray-600">
+            
+            <!-- Opción para mostrar imagen completa en tarjeta -->
+            <div class="mb-3 p-2 rounded border border-gray-200 dark:border-gray-700">
+              <div class="flex items-center justify-between">
+                <div>
+                  <label class="block text-xs font-medium text-gray-700 dark:text-gray-300">
+                    <mat-icon class="align-middle mr-1 text-sm">crop</mat-icon>
+                    Llenar espacio en tarjeta
+                  </label>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    La imagen llenará todo el espacio (puede recortarse)
+                  </p>
+                </div>
+                <mat-slide-toggle
+                  [(ngModel)]="imagenCompleta"
+                  name="imagenCompleta"
+                  color="primary">
+                </mat-slide-toggle>
+              </div>
+            </div>
+            
+            <!-- Selector de color de fondo -->
+            <div class="mb-3 p-3 rounded border border-gray-200 dark:border-gray-700">
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <mat-icon class="align-middle mr-1 text-sm">palette</mat-icon>
+                Color de fondo de imagen
+              </label>
+              <div class="grid grid-cols-3 gap-2">
+                @for (color of coloresFondo; track color.valor) {
+                  <button
+                    type="button"
+                    (click)="fondoImagen = color.valor"
+                    [class]="color.clase"
+                    class="p-3 rounded-lg border-2 transition-all hover:scale-105"
+                    [class.border-blue-500]="fondoImagen === color.valor"
+                    [class.border-gray-300]="fondoImagen !== color.valor"
+                    [class.dark:border-blue-400]="fondoImagen === color.valor"
+                    [class.dark:border-gray-600]="fondoImagen !== color.valor">
+                    <div class="text-xs font-medium text-center" 
+                         [class.text-gray-900]="color.valor !== 'dark'"
+                         [class.text-white]="color.valor === 'dark'">
+                      {{ color.nombre }}
+                    </div>
+                    @if (fondoImagen === color.valor) {
+                      <mat-icon class="text-sm mt-1" 
+                                [class.text-blue-600]="color.valor !== 'dark'"
+                                [class.text-white]="color.valor === 'dark'">check_circle</mat-icon>
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+            
+            <div class="w-full h-64 rounded flex items-center justify-center p-3 border-2 border-dashed border-gray-300 dark:border-gray-600"
+                 [ngClass]="{
+                   'bg-white': fondoImagen === 'white',
+                   'bg-gray-100': fondoImagen === 'gray',
+                   'bg-gray-700': fondoImagen === 'dark',
+                   'bg-blue-100': fondoImagen === 'blue',
+                   'bg-pink-100': fondoImagen === 'pink',
+                   'bg-green-100': fondoImagen === 'green',
+                   'bg-yellow-100': fondoImagen === 'yellow',
+                   'bg-purple-100': fondoImagen === 'purple',
+                   'bg-orange-100': fondoImagen === 'orange'
+                 }">
               <img [src]="imagenUrl" 
                    alt="Vista previa" 
                    [style.height.%]="tamanoVistaPrevia"

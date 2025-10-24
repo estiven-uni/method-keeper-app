@@ -236,3 +236,38 @@ textarea::placeholder {
 .dark .cdk-overlay-backdrop {
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+/* Paginador en modo oscuro */
+.dark .mat-mdc-paginator {
+  background-color: rgb(31 41 55) !important;
+  color: rgb(243 244 246) !important;
+}
+
+.dark .mat-mdc-paginator-container {
+  color: rgb(243 244 246) !important;
+}
+
+.dark .mat-mdc-paginator-page-size-label,
+.dark .mat-mdc-paginator-range-label {
+  color: rgb(209 213 219) !important;
+}
+
+.dark .mat-mdc-paginator .mat-mdc-icon-button {
+  color: rgb(209 213 219) !important;
+}
+
+.dark .mat-mdc-paginator .mat-mdc-icon-button[disabled] {
+  color: rgb(75 85 99) !important;
+}
+
+.dark .mat-mdc-paginator .mat-mdc-select {
+  color: rgb(243 244 246) !important;
+}
+
+.dark .mat-mdc-paginator .mat-mdc-select-value {
+  color: rgb(243 244 246) !important;
+}
+
+.dark .mat-mdc-paginator .mat-mdc-select-arrow {
+  color: rgb(209 213 219) !important;
+}

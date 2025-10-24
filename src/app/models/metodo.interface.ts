@@ -4,6 +4,8 @@ export interface Metodo {
   descripcion: string;
   imagenUrl?: string;
   tamanoImagen?: number; // Tamaño en porcentaje (0-100)
+  imagenCompleta?: boolean; // true = llenar espacio (cover), false = mostrar completa (contain)
+  fondoImagen?: string; // Color de fondo de la imagen
   pasosPrevios: string[];
   pasosPrincipales: string[];
   notas: string;

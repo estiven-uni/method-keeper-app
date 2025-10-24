@@ -79,6 +79,25 @@ export class FormularioMetodoComponent implements OnInit {
 
   // Tamaño de vista previa de imagen (porcentaje 0-100)
   tamanoVistaPrevia: number = 100;
+  
+  // Controlar si la imagen se muestra completa en la tarjeta de la lista
+  imagenCompleta: boolean = false;
+  
+  // Color de fondo de la imagen
+  fondoImagen: string = 'gray';
+  
+  // Colores de fondo disponibles
+  coloresFondo = [
+    { valor: 'white', nombre: 'Blanco', clase: 'bg-white' },
+    { valor: 'gray', nombre: 'Gris Claro', clase: 'bg-gray-100' },
+    { valor: 'dark', nombre: 'Gris Oscuro', clase: 'bg-gray-700' },
+    { valor: 'blue', nombre: 'Azul Pastel', clase: 'bg-blue-100' },
+    { valor: 'pink', nombre: 'Rosa Pastel', clase: 'bg-pink-100' },
+    { valor: 'green', nombre: 'Verde Pastel', clase: 'bg-green-100' },
+    { valor: 'yellow', nombre: 'Amarillo Pastel', clase: 'bg-yellow-100' },
+    { valor: 'purple', nombre: 'Morado Pastel', clase: 'bg-purple-100' },
+    { valor: 'orange', nombre: 'Naranja Pastel', clase: 'bg-orange-100' }
+  ];
 
   constructor(
     private metodosService: MetodosService,
@@ -104,6 +123,8 @@ export class FormularioMetodoComponent implements OnInit {
       this.descripcion = metodo.descripcion;
       this.imagenUrl = metodo.imagenUrl || '';
       this.tamanoVistaPrevia = metodo.tamanoImagen || 100;
+      this.imagenCompleta = metodo.imagenCompleta !== undefined ? metodo.imagenCompleta : false;
+      this.fondoImagen = metodo.fondoImagen || 'gray';
       this.pasosPrevios = [...metodo.pasosPrevios];
       this.pasosPrincipales = [...metodo.pasosPrincipales];
       this.notas = metodo.notas;
@@ -203,6 +224,8 @@ export class FormularioMetodoComponent implements OnInit {
       descripcion: this.descripcion.trim(),
       imagenUrl: this.imagenUrl.trim(),
       tamanoImagen: this.tamanoVistaPrevia,
+      imagenCompleta: this.imagenCompleta,
+      fondoImagen: this.fondoImagen,
       pasosPrevios: this.pasosPrevios,
       pasosPrincipales: this.pasosPrincipales,
       notas: this.notas.trim(),
@@ -255,6 +278,8 @@ export class FormularioMetodoComponent implements OnInit {
         this.descripcion = contenido.descripcion || '';
         this.imagenUrl = contenido.imagenUrl || '';
         this.tamanoVistaPrevia = contenido.tamanoImagen || 100;
+        this.imagenCompleta = contenido.imagenCompleta !== undefined ? contenido.imagenCompleta : false;
+        this.fondoImagen = contenido.fondoImagen || 'gray';
         this.pasosPrevios = Array.isArray(contenido.pasosPrevios) ? contenido.pasosPrevios : [];
         this.pasosPrincipales = Array.isArray(contenido.pasosPrincipales) ? contenido.pasosPrincipales : [];
         this.notas = contenido.notas || '';
@@ -284,6 +309,9 @@ export class FormularioMetodoComponent implements OnInit {
     this.titulo = '';
     this.descripcion = '';
     this.imagenUrl = '';
+    this.tamanoVistaPrevia = 100;
+    this.imagenCompleta = false;
+    this.fondoImagen = 'gray';
     this.pasosPrevios = [];
     this.pasosPrincipales = [];
     this.notas = '';
@@ -332,6 +360,8 @@ export class FormularioMetodoComponent implements OnInit {
         this.descripcion = metodoGenerado.descripcion || '';
         this.imagenUrl = metodoGenerado.imagenUrl || '';
         this.tamanoVistaPrevia = metodoGenerado.tamanoImagen || 100;
+        this.imagenCompleta = metodoGenerado.imagenCompleta !== undefined ? metodoGenerado.imagenCompleta : false;
+        this.fondoImagen = metodoGenerado.fondoImagen || 'gray';
         this.pasosPrevios = Array.isArray(metodoGenerado.pasosPrevios) ? metodoGenerado.pasosPrevios : [];
         this.pasosPrincipales = Array.isArray(metodoGenerado.pasosPrincipales) ? metodoGenerado.pasosPrincipales : [];
         this.notas = metodoGenerado.notas || '';
