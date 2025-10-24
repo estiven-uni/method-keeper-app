@@ -1,25 +1,34 @@
 {
-  "titulo": "Cómo obtener ChatGPT por 1€ usando VPN Alemania",
-  "descripcion": "Esta promoción permite obtener acceso a ChatGPT (versión de pago) por solo 1 € realizando el proceso desde Alemania mediante VPN. Todo el procedimiento se hace desde el navegador, no desde la app.",
+  "_instrucciones": "Este archivo es una plantilla para que una IA genere métodos. Elimina este campo '_instrucciones' en el JSON final.",
+  "_reglas": [
+    "El campo 'titulo' es OBLIGATORIO - Debe ser descriptivo y claro",
+    "El campo 'pasosPrincipales' es OBLIGATORIO - Mínimo 1 paso, máximo recomendado 15 pasos",
+    "El campo 'descripcion' es OPCIONAL pero muy recomendado - Breve resumen del método",
+    "El campo 'pasosPrevios' es OPCIONAL - Usar solo si hay preparaciones necesarias antes de comenzar",
+    "El campo 'notas' es OPCIONAL - Usar para advertencias importantes, consejos o información adicional",
+    "El campo 'etiquetas' es OPCIONAL - Array de palabras clave para búsqueda (3-6 etiquetas recomendado)",
+    "El campo 'activo' es OPCIONAL - Usar true si el método funciona actualmente, false si ya no funciona (por defecto es true)",
+    "Usa **texto** para resaltar palabras importantes en negrita",
+    "Las URLs se convierten automáticamente en enlaces clickeables",
+    "Puedes usar emojis (⚠️ ✅ 🔗 💡 📌 etc.) para hacer el contenido más visual",
+    "Escribe en un tono claro, directo y fácil de seguir",
+    "Cada paso debe ser una acción concreta y específica"
+  ],
+  "titulo": "Título descriptivo del método (ej: Cómo obtener Spotify Premium por 1€)",
+  "descripcion": "Descripción breve y clara de qué trata el método y qué se consigue al final",
   "activo": true,
   "pasosPrevios": [
-    "Conseguir un **VPN con servidor en Alemania** (ejemplo: Psiphon para Android, iOS o navegador). **No conectarse todavía.**",
-    "Crear una **nueva cuenta de Google** que nunca haya tenido ChatGPT",
-    "Tener una cuenta de **PayPal activa** e iniciada sesión",
-    "Enlazar una **tarjeta virtual de débito** con PayPal y tener al menos **1€ disponible** (mejor 1,10€ por comisiones)",
-    "Buscar una **dirección de hotel en Alemania** (ej: en Google Maps buscar 'Hoteles en Berlín' y copiar dirección completa)"
+    "Primer requisito o preparación necesaria antes de comenzar",
+    "Segundo requisito (usa **negritas** para resaltar lo importante)",
+    "Tercer requisito con enlace si es necesario: https://ejemplo.com"
   ],
   "pasosPrincipales": [
-    "**Conectarse al VPN** con ubicación Alemania",
-    "Abrir el navegador e ingresar al enlace: https://chatgpt.com/?promo_campaign=team1dollar#team-pricing",
-    "**Registrarse** con la cuenta de Google nueva preparada",
-    "**Seleccionar el plan de 1€**",
-    "Ingresar el **correo de PayPal** cuando se abra la opción de pago",
-    "Pegar la **dirección del hotel en Alemania** en el campo correspondiente",
-    "**Finalizar el pago** desde PayPal usando la tarjeta virtual",
-    "Verificar que la cuenta de **ChatGPT quedó activa**"
+    "**Primer paso principal** con acción clara y concreta",
+    "Segundo paso con detalles específicos y enlaces si son necesarios",
+    "Tercer paso explicando qué hacer exactamente",
+    "Cuarto paso (agrega tantos pasos como sean necesarios)"
   ],
-  "notas": "⚠️ IMPORTANTE: El VPN debe permanecer activo durante todo el proceso. No usar una cuenta que ya haya tenido suscripción de ChatGPT antes. Es recomendable tener algo más de 1€ por posibles comisiones (aprox 1,10€). Todo el proceso se hace en el navegador web, NO en la app móvil.",
-  "etiquetas": ["chatgpt", "promoción", "vpn", "alemania", "paypal"]
+  "notas": "⚠️ IMPORTANTE: Coloca aquí advertencias, consejos o información adicional relevante. Usa emojis para resaltar información importante.",
+  "etiquetas": ["etiqueta1", "etiqueta2", "etiqueta3", "palabras-clave", "para-buscar"]
 }
 

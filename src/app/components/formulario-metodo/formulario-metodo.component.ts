@@ -11,8 +11,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HttpClientModule } from '@angular/common/http';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MetodosService } from '../../services/metodos.service';
+import { DeepseekService } from '../../services/deepseek.service';
 import { Metodo } from '../../models/metodo.interface';
 import { FormatoTextoPipe } from '../../pipes/formato-texto.pipe';
 
@@ -31,6 +34,8 @@ import { FormatoTextoPipe } from '../../pipes/formato-texto.pipe';
     MatSnackBarModule,
     MatTooltipModule,
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
+    HttpClientModule,
     FormatoTextoPipe
   ],
   templateUrl: './formulario-metodo.component.html',
@@ -61,8 +66,14 @@ export class FormularioMetodoComponent implements OnInit {
   pasoEditandoTipo: 'previo' | 'principal' | null = null;
   pasoEditandoTexto: string = '';
 
+  // Generador con IA
+  mostrarGeneradorIA = false;
+  promptIA = '';
+  generandoConIA = false;
+
   constructor(
     private metodosService: MetodosService,
+    private deepseekService: DeepseekService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
@@ -263,5 +274,50 @@ export class FormularioMetodoComponent implements OnInit {
     this.etiquetas = [];
     this.activo = true;
     this.archivoSeleccionado = null;
+  }
+
+  toggleGeneradorIA() {
+    this.mostrarGeneradorIA = !this.mostrarGeneradorIA;
+    if (!this.mostrarGeneradorIA) {
+      this.promptIA = '';
+    }
+  }
+
+  generarConIA() {
+    if (!this.promptIA.trim()) {
+      this.snackBar.open('Por favor escribe qué método deseas generar', 'Cerrar', { duration: 3000 });
+      return;
+    }
+
+    this.generandoConIA = true;
+
+    this.deepseekService.generarMetodo(this.promptIA).subscribe({
+      next: (metodoGenerado) => {
+        // Llenar los campos del formulario con los datos generados
+        this.titulo = metodoGenerado.titulo || '';
+        this.descripcion = metodoGenerado.descripcion || '';
+        this.pasosPrevios = Array.isArray(metodoGenerado.pasosPrevios) ? metodoGenerado.pasosPrevios : [];
+        this.pasosPrincipales = Array.isArray(metodoGenerado.pasosPrincipales) ? metodoGenerado.pasosPrincipales : [];
+        this.notas = metodoGenerado.notas || '';
+        this.etiquetas = Array.isArray(metodoGenerado.etiquetas) ? metodoGenerado.etiquetas : [];
+        this.activo = metodoGenerado.activo !== undefined ? metodoGenerado.activo : true;
+
+        this.generandoConIA = false;
+        this.mostrarGeneradorIA = false;
+        this.promptIA = '';
+
+        this.snackBar.open('✨ Método generado con IA exitosamente', 'Cerrar', { 
+          duration: 4000,
+          panelClass: ['success-snackbar']
+        });
+      },
+      error: (error) => {
+        this.generandoConIA = false;
+        console.error('Error al generar con IA:', error);
+        this.snackBar.open('Error al generar el método con IA. Intenta de nuevo.', 'Cerrar', { 
+          duration: 5000 
+        });
+      }
+    });
   }
 }

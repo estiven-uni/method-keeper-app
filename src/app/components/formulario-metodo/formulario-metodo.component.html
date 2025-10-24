@@ -10,8 +10,67 @@
 
   <mat-card class="bg-white dark:bg-gray-800">
     <mat-card-content class="p-4">
-      <!-- Sección de carga de JSON -->
+      <!-- Sección de carga de JSON y Generador IA -->
       @if (!modoEdicion) {
+        <!-- Generador con IA -->
+        <div class="mb-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded border border-purple-200 dark:border-purple-700">
+          <div class="flex items-center gap-2 mb-3">
+            <mat-icon class="text-purple-600 dark:text-purple-400 text-xl">auto_awesome</mat-icon>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-900 dark:text-gray-100 text-sm">
+                Generar método con IA
+              </h3>
+              <p class="text-xs text-gray-600 dark:text-gray-400">
+                Describe el método que quieres crear y la IA lo generará
+              </p>
+            </div>
+            <button 
+              mat-raised-button 
+              color="primary"
+              type="button"
+              (click)="toggleGeneradorIA()"
+              class="flex items-center justify-center">
+              <mat-icon>{{ mostrarGeneradorIA ? 'close' : 'smart_toy' }}</mat-icon>
+              <span class="hidden md:inline">{{ mostrarGeneradorIA ? 'Cerrar' : 'Generar' }}</span>
+            </button>
+          </div>
+
+          @if (mostrarGeneradorIA) {
+            <div class="mt-3 pt-3 border-t border-purple-200 dark:border-purple-700">
+              <mat-form-field class="w-full mb-2" appearance="fill" subscriptSizing="dynamic">
+                <mat-label>Describe el método que deseas crear</mat-label>
+                <textarea 
+                  matInput 
+                  [(ngModel)]="promptIA"
+                  name="promptIA"
+                  rows="3"                  
+                  [disabled]="generandoConIA"></textarea>
+              </mat-form-field>
+              <div class="flex gap-2 items-center">
+                <button 
+                  mat-raised-button 
+                  color="accent"
+                  type="button"
+                  (click)="generarConIA()"
+                  [disabled]="generandoConIA || !promptIA.trim()"
+                  class="flex items-center justify-center">
+                  @if (generandoConIA) {
+                    <mat-spinner diameter="20" class="mr-2"></mat-spinner>
+                    <span>Generando...</span>
+                  } @else {
+                    <mat-icon>auto_awesome</mat-icon>
+                    <span>Generar con IA</span>
+                  }
+                </button>
+                @if (generandoConIA) {
+                  <span class="text-xs text-gray-600 dark:text-gray-400">Esto puede tardar unos segundos...</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Cargar desde JSON -->
         <div class="mb-4 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded border border-indigo-200 dark:border-indigo-700">
           <div class="flex items-center gap-2">
             <mat-icon class="text-indigo-600 dark:text-indigo-400 text-xl">upload_file</mat-icon>
