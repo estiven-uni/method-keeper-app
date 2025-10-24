@@ -22,9 +22,23 @@
     <!-- Tarjeta principal -->
     <mat-card class="bg-white dark:bg-gray-800 mb-4">
       <mat-card-header class="mb-3">
-        <mat-card-title class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {{ metodo.titulo }}
-        </mat-card-title>
+        <div class="w-full">
+          <div class="flex items-start justify-between gap-3 mb-2">
+            <mat-card-title class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex-1">
+              {{ metodo.titulo }}
+            </mat-card-title>
+            @if (metodo.activo !== undefined) {
+              <div class="px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5" 
+                   [ngClass]="{
+                     'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300': metodo.activo,
+                     'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300': !metodo.activo
+                   }">
+                <mat-icon class="text-base">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
+                <span>{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
+              </div>
+            }
+          </div>
+        </div>
         <mat-card-subtitle class="text-xs text-gray-600 dark:text-gray-400 mt-2">
           <div class="flex flex-col gap-1">
             <span class="flex items-center">

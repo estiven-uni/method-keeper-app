@@ -15,7 +15,12 @@ export class MetodosService {
   private cargarMetodos(): Metodo[] {
     try {
       const data = localStorage.getItem(this.STORAGE_KEY);
-      return data ? JSON.parse(data) : [];
+      const metodos: Metodo[] = data ? JSON.parse(data) : [];
+      // Migración: agregar campo 'activo' a métodos existentes que no lo tengan
+      return metodos.map(metodo => ({
+        ...metodo,
+        activo: metodo.activo !== undefined ? metodo.activo : true
+      }));
     } catch (error) {
       console.error('Error al cargar métodos:', error);
       return [];
@@ -44,7 +49,8 @@ export class MetodosService {
       ...metodo,
       id: this.generarId(),
       fechaCreacion: new Date().toISOString(),
-      ultimaModificacion: new Date().toISOString()
+      ultimaModificacion: new Date().toISOString(),
+      activo: metodo.activo !== undefined ? metodo.activo : true
     };
 
     const metodos = [...this.getMetodos(), nuevoMetodo];
@@ -82,11 +88,19 @@ export class MetodosService {
 
   buscarMetodos(termino: string): Metodo[] {
     const terminoLower = termino.toLowerCase();
-    return this.getMetodos().filter(m => 
-      m.titulo.toLowerCase().includes(terminoLower) ||
-      m.descripcion.toLowerCase().includes(terminoLower) ||
-      m.etiquetas.some(e => e.toLowerCase().includes(terminoLower))
-    );
+    return this.getMetodos().filter(m => {
+      // Buscar en campos de texto
+      const coincideTexto = m.titulo.toLowerCase().includes(terminoLower) ||
+        m.descripcion.toLowerCase().includes(terminoLower) ||
+        m.etiquetas.some(e => e.toLowerCase().includes(terminoLower));
+      
+      // Buscar por estado
+      const coincideEstado = 
+        (terminoLower.includes('activo') && m.activo === true) ||
+        (terminoLower.includes('inactivo') && m.activo === false);
+      
+      return coincideTexto || coincideEstado;
+    });
   }
 
   ordenarPorFecha(orden: 'asc' | 'desc' = 'desc'): Metodo[] {

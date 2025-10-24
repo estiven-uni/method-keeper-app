@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MetodosService } from '../../services/metodos.service';
 import { Metodo } from '../../models/metodo.interface';
@@ -29,6 +30,7 @@ import { FormatoTextoPipe } from '../../pipes/formato-texto.pipe';
     MatChipsModule,
     MatSnackBarModule,
     MatTooltipModule,
+    MatSlideToggleModule,
     FormatoTextoPipe
   ],
   templateUrl: './formulario-metodo.component.html',
@@ -44,6 +46,7 @@ export class FormularioMetodoComponent implements OnInit {
   pasosPrincipales: string[] = [];
   notas = '';
   etiquetas: string[] = [];
+  activo = true;
 
   nuevoPasoPrevio = '';
   nuevoPasoPrincipal = '';
@@ -82,6 +85,7 @@ export class FormularioMetodoComponent implements OnInit {
       this.pasosPrincipales = [...metodo.pasosPrincipales];
       this.notas = metodo.notas;
       this.etiquetas = [...metodo.etiquetas];
+      this.activo = metodo.activo !== undefined ? metodo.activo : true;
     } else {
       this.snackBar.open('Método no encontrado', 'Cerrar', { duration: 3000 });
       this.router.navigate(['/']);
@@ -177,7 +181,8 @@ export class FormularioMetodoComponent implements OnInit {
       pasosPrevios: this.pasosPrevios,
       pasosPrincipales: this.pasosPrincipales,
       notas: this.notas.trim(),
-      etiquetas: this.etiquetas
+      etiquetas: this.etiquetas,
+      activo: this.activo
     };
 
     if (this.modoEdicion && this.metodoId) {
@@ -227,6 +232,7 @@ export class FormularioMetodoComponent implements OnInit {
         this.pasosPrincipales = Array.isArray(contenido.pasosPrincipales) ? contenido.pasosPrincipales : [];
         this.notas = contenido.notas || '';
         this.etiquetas = Array.isArray(contenido.etiquetas) ? contenido.etiquetas : [];
+        this.activo = contenido.activo !== undefined ? contenido.activo : true;
 
         this.snackBar.open('Método cargado desde JSON correctamente', 'Cerrar', { 
           duration: 3000,
@@ -255,6 +261,7 @@ export class FormularioMetodoComponent implements OnInit {
     this.pasosPrincipales = [];
     this.notas = '';
     this.etiquetas = [];
+    this.activo = true;
     this.archivoSeleccionado = null;
   }
 }

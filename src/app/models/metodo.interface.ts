@@ -8,5 +8,6 @@ export interface Metodo {
   etiquetas: string[];
   fechaCreacion: string;
   ultimaModificacion: string;
+  activo: boolean;
 }
 

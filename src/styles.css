@@ -120,6 +120,46 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: rgb(209 213 219) !important;
 }
 
+.dark .mat-mdc-form-field-label,
+.dark .mat-mdc-floating-label {
+  color: rgb(209 213 219) !important;
+}
+
+/* Placeholders */
+.mat-mdc-input-element::placeholder {
+  color: rgb(107 114 128) !important;
+  opacity: 1 !important;
+}
+
+.dark .mat-mdc-input-element::placeholder {
+  color: rgb(156 163 175) !important;
+  opacity: 1 !important;
+}
+
+/* Textarea placeholders */
+textarea.mat-mdc-input-element::placeholder {
+  color: rgb(107 114 128) !important;
+  opacity: 1 !important;
+}
+
+.dark textarea.mat-mdc-input-element::placeholder {
+  color: rgb(156 163 175) !important;
+  opacity: 1 !important;
+}
+
+/* Input y Textarea normales (no Material) */
+input::placeholder,
+textarea::placeholder {
+  color: rgb(107 114 128) !important;
+  opacity: 1 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: rgb(156 163 175) !important;
+  opacity: 1 !important;
+}
+
 /* Botones - Tamaño y centrado consistente */
 .mat-mdc-button,
 .mat-mdc-raised-button,
@@ -128,7 +168,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-mdc-stroked-button {
   height: 40px !important;
   min-width: 64px !important;
-  padding: 0 16px !important;
+  padding: 0 20px !important;
 }
 
 .mat-mdc-button .mdc-button__label,

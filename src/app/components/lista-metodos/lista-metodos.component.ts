@@ -37,6 +37,7 @@ export class ListaMetodosComponent implements OnInit {
   metodosFiltrados: Metodo[] = [];
   terminoBusqueda = '';
   ordenSeleccionado: 'asc' | 'desc' = 'desc';
+  filtroEstado: 'todos' | 'activos' | 'inactivos' = 'todos';
 
   constructor(
     private metodosService: MetodosService,
@@ -57,11 +58,22 @@ export class ListaMetodosComponent implements OnInit {
   }
 
   filtrarMetodos() {
+    let resultados: Metodo[];
+    
     if (!this.terminoBusqueda.trim()) {
-      this.metodosFiltrados = [...this.metodos];
+      resultados = [...this.metodos];
     } else {
-      this.metodosFiltrados = this.metodosService.buscarMetodos(this.terminoBusqueda);
+      resultados = this.metodosService.buscarMetodos(this.terminoBusqueda);
     }
+
+    // Aplicar filtro de estado
+    if (this.filtroEstado === 'activos') {
+      resultados = resultados.filter(m => m.activo === true);
+    } else if (this.filtroEstado === 'inactivos') {
+      resultados = resultados.filter(m => m.activo === false);
+    }
+
+    this.metodosFiltrados = resultados;
   }
 
   onBusquedaCambio() {
@@ -70,6 +82,10 @@ export class ListaMetodosComponent implements OnInit {
 
   onOrdenCambio() {
     this.cargarMetodos();
+  }
+
+  onFiltroEstadoCambio() {
+    this.filtrarMetodos();
   }
 
   nuevoMetodo() {

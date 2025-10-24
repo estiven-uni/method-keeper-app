@@ -56,26 +56,47 @@
 
       <form (ngSubmit)="guardar()">
         <!-- Título -->
-        <mat-form-field class="w-full mb-3" appearance="fill">
+        <mat-form-field class="w-full mb-3" appearance="fill" subscriptSizing="dynamic">
           <mat-label>Título del Método *</mat-label>
           <input 
             matInput 
             [(ngModel)]="titulo"
             name="titulo"
-            placeholder="Ej: Conseguir ChatGPT por 1 euro al mes"
             required>
         </mat-form-field>
 
         <!-- Descripción -->
-        <mat-form-field class="w-full mb-3" appearance="fill">
+        <mat-form-field class="w-full mb-3" appearance="fill" subscriptSizing="dynamic">
           <mat-label>Descripción</mat-label>
           <textarea 
             matInput 
             [(ngModel)]="descripcion"
             name="descripcion"
-            placeholder="Método para obtener servicios premium a bajo costo..."
             rows="2"></textarea>
         </mat-form-field>
+
+        <!-- Estado del Método -->
+        <div class="mb-4 p-3 rounded border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center justify-between">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <mat-icon class="align-middle mr-1 text-base">{{ activo ? 'check_circle' : 'cancel' }}</mat-icon>
+                Estado del método
+              </label>
+              <p class="text-xs text-gray-600 dark:text-gray-400">
+                Indica si este método aún funciona o ya no está disponible
+              </p>
+            </div>
+            <mat-slide-toggle
+              [(ngModel)]="activo"
+              name="activo"
+              color="primary">
+              <span class="text-sm font-medium" [class.text-green-600]="activo" [class.dark:text-green-400]="activo" [class.text-red-600]="!activo" [class.dark:text-red-400]="!activo">
+                {{ activo ? 'Activo' : 'Inactivo' }}
+              </span>
+            </mat-slide-toggle>
+          </div>
+        </div>
 
         <!-- Etiquetas -->
         <div class="mb-5">
@@ -83,7 +104,7 @@
             Etiquetas
           </label>
           <div class="flex gap-2 mb-2 items-center">
-            <mat-form-field class="flex-1" appearance="fill">
+            <mat-form-field class="flex-1" appearance="fill" subscriptSizing="dynamic">
               <input 
                 matInput 
                 [(ngModel)]="nuevaEtiqueta"
@@ -124,7 +145,7 @@
             Preparaciones o requisitos antes de comenzar. Usa **texto** para negrita. Las URLs se convierten automáticamente en enlaces.
           </p>
           <div class="flex gap-2 mb-2 items-center">
-            <mat-form-field class="flex-1" appearance="fill">
+            <mat-form-field class="flex-1" appearance="fill" subscriptSizing="dynamic">
               <input 
                 matInput 
                 [(ngModel)]="nuevoPasoPrevio"
@@ -212,7 +233,7 @@
             Los pasos principales para completar el método. Usa **texto** para negrita. Las URLs se convierten automáticamente en enlaces.
           </p>
           <div class="flex gap-2 mb-2 items-center">
-            <mat-form-field class="flex-1" appearance="fill">
+            <mat-form-field class="flex-1" appearance="fill" subscriptSizing="dynamic">
               <input 
                 matInput 
                 [(ngModel)]="nuevoPasoPrincipal"
@@ -296,13 +317,12 @@
         </div>
 
         <!-- Notas -->
-        <mat-form-field class="w-full mb-5" appearance="fill">
+        <mat-form-field class="w-full mb-5" appearance="fill" subscriptSizing="dynamic">
           <mat-label>Notas adicionales</mat-label>
           <textarea 
             matInput 
             [(ngModel)]="notas"
             name="notas"
-            placeholder="Consejos, advertencias o información adicional..."
             rows="3"></textarea>
         </mat-form-field>
 
