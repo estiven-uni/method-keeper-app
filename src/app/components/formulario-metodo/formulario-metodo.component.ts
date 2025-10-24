@@ -13,12 +13,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MetodosService } from '../../services/metodos.service';
 import { DeepseekService } from '../../services/deepseek.service';
 import { Metodo } from '../../models/metodo.interface';
 import { FormatoTextoPipe } from '../../pipes/formato-texto.pipe';
+import { ConfiguracionDialogoComponent } from '../configuracion-dialogo/configuracion-dialogo.component';
 
 @Component({
   selector: 'app-formulario-metodo',
@@ -37,6 +39,7 @@ import { FormatoTextoPipe } from '../../pipes/formato-texto.pipe';
     MatSlideToggleModule,
     MatSliderModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
     HttpClientModule,
     FormatoTextoPipe
   ],
@@ -82,7 +85,8 @@ export class FormularioMetodoComponent implements OnInit {
     private deepseekService: DeepseekService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -266,7 +270,6 @@ export class FormularioMetodoComponent implements OnInit {
         this.snackBar.open('Error al procesar el archivo JSON. Verifica el formato.', 'Cerrar', { 
           duration: 5000 
         });
-        console.error('Error al parsear JSON:', error);
       }
     };
 
@@ -302,6 +305,24 @@ export class FormularioMetodoComponent implements OnInit {
       return;
     }
 
+    // Verificar si el API Key está configurado ANTES de intentar generar
+    const apiKey = localStorage.getItem('deepseek_api_key');
+    if (!apiKey) {
+      const snackBarRef = this.snackBar.open(
+        'Para usar la IA debes configurar tu API Key de Deepseek', 
+        'Configurar', 
+        { duration: 8000 }
+      );
+      
+      snackBarRef.onAction().subscribe(() => {
+        this.dialog.open(ConfiguracionDialogoComponent, {
+          width: '500px',
+          maxWidth: '90vw'
+        });
+      });
+      return;
+    }
+
     this.generandoConIA = true;
 
     this.deepseekService.generarMetodo(this.promptIA).subscribe({
@@ -328,8 +349,10 @@ export class FormularioMetodoComponent implements OnInit {
       },
       error: (error) => {
         this.generandoConIA = false;
-        console.error('Error al generar con IA:', error);
-        this.snackBar.open('Error al generar el método con IA. Intenta de nuevo.', 'Cerrar', { 
+        
+        // Mostrar error al usuario
+        const mensajeError = error?.message || 'Error al generar el método con IA. Intenta de nuevo.';
+        this.snackBar.open(mensajeError, 'Cerrar', { 
           duration: 5000 
         });
       }

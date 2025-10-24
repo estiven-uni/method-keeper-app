@@ -28,9 +28,16 @@ export class DeepseekService {
   }
 
   generarMetodo(prompt: string): Observable<any> {
+    let apiKey: string;
+    try {
+      apiKey = this.getApiKey();
+    } catch (error) {
+      return throwError(() => error);
+    }
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.getApiKey()}`
+      'Authorization': `Bearer ${apiKey}`
     });
 
     const instrucciones = `Eres un asistente que genera métodos en formato JSON siguiendo esta estructura EXACTA.
@@ -93,7 +100,6 @@ Ejemplo de estructura:
         throw new Error('No se pudo extraer el JSON de la respuesta');
       }),
       catchError(error => {
-        console.error('Error al generar método con IA:', error);
         return throwError(() => error);
       })
     );

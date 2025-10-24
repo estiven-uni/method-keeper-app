@@ -36,12 +36,13 @@
           </div>
         </div>
       }
-      <mat-card-header class="mb-3">
+      <mat-card-header class="mb-4">
         <div class="w-full">
-          <div class="flex items-start justify-between gap-3 mb-2">
-            <mat-card-title class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex-1">
+          <!-- Título y Estado -->
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 flex-1">
               {{ metodo.titulo }}
-            </mat-card-title>
+            </h1>
             @if (metodo.activo !== undefined) {
               <div class="px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5" 
                    [ngClass]="{
@@ -53,9 +54,9 @@
               </div>
             }
           </div>
-        </div>
-        <mat-card-subtitle class="text-xs text-gray-600 dark:text-gray-400 mt-2">
-          <div class="flex flex-col gap-1">
+          
+          <!-- Fechas -->
+          <div class="flex flex-col sm:flex-row gap-3 text-xs text-gray-600 dark:text-gray-400">
             <span class="flex items-center">
               <mat-icon class="text-sm mr-1">schedule</mat-icon>
               Creado: {{ formatearFecha(metodo.fechaCreacion) }}
@@ -65,7 +66,7 @@
               Modificado: {{ formatearFecha(metodo.ultimaModificacion) }}
             </span>
           </div>
-        </mat-card-subtitle>
+        </div>
       </mat-card-header>
 
       <mat-card-content>
