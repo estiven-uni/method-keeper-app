@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MetodosService } from '../../services/metodos.service';
 import { Metodo } from '../../models/metodo.interface';
 import { ConfirmarDialogoComponent } from '../confirmar-dialogo/confirmar-dialogo.component';
@@ -27,7 +28,8 @@ import { ConfirmarDialogoComponent } from '../confirmar-dialogo/confirmar-dialog
     MatFormFieldModule,
     MatChipsModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule
   ],
   templateUrl: './lista-metodos.component.html',
   styleUrl: './lista-metodos.component.css'
@@ -116,6 +118,13 @@ export class ListaMetodosComponent implements OnInit {
         this.metodosService.eliminarMetodo(metodo.id);
       }
     });
+  }
+
+  limpiarFiltros() {
+    this.terminoBusqueda = '';
+    this.filtroEstado = 'todos';
+    this.ordenSeleccionado = 'desc';
+    this.cargarMetodos();
   }
 
   formatearFecha(fecha: string): string {

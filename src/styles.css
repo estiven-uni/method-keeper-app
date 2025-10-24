@@ -69,11 +69,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .dark .mat-mdc-text-field-wrapper {
-  background-color: rgb(17 24 39) !important;
+  background-color: rgb(55 65 81) !important;
 }
 
 .dark .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: rgb(17 24 39) !important;
+  background-color: rgb(55 65 81) !important;
 }
 
 .dark .mat-mdc-input-element {

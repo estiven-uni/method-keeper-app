@@ -1,48 +1,55 @@
 <div class="animate-fade-in">
-  <!-- Cabecera con búsqueda y botón de crear -->
-  <div class="mb-4 flex flex-col md:flex-row gap-3 items-center justify-between">
-    <div class="w-full md:w-2/3">
-      <mat-form-field class="w-full" appearance="fill" subscriptSizing="dynamic">
-        <mat-label>Buscar métodos</mat-label>
-        <input 
-          matInput 
-          [(ngModel)]="terminoBusqueda"
-          (ngModelChange)="onBusquedaCambio()">
-        @if (terminoBusqueda) {
-          <button matSuffix mat-icon-button (click)="terminoBusqueda = ''; onBusquedaCambio()" class="flex items-center justify-center">
-            <mat-icon>close</mat-icon>
-          </button>
-        }
-      </mat-form-field>
-    </div>
+  <!-- Cabecera con búsqueda y controles -->
+  <div class="mb-4 flex gap-2 items-center flex-wrap">
+    <mat-form-field class="flex-1 min-w-[200px]" appearance="fill" subscriptSizing="dynamic">
+      <mat-label>Buscar</mat-label>
+      <mat-icon matPrefix class="mr-2">search</mat-icon>
+      <input 
+        matInput 
+        [(ngModel)]="terminoBusqueda"
+        (ngModelChange)="onBusquedaCambio()">
+      @if (terminoBusqueda) {
+        <button matSuffix mat-icon-button (click)="terminoBusqueda = ''; onBusquedaCambio()" class="flex items-center justify-center">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
 
-    <div class="flex gap-3 w-full md:w-auto items-center">
-      <mat-form-field appearance="fill" class="w-32" subscriptSizing="dynamic">
-        <mat-label>Estado</mat-label>
-        <mat-select [(ngModel)]="filtroEstado" (ngModelChange)="onFiltroEstadoCambio()">
-          <mat-option value="todos">Todos</mat-option>
-          <mat-option value="activos">Activos</mat-option>
-          <mat-option value="inactivos">Inactivos</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field appearance="fill" class="w-24" subscriptSizing="dynamic">
+      <mat-label>Estado</mat-label>
+      <mat-select [(ngModel)]="filtroEstado" (ngModelChange)="onFiltroEstadoCambio()">
+        <mat-option value="todos">Todos</mat-option>
+        <mat-option value="activos">Activos</mat-option>
+        <mat-option value="inactivos">Inactivos</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <mat-form-field appearance="fill" class="w-36" subscriptSizing="dynamic">
-        <mat-label>Ordenar</mat-label>
-        <mat-select [(ngModel)]="ordenSeleccionado" (ngModelChange)="onOrdenCambio()">
-          <mat-option value="desc">Más reciente</mat-option>
-          <mat-option value="asc">Más antiguo</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field appearance="fill" class="w-32" subscriptSizing="dynamic">
+      <mat-label>Ordenar</mat-label>
+      <mat-select [(ngModel)]="ordenSeleccionado" (ngModelChange)="onOrdenCambio()">
+        <mat-option value="desc">Reciente</mat-option>
+        <mat-option value="asc">Antiguo</mat-option>
+      </mat-select>
+    </mat-form-field>
 
+    @if (terminoBusqueda || filtroEstado !== 'todos' || ordenSeleccionado !== 'desc') {
       <button 
-        mat-raised-button 
-        color="primary" 
-        (click)="nuevoMetodo()"
-        class="whitespace-nowrap">
-        <mat-icon>add</mat-icon>
-        <span>Nuevo</span>
+        mat-icon-button
+        (click)="limpiarFiltros()"
+        matTooltip="Limpiar filtros"
+        class="flex items-center justify-center">
+        <mat-icon>filter_alt_off</mat-icon>
       </button>
-    </div>
+    }
+
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="nuevoMetodo()"
+      class="flex items-center justify-center">
+      <mat-icon>add</mat-icon>
+      <span class="ml-1">Nuevo</span>
+    </button>
   </div>
 
   <!-- Lista de métodos -->
@@ -77,8 +84,8 @@
           class="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 relative overflow-hidden"
           (click)="verDetalle(metodo.id)">
           @if (metodo.imagenUrl) {
-            <div class="w-full h-48 overflow-hidden bg-white flex items-center justify-center">
-              <img [src]="metodo.imagenUrl" [alt]="metodo.titulo" class="w-full h-full object-contain" />
+            <div class="w-full h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center p-3">
+              <img [src]="metodo.imagenUrl" [alt]="metodo.titulo" class="max-w-full max-h-full object-contain" />
             </div>
           } @else {
             <div class="w-full h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
