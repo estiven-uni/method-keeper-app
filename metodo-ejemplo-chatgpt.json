@@ -1,0 +1,24 @@
+{
+  "titulo": "Cómo obtener ChatGPT por 1€ usando VPN Alemania",
+  "descripcion": "Esta promoción permite obtener acceso a ChatGPT (versión de pago) por solo 1 € realizando el proceso desde Alemania mediante VPN. Todo el procedimiento se hace desde el navegador, no desde la app.",
+  "pasosPrevios": [
+    "Conseguir un **VPN con servidor en Alemania** (ejemplo: Psiphon para Android, iOS o navegador). **No conectarse todavía.**",
+    "Crear una **nueva cuenta de Google** que nunca haya tenido ChatGPT",
+    "Tener una cuenta de **PayPal activa** e iniciada sesión",
+    "Enlazar una **tarjeta virtual de débito** con PayPal y tener al menos **1€ disponible** (mejor 1,10€ por comisiones)",
+    "Buscar una **dirección de hotel en Alemania** (ej: en Google Maps buscar 'Hoteles en Berlín' y copiar dirección completa)"
+  ],
+  "pasosPrincipales": [
+    "**Conectarse al VPN** con ubicación Alemania",
+    "Abrir el navegador e ingresar al enlace: https://chatgpt.com/?promo_campaign=team1dollar#team-pricing",
+    "**Registrarse** con la cuenta de Google nueva preparada",
+    "**Seleccionar el plan de 1€**",
+    "Ingresar el **correo de PayPal** cuando se abra la opción de pago",
+    "Pegar la **dirección del hotel en Alemania** en el campo correspondiente",
+    "**Finalizar el pago** desde PayPal usando la tarjeta virtual",
+    "Verificar que la cuenta de **ChatGPT quedó activa**"
+  ],
+  "notas": "⚠️ IMPORTANTE: El VPN debe permanecer activo durante todo el proceso. No usar una cuenta que ya haya tenido suscripción de ChatGPT antes. Es recomendable tener algo más de 1€ por posibles comisiones (aprox 1,10€). Todo el proceso se hace en el navegador web, NO en la app móvil.",
+  "etiquetas": ["chatgpt", "promoción", "vpn", "alemania", "paypal"]
+}
+

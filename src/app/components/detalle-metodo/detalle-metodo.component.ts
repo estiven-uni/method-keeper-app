@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MetodosService } from '../../services/metodos.service';
 import { Metodo } from '../../models/metodo.interface';
 import { ConfirmarDialogoComponent } from '../confirmar-dialogo/confirmar-dialogo.component';
+import { FormatoTextoPipe } from '../../pipes/formato-texto.pipe';
 
 @Component({
   selector: 'app-detalle-metodo',
@@ -20,7 +21,8 @@ import { ConfirmarDialogoComponent } from '../confirmar-dialogo/confirmar-dialog
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    FormatoTextoPipe
   ],
   templateUrl: './detalle-metodo.component.html',
   styleUrl: './detalle-metodo.component.css'

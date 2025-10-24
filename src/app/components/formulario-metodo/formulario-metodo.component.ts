@@ -9,9 +9,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MetodosService } from '../../services/metodos.service';
 import { Metodo } from '../../models/metodo.interface';
+import { FormatoTextoPipe } from '../../pipes/formato-texto.pipe';
 
 @Component({
   selector: 'app-formulario-metodo',
@@ -25,7 +27,9 @@ import { Metodo } from '../../models/metodo.interface';
     MatInputModule,
     MatFormFieldModule,
     MatChipsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule,
+    FormatoTextoPipe
   ],
   templateUrl: './formulario-metodo.component.html',
   styleUrl: './formulario-metodo.component.css'
@@ -46,6 +50,13 @@ export class FormularioMetodoComponent implements OnInit {
   nuevaEtiqueta = '';
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
+
+  archivoSeleccionado: File | null = null;
+  
+  // Control de edición de pasos
+  pasoEditandoIndex: number | null = null;
+  pasoEditandoTipo: 'previo' | 'principal' | null = null;
+  pasoEditandoTexto: string = '';
 
   constructor(
     private metodosService: MetodosService,
@@ -88,6 +99,19 @@ export class FormularioMetodoComponent implements OnInit {
     this.pasosPrevios.splice(index, 1);
   }
 
+  iniciarEdicionPasoPrevio(index: number) {
+    this.pasoEditandoIndex = index;
+    this.pasoEditandoTipo = 'previo';
+    this.pasoEditandoTexto = this.pasosPrevios[index];
+  }
+
+  guardarEdicionPasoPrevio() {
+    if (this.pasoEditandoIndex !== null && this.pasoEditandoTexto.trim()) {
+      this.pasosPrevios[this.pasoEditandoIndex] = this.pasoEditandoTexto.trim();
+      this.cancelarEdicion();
+    }
+  }
+
   agregarPasoPrincipal() {
     if (this.nuevoPasoPrincipal.trim()) {
       this.pasosPrincipales.push(this.nuevoPasoPrincipal.trim());
@@ -97,6 +121,29 @@ export class FormularioMetodoComponent implements OnInit {
 
   eliminarPasoPrincipal(index: number) {
     this.pasosPrincipales.splice(index, 1);
+  }
+
+  iniciarEdicionPasoPrincipal(index: number) {
+    this.pasoEditandoIndex = index;
+    this.pasoEditandoTipo = 'principal';
+    this.pasoEditandoTexto = this.pasosPrincipales[index];
+  }
+
+  guardarEdicionPasoPrincipal() {
+    if (this.pasoEditandoIndex !== null && this.pasoEditandoTexto.trim()) {
+      this.pasosPrincipales[this.pasoEditandoIndex] = this.pasoEditandoTexto.trim();
+      this.cancelarEdicion();
+    }
+  }
+
+  cancelarEdicion() {
+    this.pasoEditandoIndex = null;
+    this.pasoEditandoTipo = null;
+    this.pasoEditandoTexto = '';
+  }
+
+  estaEditando(index: number, tipo: 'previo' | 'principal'): boolean {
+    return this.pasoEditandoIndex === index && this.pasoEditandoTipo === tipo;
   }
 
   agregarEtiqueta() {
@@ -146,5 +193,68 @@ export class FormularioMetodoComponent implements OnInit {
 
   cancelar() {
     this.router.navigate(['/']);
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file && file.type === 'application/json') {
+      this.archivoSeleccionado = file;
+      this.cargarDesdeJSON(file);
+    } else {
+      this.snackBar.open('Por favor selecciona un archivo JSON válido', 'Cerrar', { duration: 3000 });
+    }
+  }
+
+  cargarDesdeJSON(file: File) {
+    const reader = new FileReader();
+    
+    reader.onload = (e: any) => {
+      try {
+        const contenido = JSON.parse(e.target.result);
+        
+        // Validar que tenga los campos requeridos
+        if (!contenido.titulo || !contenido.pasosPrincipales || contenido.pasosPrincipales.length === 0) {
+          this.snackBar.open('El JSON debe contener al menos: titulo y pasosPrincipales', 'Cerrar', { 
+            duration: 5000 
+          });
+          return;
+        }
+
+        // Cargar los datos del JSON al formulario
+        this.titulo = contenido.titulo || '';
+        this.descripcion = contenido.descripcion || '';
+        this.pasosPrevios = Array.isArray(contenido.pasosPrevios) ? contenido.pasosPrevios : [];
+        this.pasosPrincipales = Array.isArray(contenido.pasosPrincipales) ? contenido.pasosPrincipales : [];
+        this.notas = contenido.notas || '';
+        this.etiquetas = Array.isArray(contenido.etiquetas) ? contenido.etiquetas : [];
+
+        this.snackBar.open('Método cargado desde JSON correctamente', 'Cerrar', { 
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+        
+      } catch (error) {
+        this.snackBar.open('Error al procesar el archivo JSON. Verifica el formato.', 'Cerrar', { 
+          duration: 5000 
+        });
+        console.error('Error al parsear JSON:', error);
+      }
+    };
+
+    reader.onerror = () => {
+      this.snackBar.open('Error al leer el archivo', 'Cerrar', { duration: 3000 });
+    };
+
+    reader.readAsText(file);
+  }
+
+  limpiarFormulario() {
+    this.titulo = '';
+    this.descripcion = '';
+    this.pasosPrevios = [];
+    this.pasosPrincipales = [];
+    this.notas = '';
+    this.etiquetas = [];
+    this.archivoSeleccionado = null;
   }
 }

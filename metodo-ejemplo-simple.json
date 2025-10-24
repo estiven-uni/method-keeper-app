@@ -1,0 +1,22 @@
+{
+  "titulo": "Cómo hacer café con prensa francesa",
+  "descripcion": "Método para preparar un café delicioso usando prensa francesa",
+  "pasosPrevios": [
+    "Moler 30g de café (grosor medio-grueso)",
+    "Calentar agua a 93°C",
+    "Precalentar la prensa francesa con agua caliente"
+  ],
+  "pasosPrincipales": [
+    "Vaciar el agua de precalentamiento de la prensa",
+    "Agregar el café molido en la prensa",
+    "Verter 500ml de agua caliente sobre el café",
+    "Revolver suavemente durante 5 segundos",
+    "Colocar la tapa con el émbolo arriba",
+    "Esperar 4 minutos",
+    "Presionar lentamente el émbolo hacia abajo",
+    "Servir inmediatamente"
+  ],
+  "notas": "⚠️ No dejar el café en la prensa después de prepararlo, ya que seguirá extrayendo y se pondrá amargo. Servir todo el café inmediatamente o transferir a otro recipiente. El tiempo de extracción puede ajustarse según preferencia: menos tiempo = más suave, más tiempo = más fuerte.",
+  "etiquetas": ["café", "prensa francesa", "bebidas", "desayuno"]
+}
+

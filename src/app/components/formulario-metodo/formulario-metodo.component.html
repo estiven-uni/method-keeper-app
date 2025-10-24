@@ -8,52 +8,89 @@
     </p>
   </div>
 
-  <mat-card class="dark:bg-gray-800">
-    <mat-card-content class="p-6">
+  <mat-card class="bg-white dark:bg-gray-800 shadow-lg">
+    <mat-card-content class="p-5">
+      <!-- Sección de carga de JSON -->
+      @if (!modoEdicion) {
+        <div class="mb-6 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-lg border-2 border-dashed border-indigo-300 dark:border-indigo-600">
+          <div class="flex items-center gap-3">
+            <mat-icon class="text-indigo-600 dark:text-indigo-400">upload_file</mat-icon>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-900 dark:text-white text-sm mb-1">
+                Cargar método desde JSON
+              </h3>
+              <p class="text-xs text-gray-600 dark:text-gray-400">
+                Sube un archivo JSON para rellenar el formulario
+              </p>
+            </div>
+            <div class="flex gap-2">
+              <input 
+                type="file" 
+                accept=".json,application/json"
+                (change)="onFileSelected($event)"
+                #fileInput
+                class="hidden">
+              <button 
+                mat-raised-button 
+                color="accent"
+                type="button"
+                (click)="fileInput.click()">
+                <mat-icon>folder_open</mat-icon>
+                <span class="hidden md:inline">Seleccionar JSON</span>
+              </button>
+              @if (titulo || descripcion || pasosPrincipales.length > 0) {
+                <button 
+                  mat-stroked-button
+                  type="button"
+                  (click)="limpiarFormulario()">
+                  <mat-icon>clear_all</mat-icon>
+                  <span class="hidden md:inline">Limpiar</span>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
       <form (ngSubmit)="guardar()">
         <!-- Título -->
-        <mat-form-field class="w-full mb-4" appearance="outline">
+        <mat-form-field class="w-full mb-3" appearance="outline">
           <mat-label>Título del Método *</mat-label>
           <input 
             matInput 
             [(ngModel)]="titulo"
             name="titulo"
             placeholder="Ej: Cómo preparar café perfecto"
-            required
-            class="dark:text-white">
-          <mat-icon matPrefix class="mr-2">title</mat-icon>
+            required>
         </mat-form-field>
 
         <!-- Descripción -->
-        <mat-form-field class="w-full mb-4" appearance="outline">
+        <mat-form-field class="w-full mb-3" appearance="outline">
           <mat-label>Descripción</mat-label>
           <textarea 
             matInput 
             [(ngModel)]="descripcion"
             name="descripcion"
             placeholder="Describe brevemente este método..."
-            rows="3"
-            class="dark:text-white"></textarea>
-          <mat-icon matPrefix class="mr-2">description</mat-icon>
+            rows="2"></textarea>
         </mat-form-field>
 
         <!-- Etiquetas -->
-        <div class="mb-6">
+        <div class="mb-5">
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Etiquetas
           </label>
-          <div class="flex gap-2 mb-2">
+          <div class="flex gap-2 mb-2 items-center">
             <mat-form-field class="flex-1" appearance="outline">
               <input 
                 matInput 
                 [(ngModel)]="nuevaEtiqueta"
                 name="nuevaEtiqueta"
                 placeholder="Agregar etiqueta..."
-                (keyup.enter)="agregarEtiqueta()"
-                class="dark:text-white">
+                (keyup.enter)="agregarEtiqueta()">
             </mat-form-field>
             <button 
-              mat-raised-button 
+              mat-mini-fab 
               color="primary"
               type="button"
               (click)="agregarEtiqueta()">
@@ -75,26 +112,25 @@
         </div>
 
         <!-- Pasos Previos -->
-        <div class="mb-6">
+        <div class="mb-5">
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            <mat-icon class="align-middle mr-1">playlist_add_check</mat-icon>
+            <mat-icon class="align-middle mr-1 text-base">playlist_add_check</mat-icon>
             Pasos Previos (opcional)
           </label>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">
             Preparaciones o requisitos antes de comenzar
           </p>
-          <div class="flex gap-2 mb-3">
+          <div class="flex gap-2 mb-2 items-center">
             <mat-form-field class="flex-1" appearance="outline">
               <input 
                 matInput 
                 [(ngModel)]="nuevoPasoPrevio"
                 name="nuevoPasoPrevio"
                 placeholder="Ej: Reunir ingredientes..."
-                (keyup.enter)="agregarPasoPrevio()"
-                class="dark:text-white">
+                (keyup.enter)="agregarPasoPrevio()">
             </mat-form-field>
             <button 
-              mat-raised-button 
+              mat-mini-fab 
               color="primary"
               type="button"
               (click)="agregarPasoPrevio()">
@@ -104,18 +140,54 @@
           @if (pasosPrevios.length > 0) {
             <div class="space-y-2">
               @for (paso of pasosPrevios; track paso; let i = $index) {
-                <div class="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 rounded-full flex items-center justify-center text-sm font-semibold">
+                <div class="flex items-start gap-2 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border-l-4 border-gray-400 dark:border-gray-500">
+                  <span class="flex-shrink-0 w-6 h-6 bg-gray-500 dark:bg-gray-600 text-white rounded-full flex items-center justify-center text-xs font-semibold">
                     {{ i + 1 }}
                   </span>
-                  <span class="flex-1 text-gray-700 dark:text-gray-300">{{ paso }}</span>
-                  <button 
-                    mat-icon-button 
-                    color="warn"
-                    type="button"
-                    (click)="eliminarPasoPrevio(i)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
+                  @if (estaEditando(i, 'previo')) {
+                    <div class="flex-1">
+                      <textarea 
+                        [(ngModel)]="pasoEditandoTexto"
+                        [name]="'editPasoPrevio' + i"
+                        class="w-full p-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 resize-none"
+                        rows="3"
+                        placeholder="Usa **texto** para negrilla. Los enlaces se detectan automáticamente."></textarea>
+                      <div class="flex gap-2 mt-2">
+                        <button 
+                          mat-mini-fab 
+                          color="primary"
+                          type="button"
+                          (click)="guardarEdicionPasoPrevio()">
+                          <mat-icon>check</mat-icon>
+                        </button>
+                        <button 
+                          mat-mini-fab
+                          type="button"
+                          (click)="cancelarEdicion()">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  } @else {
+                    <div class="flex-1 text-gray-700 dark:text-gray-300" [innerHTML]="paso | formatoTexto"></div>
+                    <div class="flex gap-1">
+                      <button 
+                        mat-icon-button
+                        type="button"
+                        (click)="iniciarEdicionPasoPrevio(i)"
+                        matTooltip="Editar paso">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button 
+                        mat-icon-button 
+                        color="warn"
+                        type="button"
+                        (click)="eliminarPasoPrevio(i)"
+                        matTooltip="Eliminar paso">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  }
                 </div>
               }
             </div>
@@ -123,26 +195,25 @@
         </div>
 
         <!-- Pasos Principales -->
-        <div class="mb-6">
+        <div class="mb-5">
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            <mat-icon class="align-middle mr-1">checklist</mat-icon>
+            <mat-icon class="align-middle mr-1 text-base">checklist</mat-icon>
             Pasos Principales *
           </label>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">
             Los pasos principales para completar el método
           </p>
-          <div class="flex gap-2 mb-3">
+          <div class="flex gap-2 mb-2 items-center">
             <mat-form-field class="flex-1" appearance="outline">
               <input 
                 matInput 
                 [(ngModel)]="nuevoPasoPrincipal"
                 name="nuevoPasoPrincipal"
                 placeholder="Ej: Calentar el agua a 90°C..."
-                (keyup.enter)="agregarPasoPrincipal()"
-                class="dark:text-white">
+                (keyup.enter)="agregarPasoPrincipal()">
             </mat-form-field>
             <button 
-              mat-raised-button 
+              mat-mini-fab 
               color="primary"
               type="button"
               (click)="agregarPasoPrincipal()">
@@ -152,18 +223,54 @@
           @if (pasosPrincipales.length > 0) {
             <div class="space-y-2">
               @for (paso of pasosPrincipales; track paso; let i = $index) {
-                <div class="flex items-center gap-2 p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border-l-4 border-indigo-500">
-                  <span class="flex-shrink-0 w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+                <div class="flex items-start gap-2 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border-l-4 border-indigo-500">
+                  <span class="flex-shrink-0 w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs font-semibold">
                     {{ i + 1 }}
                   </span>
-                  <span class="flex-1 text-gray-700 dark:text-gray-300">{{ paso }}</span>
-                  <button 
-                    mat-icon-button 
-                    color="warn"
-                    type="button"
-                    (click)="eliminarPasoPrincipal(i)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
+                  @if (estaEditando(i, 'principal')) {
+                    <div class="flex-1">
+                      <textarea 
+                        [(ngModel)]="pasoEditandoTexto"
+                        [name]="'editPasoPrincipal' + i"
+                        class="w-full p-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 resize-none"
+                        rows="3"
+                        placeholder="Usa **texto** para negrilla. Los enlaces se detectan automáticamente."></textarea>
+                      <div class="flex gap-2 mt-2">
+                        <button 
+                          mat-mini-fab 
+                          color="primary"
+                          type="button"
+                          (click)="guardarEdicionPasoPrincipal()">
+                          <mat-icon>check</mat-icon>
+                        </button>
+                        <button 
+                          mat-mini-fab
+                          type="button"
+                          (click)="cancelarEdicion()">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  } @else {
+                    <div class="flex-1 text-gray-700 dark:text-gray-300" [innerHTML]="paso | formatoTexto"></div>
+                    <div class="flex gap-1">
+                      <button 
+                        mat-icon-button
+                        type="button"
+                        (click)="iniciarEdicionPasoPrincipal(i)"
+                        matTooltip="Editar paso">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button 
+                        mat-icon-button 
+                        color="warn"
+                        type="button"
+                        (click)="eliminarPasoPrincipal(i)"
+                        matTooltip="Eliminar paso">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  }
                 </div>
               }
             </div>
@@ -176,16 +283,14 @@
         </div>
 
         <!-- Notas -->
-        <mat-form-field class="w-full mb-6" appearance="outline">
+        <mat-form-field class="w-full mb-5" appearance="outline">
           <mat-label>Notas adicionales</mat-label>
           <textarea 
             matInput 
             [(ngModel)]="notas"
             name="notas"
             placeholder="Consejos, advertencias o información adicional..."
-            rows="4"
-            class="dark:text-white"></textarea>
-          <mat-icon matPrefix class="mr-2">note</mat-icon>
+            rows="3"></textarea>
         </mat-form-field>
 
         <!-- Botones -->

@@ -24,30 +24,67 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Tema oscuro para Material */
 .dark .mat-mdc-card {
-  background-color: rgb(31 41 55);
-  color: white;
+  background-color: rgb(31 41 55) !important;
+  color: white !important;
 }
 
 .dark .mat-mdc-form-field {
-  color: white;
+  color: white !important;
 }
 
 .dark .mat-mdc-text-field-wrapper {
-  background-color: rgb(55 65 81);
+  background-color: rgb(31 41 55) !important;
+}
+
+.dark .mat-mdc-outlined-button {
+  color: white !important;
+  border-color: rgb(75 85 99) !important;
+}
+
+.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: rgb(75 85 99) !important;
 }
 
 .dark .mat-mdc-form-field-hint,
 .dark .mat-mdc-form-field-error {
-  color: rgb(209 213 219);
+  color: rgb(209 213 219) !important;
 }
 
 .dark .mat-expansion-panel {
-  background-color: rgb(55 65 81);
-  color: white;
+  background-color: rgb(31 41 55) !important;
+  color: white !important;
 }
 
 .dark .mat-expansion-panel-header-title {
-  color: white;
+  color: white !important;
+}
+
+.dark .mat-mdc-button .mdc-button__label,
+.dark .mat-mdc-raised-button .mdc-button__label,
+.dark .mat-mdc-outlined-button .mdc-button__label {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+}
+
+.dark .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: rgb(31 41 55) !important;
+}
+
+.dark .mat-mdc-input-element {
+  color: white !important;
+}
+
+.dark .mat-mdc-select-value {
+  color: white !important;
+}
+
+.dark .mat-mdc-chip {
+  background-color: rgb(55 65 81) !important;
+  color: white !important;
 }
 
 /* Clases de utilidad */
@@ -70,4 +107,40 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+/* Botones centrados */
+.mat-mdc-button .mdc-button__label,
+.mat-mdc-raised-button .mdc-button__label,
+.mat-mdc-outlined-button .mdc-button__label {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+}
+
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button {
+  height: 40px !important;
+  min-width: 64px !important;
+}
+
+.mat-mdc-mini-fab {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+/* Mejorar inputs */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+/* Estilos light mode mejorados */
+.mat-mdc-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: white !important;
 }

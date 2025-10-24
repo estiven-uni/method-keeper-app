@@ -5,6 +5,9 @@ Una aplicación web moderna y ligera para administrar métodos, guías y procedi
 ## ✨ Características
 
 - ✅ **CRUD Completo**: Crea, lee, actualiza y elimina métodos
+- ✏️ **Edición de Pasos**: Edita pasos individuales con formato de texto
+- 📝 **Formato de Texto**: Soporte para negrilla y enlaces automáticos en pasos
+- 📥 **Importar desde JSON**: Carga métodos completos desde archivos JSON
 - 🔍 **Búsqueda Inteligente**: Busca por título, descripción o etiquetas
 - 🌗 **Modo Oscuro/Claro**: Tema personalizable con persistencia
 - 💾 **LocalStorage**: Persistencia de datos sin necesidad de backend
@@ -89,6 +92,54 @@ Cada método incluye:
 - `/nuevo` - Crear nuevo método
 - `/editar/:id` - Editar método existente
 - `/ver/:id` - Ver método en detalle
+
+### Importar desde JSON
+
+Puedes cargar métodos completos desde archivos JSON para acelerar la creación:
+
+1. Ve a "Nuevo Método"
+2. Haz clic en "Seleccionar archivo JSON"
+3. Elige tu archivo `.json` con la estructura correcta
+4. El formulario se rellenará automáticamente
+5. Revisa y guarda
+
+**Estructura del JSON:**
+```json
+{
+  "titulo": "Título del método",
+  "descripcion": "Descripción breve",
+  "pasosPrevios": ["Paso 1", "Paso 2"],
+  "pasosPrincipales": ["Paso 1", "Paso 2"],
+  "notas": "Notas adicionales",
+  "etiquetas": ["etiqueta1", "etiqueta2"]
+}
+```
+
+**Ejemplos disponibles:**
+- `metodo-ejemplo-chatgpt.json`: Ejemplo completo de un método real
+- `metodo-ejemplo-simple.json`: Ejemplo simple de preparación de café
+
+📖 **Más información**: Ver [CARGAR_JSON.md](./CARGAR_JSON.md) para documentación completa
+
+### Formato de Texto en Pasos
+
+Los pasos soportan formato especial para mejorar la legibilidad:
+
+**Negrilla:**
+- Usa `**texto**` para destacar palabras importantes
+- Ejemplo: `Crear una **nueva cuenta de Google**`
+
+**Enlaces automáticos:**
+- Las URLs se convierten automáticamente en enlaces clicables
+- Ejemplo: `Visita https://ejemplo.com para más información`
+- Se abren en nueva pestaña automáticamente
+
+**Edición de pasos:**
+- Haz clic en el botón ✏️ de cualquier paso para editarlo
+- Agrega o modifica el formato según necesites
+- Guarda con el botón ✓ o cancela con ✗
+
+📖 **Más información**: Ver [FORMATO_TEXTO.md](./FORMATO_TEXTO.md) para guía completa
 
 ## 🌐 Despliegue en Netlify
 

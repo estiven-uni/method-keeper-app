@@ -8,9 +8,7 @@
           matInput 
           [(ngModel)]="terminoBusqueda"
           (ngModelChange)="onBusquedaCambio()"
-          placeholder="Busca por título, descripción o etiquetas..."
-          class="dark:text-white">
-        <mat-icon matPrefix class="mr-2">search</mat-icon>
+          placeholder="Busca por título, descripción o etiquetas...">
         @if (terminoBusqueda) {
           <button matSuffix mat-icon-button (click)="terminoBusqueda = ''; onBusquedaCambio()">
             <mat-icon>close</mat-icon>
@@ -68,7 +66,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (metodo of metodosFiltrados; track metodo.id) {
         <mat-card 
-          class="cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1 dark:bg-gray-800"
+          class="cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-gray-800"
           (click)="verDetalle(metodo.id)">
           <mat-card-header class="mb-4">
             <mat-card-title class="text-lg font-bold text-gray-900 dark:text-white line-clamp-2">
