@@ -1,0 +1,211 @@
+<div class="max-w-4xl mx-auto animate-fade-in">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+      {{ modoEdicion ? 'Editar Método' : 'Nuevo Método' }}
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400">
+      {{ modoEdicion ? 'Actualiza la información de tu método' : 'Crea un nuevo método o guía personal' }}
+    </p>
+  </div>
+
+  <mat-card class="dark:bg-gray-800">
+    <mat-card-content class="p-6">
+      <form (ngSubmit)="guardar()">
+        <!-- Título -->
+        <mat-form-field class="w-full mb-4" appearance="outline">
+          <mat-label>Título del Método *</mat-label>
+          <input 
+            matInput 
+            [(ngModel)]="titulo"
+            name="titulo"
+            placeholder="Ej: Cómo preparar café perfecto"
+            required
+            class="dark:text-white">
+          <mat-icon matPrefix class="mr-2">title</mat-icon>
+        </mat-form-field>
+
+        <!-- Descripción -->
+        <mat-form-field class="w-full mb-4" appearance="outline">
+          <mat-label>Descripción</mat-label>
+          <textarea 
+            matInput 
+            [(ngModel)]="descripcion"
+            name="descripcion"
+            placeholder="Describe brevemente este método..."
+            rows="3"
+            class="dark:text-white"></textarea>
+          <mat-icon matPrefix class="mr-2">description</mat-icon>
+        </mat-form-field>
+
+        <!-- Etiquetas -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Etiquetas
+          </label>
+          <div class="flex gap-2 mb-2">
+            <mat-form-field class="flex-1" appearance="outline">
+              <input 
+                matInput 
+                [(ngModel)]="nuevaEtiqueta"
+                name="nuevaEtiqueta"
+                placeholder="Agregar etiqueta..."
+                (keyup.enter)="agregarEtiqueta()"
+                class="dark:text-white">
+            </mat-form-field>
+            <button 
+              mat-raised-button 
+              color="primary"
+              type="button"
+              (click)="agregarEtiqueta()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          @if (etiquetas.length > 0) {
+            <div class="flex flex-wrap gap-2">
+              @for (etiqueta of etiquetas; track etiqueta) {
+                <mat-chip class="cursor-pointer" (removed)="eliminarEtiqueta(etiqueta)">
+                  {{ etiqueta }}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Pasos Previos -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <mat-icon class="align-middle mr-1">playlist_add_check</mat-icon>
+            Pasos Previos (opcional)
+          </label>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+            Preparaciones o requisitos antes de comenzar
+          </p>
+          <div class="flex gap-2 mb-3">
+            <mat-form-field class="flex-1" appearance="outline">
+              <input 
+                matInput 
+                [(ngModel)]="nuevoPasoPrevio"
+                name="nuevoPasoPrevio"
+                placeholder="Ej: Reunir ingredientes..."
+                (keyup.enter)="agregarPasoPrevio()"
+                class="dark:text-white">
+            </mat-form-field>
+            <button 
+              mat-raised-button 
+              color="primary"
+              type="button"
+              (click)="agregarPasoPrevio()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          @if (pasosPrevios.length > 0) {
+            <div class="space-y-2">
+              @for (paso of pasosPrevios; track paso; let i = $index) {
+                <div class="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 rounded-full flex items-center justify-center text-sm font-semibold">
+                    {{ i + 1 }}
+                  </span>
+                  <span class="flex-1 text-gray-700 dark:text-gray-300">{{ paso }}</span>
+                  <button 
+                    mat-icon-button 
+                    color="warn"
+                    type="button"
+                    (click)="eliminarPasoPrevio(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Pasos Principales -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <mat-icon class="align-middle mr-1">checklist</mat-icon>
+            Pasos Principales *
+          </label>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+            Los pasos principales para completar el método
+          </p>
+          <div class="flex gap-2 mb-3">
+            <mat-form-field class="flex-1" appearance="outline">
+              <input 
+                matInput 
+                [(ngModel)]="nuevoPasoPrincipal"
+                name="nuevoPasoPrincipal"
+                placeholder="Ej: Calentar el agua a 90°C..."
+                (keyup.enter)="agregarPasoPrincipal()"
+                class="dark:text-white">
+            </mat-form-field>
+            <button 
+              mat-raised-button 
+              color="primary"
+              type="button"
+              (click)="agregarPasoPrincipal()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          @if (pasosPrincipales.length > 0) {
+            <div class="space-y-2">
+              @for (paso of pasosPrincipales; track paso; let i = $index) {
+                <div class="flex items-center gap-2 p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border-l-4 border-indigo-500">
+                  <span class="flex-shrink-0 w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+                    {{ i + 1 }}
+                  </span>
+                  <span class="flex-1 text-gray-700 dark:text-gray-300">{{ paso }}</span>
+                  <button 
+                    mat-icon-button 
+                    color="warn"
+                    type="button"
+                    (click)="eliminarPasoPrincipal(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="text-center py-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <mat-icon class="text-4xl text-gray-400 mb-2">checklist</mat-icon>
+              <p class="text-gray-600 dark:text-gray-400">No hay pasos principales agregados</p>
+            </div>
+          }
+        </div>
+
+        <!-- Notas -->
+        <mat-form-field class="w-full mb-6" appearance="outline">
+          <mat-label>Notas adicionales</mat-label>
+          <textarea 
+            matInput 
+            [(ngModel)]="notas"
+            name="notas"
+            placeholder="Consejos, advertencias o información adicional..."
+            rows="4"
+            class="dark:text-white"></textarea>
+          <mat-icon matPrefix class="mr-2">note</mat-icon>
+        </mat-form-field>
+
+        <!-- Botones -->
+        <div class="flex gap-3 justify-end">
+          <button 
+            mat-stroked-button
+            type="button"
+            (click)="cancelar()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+          </button>
+          <button 
+            mat-raised-button 
+            color="primary"
+            type="submit">
+            <mat-icon>{{ modoEdicion ? 'save' : 'add' }}</mat-icon>
+            {{ modoEdicion ? 'Actualizar' : 'Crear' }} Método
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,124 @@
+<div class="animate-fade-in">
+  <!-- Cabecera con búsqueda y botón de crear -->
+  <div class="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
+    <div class="w-full md:w-2/3">
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Buscar métodos</mat-label>
+        <input 
+          matInput 
+          [(ngModel)]="terminoBusqueda"
+          (ngModelChange)="onBusquedaCambio()"
+          placeholder="Busca por título, descripción o etiquetas..."
+          class="dark:text-white">
+        <mat-icon matPrefix class="mr-2">search</mat-icon>
+        @if (terminoBusqueda) {
+          <button matSuffix mat-icon-button (click)="terminoBusqueda = ''; onBusquedaCambio()">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="flex gap-3 w-full md:w-auto">
+      <mat-form-field appearance="outline" class="w-32">
+        <mat-label>Ordenar</mat-label>
+        <mat-select [(ngModel)]="ordenSeleccionado" (ngModelChange)="onOrdenCambio()">
+          <mat-option value="desc">Más reciente</mat-option>
+          <mat-option value="asc">Más antiguo</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button 
+        mat-raised-button 
+        color="primary" 
+        (click)="nuevoMetodo()"
+        class="whitespace-nowrap">
+        <mat-icon>add</mat-icon>
+        Nuevo Método
+      </button>
+    </div>
+  </div>
+
+  <!-- Lista de métodos -->
+  @if (metodosFiltrados.length === 0 && terminoBusqueda) {
+    <div class="text-center py-16">
+      <mat-icon class="text-6xl text-gray-400 mb-4">search_off</mat-icon>
+      <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        No se encontraron resultados
+      </h2>
+      <p class="text-gray-600 dark:text-gray-400">
+        Intenta con otros términos de búsqueda
+      </p>
+    </div>
+  } @else if (metodosFiltrados.length === 0) {
+    <div class="text-center py-16">
+      <mat-icon class="text-6xl text-gray-400 mb-4">note_add</mat-icon>
+      <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        No hay métodos guardados
+      </h2>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">
+        Comienza creando tu primer método o guía personal
+      </p>
+      <button mat-raised-button color="primary" (click)="nuevoMetodo()">
+        <mat-icon>add</mat-icon>
+        Crear Primer Método
+      </button>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (metodo of metodosFiltrados; track metodo.id) {
+        <mat-card 
+          class="cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1 dark:bg-gray-800"
+          (click)="verDetalle(metodo.id)">
+          <mat-card-header class="mb-4">
+            <mat-card-title class="text-lg font-bold text-gray-900 dark:text-white line-clamp-2">
+              {{ metodo.titulo }}
+            </mat-card-title>
+            <mat-card-subtitle class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Modificado: {{ formatearFecha(metodo.ultimaModificacion) }}
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p class="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">
+              {{ metodo.descripcion || 'Sin descripción' }}
+            </p>
+
+            @if (metodo.etiquetas.length > 0) {
+              <div class="flex flex-wrap gap-2 mb-4">
+                @for (etiqueta of metodo.etiquetas.slice(0, 3); track etiqueta) {
+                  <mat-chip class="text-xs">{{ etiqueta }}</mat-chip>
+                }
+                @if (metodo.etiquetas.length > 3) {
+                  <mat-chip class="text-xs">+{{ metodo.etiquetas.length - 3 }}</mat-chip>
+                }
+              </div>
+            }
+
+            <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+              <mat-icon class="text-base">checklist</mat-icon>
+              <span>{{ metodo.pasosPrincipales.length }} pasos</span>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions class="flex justify-end gap-2 mt-2">
+            <button 
+              mat-icon-button 
+              color="primary"
+              (click)="editarMetodo(metodo.id, $event)"
+              matTooltip="Editar">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button 
+              mat-icon-button 
+              color="warn"
+              (click)="eliminarMetodo(metodo, $event)"
+              matTooltip="Eliminar">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

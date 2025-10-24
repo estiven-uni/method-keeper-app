@@ -1,0 +1,148 @@
+@if (metodo) {
+  <div class="max-w-4xl mx-auto animate-fade-in">
+    <!-- Cabecera con botones de acción -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+      <button mat-stroked-button (click)="volver()">
+        <mat-icon>arrow_back</mat-icon>
+        Volver
+      </button>
+
+      <div class="flex gap-2">
+        <button mat-raised-button color="primary" (click)="editar()">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+        <button mat-raised-button color="warn" (click)="eliminar()">
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </div>
+
+    <!-- Tarjeta principal -->
+    <mat-card class="dark:bg-gray-800 mb-6">
+      <mat-card-header class="mb-4">
+        <mat-card-title class="text-3xl font-bold text-gray-900 dark:text-white">
+          {{ metodo.titulo }}
+        </mat-card-title>
+        <mat-card-subtitle class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <div class="flex flex-col gap-1">
+            <span>
+              <mat-icon class="text-base align-middle mr-1">schedule</mat-icon>
+              Creado: {{ formatearFecha(metodo.fechaCreacion) }}
+            </span>
+            <span>
+              <mat-icon class="text-base align-middle mr-1">update</mat-icon>
+              Modificado: {{ formatearFecha(metodo.ultimaModificacion) }}
+            </span>
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Descripción -->
+        @if (metodo.descripcion) {
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
+              <mat-icon class="mr-2">description</mat-icon>
+              Descripción
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              {{ metodo.descripcion }}
+            </p>
+          </div>
+        }
+
+        <!-- Etiquetas -->
+        @if (metodo.etiquetas.length > 0) {
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+              <mat-icon class="mr-2">label</mat-icon>
+              Etiquetas
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              @for (etiqueta of metodo.etiquetas; track etiqueta) {
+                <mat-chip class="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">
+                  {{ etiqueta }}
+                </mat-chip>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Pasos Previos (Acordeón) -->
+        @if (metodo.pasosPrevios.length > 0) {
+          <mat-expansion-panel class="mb-4 dark:bg-gray-700">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                <mat-icon class="mr-2">playlist_add_check</mat-icon>
+                Pasos Previos ({{ metodo.pasosPrevios.length }})
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="pt-4 space-y-3">
+              @for (paso of metodo.pasosPrevios; track paso; let i = $index) {
+                <div class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 rounded-full flex items-center justify-center font-semibold">
+                    {{ i + 1 }}
+                  </span>
+                  <p class="flex-1 text-gray-700 dark:text-gray-300 pt-1">{{ paso }}</p>
+                </div>
+              }
+            </div>
+          </mat-expansion-panel>
+        }
+
+        <!-- Pasos Principales (Acordeón expandido por defecto) -->
+        @if (metodo.pasosPrincipales.length > 0) {
+          <mat-expansion-panel class="mb-4 dark:bg-gray-700" [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                <mat-icon class="mr-2">checklist</mat-icon>
+                Pasos Principales ({{ metodo.pasosPrincipales.length }})
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="pt-4 space-y-3">
+              @for (paso of metodo.pasosPrincipales; track paso; let i = $index) {
+                <div class="flex items-start gap-3 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border-l-4 border-indigo-500">
+                  <span class="flex-shrink-0 w-8 h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center font-semibold">
+                    {{ i + 1 }}
+                  </span>
+                  <p class="flex-1 text-gray-700 dark:text-gray-300 pt-1">{{ paso }}</p>
+                </div>
+              }
+            </div>
+          </mat-expansion-panel>
+        }
+
+        <!-- Notas (Acordeón) -->
+        @if (metodo.notas) {
+          <mat-expansion-panel class="dark:bg-gray-700">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                <mat-icon class="mr-2">note</mat-icon>
+                Notas Adicionales
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="pt-4">
+              <div class="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border-l-4 border-yellow-500">
+                <p class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
+                  {{ metodo.notas }}
+                </p>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+} @else {
+  <div class="text-center py-16">
+    <mat-icon class="text-6xl text-gray-400 mb-4">error_outline</mat-icon>
+    <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
+      Método no encontrado
+    </h2>
+    <button mat-raised-button color="primary" (click)="volver()">
+      Volver al inicio
+    </button>
+  </div>
+}
