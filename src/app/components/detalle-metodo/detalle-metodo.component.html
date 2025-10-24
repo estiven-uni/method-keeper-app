@@ -1,38 +1,38 @@
 @if (metodo) {
   <div class="max-w-4xl mx-auto animate-fade-in">
     <!-- Cabecera con botones de acción -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-      <button mat-stroked-button (click)="volver()">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4">
+      <button mat-stroked-button (click)="volver()" class="flex items-center justify-center">
         <mat-icon>arrow_back</mat-icon>
-        Volver
+        <span>Volver</span>
       </button>
 
       <div class="flex gap-2">
-        <button mat-raised-button color="primary" (click)="editar()">
+        <button mat-raised-button color="primary" (click)="editar()" class="flex items-center justify-center">
           <mat-icon>edit</mat-icon>
-          Editar
+          <span>Editar</span>
         </button>
-        <button mat-raised-button color="warn" (click)="eliminar()">
+        <button mat-raised-button color="warn" (click)="eliminar()" class="flex items-center justify-center">
           <mat-icon>delete</mat-icon>
-          Eliminar
+          <span>Eliminar</span>
         </button>
       </div>
     </div>
 
     <!-- Tarjeta principal -->
-    <mat-card class="bg-white dark:bg-gray-800 mb-6 shadow-lg">
-      <mat-card-header class="mb-4">
-        <mat-card-title class="text-3xl font-bold text-gray-900 dark:text-white">
+    <mat-card class="bg-white dark:bg-gray-800 mb-4">
+      <mat-card-header class="mb-3">
+        <mat-card-title class="text-2xl font-bold text-gray-900 dark:text-gray-100">
           {{ metodo.titulo }}
         </mat-card-title>
-        <mat-card-subtitle class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+        <mat-card-subtitle class="text-xs text-gray-600 dark:text-gray-400 mt-2">
           <div class="flex flex-col gap-1">
-            <span>
-              <mat-icon class="text-base align-middle mr-1">schedule</mat-icon>
+            <span class="flex items-center">
+              <mat-icon class="text-sm mr-1">schedule</mat-icon>
               Creado: {{ formatearFecha(metodo.fechaCreacion) }}
             </span>
-            <span>
-              <mat-icon class="text-base align-middle mr-1">update</mat-icon>
+            <span class="flex items-center">
+              <mat-icon class="text-sm mr-1">update</mat-icon>
               Modificado: {{ formatearFecha(metodo.ultimaModificacion) }}
             </span>
           </div>
@@ -42,12 +42,12 @@
       <mat-card-content>
         <!-- Descripción -->
         @if (metodo.descripcion) {
-          <div class="mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
-              <mat-icon class="mr-2">description</mat-icon>
+          <div class="mb-4">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2 flex items-center">
+              <mat-icon class="mr-1 text-lg">description</mat-icon>
               Descripción
             </h3>
-            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
               {{ metodo.descripcion }}
             </p>
           </div>
@@ -55,14 +55,14 @@
 
         <!-- Etiquetas -->
         @if (metodo.etiquetas.length > 0) {
-          <div class="mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-              <mat-icon class="mr-2">label</mat-icon>
+          <div class="mb-4">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2 flex items-center">
+              <mat-icon class="mr-1 text-lg">label</mat-icon>
               Etiquetas
             </h3>
             <div class="flex flex-wrap gap-2">
               @for (etiqueta of metodo.etiquetas; track etiqueta) {
-                <mat-chip class="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">
+                <mat-chip class="h-7 text-xs">
                   {{ etiqueta }}
                 </mat-chip>
               }
@@ -72,20 +72,20 @@
 
         <!-- Pasos Previos (Acordeón) -->
         @if (metodo.pasosPrevios.length > 0) {
-          <mat-expansion-panel class="mb-4 dark:bg-gray-700">
+          <mat-expansion-panel class="mb-3 bg-white dark:bg-gray-700">
             <mat-expansion-panel-header>
-              <mat-panel-title class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-                <mat-icon class="mr-2">playlist_add_check</mat-icon>
+              <mat-panel-title class="text-base font-semibold text-gray-900 dark:text-gray-100 flex items-center">
+                <mat-icon class="mr-1 text-lg">playlist_add_check</mat-icon>
                 Pasos Previos ({{ metodo.pasosPrevios.length }})
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="pt-4 space-y-3">
+            <div class="pt-3 space-y-2">
               @for (paso of metodo.pasosPrevios; track paso; let i = $index) {
-                <div class="flex items-start gap-3 p-2 bg-gray-50 dark:bg-gray-800 rounded-lg border-l-4 border-gray-400 dark:border-gray-500">
-                  <span class="flex-shrink-0 w-7 h-7 bg-gray-500 dark:bg-gray-600 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+                <div class="flex items-start gap-2 p-2 bg-gray-50 dark:bg-gray-800 rounded border-l-4 border-gray-400 dark:border-gray-500">
+                  <span class="flex-shrink-0 w-6 h-6 bg-gray-500 dark:bg-gray-600 text-white rounded-full flex items-center justify-center text-xs font-semibold">
                     {{ i + 1 }}
                   </span>
-                  <div class="flex-1 text-gray-700 dark:text-gray-300 pt-1" [innerHTML]="paso | formatoTexto"></div>
+                  <div class="flex-1 text-sm text-gray-700 dark:text-gray-300 pt-0.5" [innerHTML]="paso | formatoTexto"></div>
                 </div>
               }
             </div>
@@ -94,20 +94,20 @@
 
         <!-- Pasos Principales (Acordeón expandido por defecto) -->
         @if (metodo.pasosPrincipales.length > 0) {
-          <mat-expansion-panel class="mb-4 dark:bg-gray-700" [expanded]="true">
+          <mat-expansion-panel class="mb-3 bg-white dark:bg-gray-700">
             <mat-expansion-panel-header>
-              <mat-panel-title class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-                <mat-icon class="mr-2">checklist</mat-icon>
+              <mat-panel-title class="text-base font-semibold text-gray-900 dark:text-gray-100 flex items-center">
+                <mat-icon class="mr-1 text-lg">checklist</mat-icon>
                 Pasos Principales ({{ metodo.pasosPrincipales.length }})
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="pt-4 space-y-3">
+            <div class="pt-3 space-y-2">
               @for (paso of metodo.pasosPrincipales; track paso; let i = $index) {
-                <div class="flex items-start gap-3 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border-l-4 border-indigo-500">
-                  <span class="flex-shrink-0 w-7 h-7 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+                <div class="flex items-start gap-2 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded border-l-4 border-indigo-500">
+                  <span class="flex-shrink-0 w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs font-semibold">
                     {{ i + 1 }}
                   </span>
-                  <div class="flex-1 text-gray-700 dark:text-gray-300 pt-1" [innerHTML]="paso | formatoTexto"></div>
+                  <div class="flex-1 text-sm text-gray-700 dark:text-gray-300 pt-0.5" [innerHTML]="paso | formatoTexto"></div>
                 </div>
               }
             </div>
@@ -116,16 +116,16 @@
 
         <!-- Notas (Acordeón) -->
         @if (metodo.notas) {
-          <mat-expansion-panel class="dark:bg-gray-700">
+          <mat-expansion-panel class="bg-white dark:bg-gray-700">
             <mat-expansion-panel-header>
-              <mat-panel-title class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-                <mat-icon class="mr-2">note</mat-icon>
+              <mat-panel-title class="text-base font-semibold text-gray-900 dark:text-gray-100 flex items-center">
+                <mat-icon class="mr-1 text-lg">note</mat-icon>
                 Notas Adicionales
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="pt-4">
-              <div class="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border-l-4 border-yellow-500">
-                <p class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
+            <div class="pt-3">
+              <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded border-l-4 border-yellow-500">
+                <p class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
                   {{ metodo.notas }}
                 </p>
               </div>
@@ -137,12 +137,12 @@
   </div>
 } @else {
   <div class="text-center py-16">
-    <mat-icon class="text-6xl text-gray-400 mb-4">error_outline</mat-icon>
-    <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
+    <mat-icon class="text-5xl text-gray-400 mb-3">error_outline</mat-icon>
+    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-3">
       Método no encontrado
     </h2>
-    <button mat-raised-button color="primary" (click)="volver()">
-      Volver al inicio
+    <button mat-raised-button color="primary" (click)="volver()" class="flex items-center justify-center mx-auto">
+      <span>Volver al inicio</span>
     </button>
   </div>
 }
