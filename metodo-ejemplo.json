@@ -1,6 +1,7 @@
 {
   "titulo": "Cómo obtener ChatGPT por 1€ usando VPN Alemania",
   "descripcion": "Esta promoción permite obtener acceso a ChatGPT (versión de pago) por solo 1 € realizando el proceso desde Alemania mediante VPN. Todo el procedimiento se hace desde el navegador, no desde la app.",
+  "activo": true,
   "pasosPrevios": [
     "Conseguir un **VPN con servidor en Alemania** (ejemplo: Psiphon para Android, iOS o navegador). **No conectarse todavía.**",
     "Crear una **nueva cuenta de Google** que nunca haya tenido ChatGPT",
