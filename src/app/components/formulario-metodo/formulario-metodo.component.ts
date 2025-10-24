@@ -73,10 +73,6 @@ export class FormularioMetodoComponent implements OnInit {
   pasoEditandoTipo: 'previo' | 'principal' | null = null;
   pasoEditandoTexto: string = '';
 
-  // Generador con IA
-  mostrarGeneradorIA = false;
-  promptIA = '';
-  generandoConIA = false;
 
   // Tamaño de vista previa de imagen (porcentaje 0-100)
   tamanoVistaPrevia: number = 100;
@@ -325,73 +321,4 @@ export class FormularioMetodoComponent implements OnInit {
     this.archivoSeleccionado = null;
   }
 
-  toggleGeneradorIA() {
-    this.mostrarGeneradorIA = !this.mostrarGeneradorIA;
-    if (!this.mostrarGeneradorIA) {
-      this.promptIA = '';
-    }
-  }
-
-  generarConIA() {
-    if (!this.promptIA.trim()) {
-      this.snackBar.open('Por favor escribe qué método deseas generar', 'Cerrar', { duration: 3000 });
-      return;
-    }
-
-    // Verificar si el API Key está configurado ANTES de intentar generar
-    const apiKey = localStorage.getItem('deepseek_api_key');
-    if (!apiKey) {
-      const snackBarRef = this.snackBar.open(
-        'Para usar la IA debes configurar tu API Key de Deepseek', 
-        'Configurar', 
-        { duration: 8000 }
-      );
-      
-      snackBarRef.onAction().subscribe(() => {
-        this.dialog.open(ConfiguracionDialogoComponent, {
-          width: '500px',
-          maxWidth: '90vw'
-        });
-      });
-      return;
-    }
-
-    this.generandoConIA = true;
-
-    this.deepseekService.generarMetodo(this.promptIA).subscribe({
-      next: (metodoGenerado) => {
-        // Llenar los campos del formulario con los datos generados
-        this.titulo = metodoGenerado.titulo || '';
-        this.descripcion = metodoGenerado.descripcion || '';
-        this.imagenUrl = metodoGenerado.imagenUrl || '';
-        this.videoUrl = metodoGenerado.videoUrl || '';
-        this.tamanoVistaPrevia = metodoGenerado.tamanoImagen || 100;
-        this.imagenCompleta = metodoGenerado.imagenCompleta !== undefined ? metodoGenerado.imagenCompleta : false;
-        this.fondoImagen = metodoGenerado.fondoImagen || 'gray';
-        this.pasosPrevios = Array.isArray(metodoGenerado.pasosPrevios) ? metodoGenerado.pasosPrevios : [];
-        this.pasosPrincipales = Array.isArray(metodoGenerado.pasosPrincipales) ? metodoGenerado.pasosPrincipales : [];
-        this.notas = metodoGenerado.notas || '';
-        this.etiquetas = Array.isArray(metodoGenerado.etiquetas) ? metodoGenerado.etiquetas : [];
-        this.activo = metodoGenerado.activo !== undefined ? metodoGenerado.activo : true;
-
-        this.generandoConIA = false;
-        this.mostrarGeneradorIA = false;
-        this.promptIA = '';
-
-        this.snackBar.open('✨ Método generado con IA exitosamente', 'Cerrar', { 
-          duration: 4000,
-          panelClass: ['success-snackbar']
-        });
-      },
-      error: (error) => {
-        this.generandoConIA = false;
-        
-        // Mostrar error al usuario
-        const mensajeError = error?.message || 'Error al generar el método con IA. Intenta de nuevo.';
-        this.snackBar.open(mensajeError, 'Cerrar', { 
-          duration: 5000 
-        });
-      }
-    });
-  }
 }

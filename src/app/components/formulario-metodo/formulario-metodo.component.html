@@ -21,16 +21,6 @@
         <div class="mb-4 flex flex-wrap gap-2 items-center justify-end">
           <span class="text-xs text-gray-500 dark:text-gray-400 mr-auto">Herramientas:</span>
           
-          <!-- Botón Generar con IA -->
-          <button 
-            mat-stroked-button
-            type="button"
-            (click)="toggleGeneradorIA()"
-            class="flex items-center justify-center text-xs">
-            <mat-icon class="text-base mr-1">{{ mostrarGeneradorIA ? 'close' : 'auto_awesome' }}</mat-icon>
-            <span>{{ mostrarGeneradorIA ? 'Cerrar IA' : 'Generar con IA' }}</span>
-          </button>
-          
           <!-- Botón Cargar JSON -->
           <input 
             type="file" 
@@ -59,45 +49,6 @@
             </button>
           }
         </div>
-
-        <!-- Panel expandido del Generador IA -->
-        @if (mostrarGeneradorIA) {
-          <div class="mb-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border border-purple-200 dark:border-purple-700">
-            <div class="flex items-center gap-2 mb-3">
-              <mat-icon class="text-purple-600 dark:text-purple-400">auto_awesome</mat-icon>
-              <h3 class="font-semibold text-gray-900 dark:text-gray-100 text-sm">
-                Generador con Inteligencia Artificial
-              </h3>
-            </div>
-            <mat-form-field class="w-full mb-2" appearance="fill" subscriptSizing="dynamic">
-              <mat-label>Describe el método que deseas crear</mat-label>
-              <textarea 
-                matInput 
-                [(ngModel)]="promptIA"
-                name="promptIA"
-                rows="3"                
-                [disabled]="generandoConIA"></textarea>
-            </mat-form-field>
-            <button 
-              mat-raised-button 
-              color="primary"
-              type="button"
-              (click)="generarConIA()"
-              [disabled]="generandoConIA || !promptIA.trim()"
-              class="flex items-center justify-center">
-              @if (generandoConIA) {
-                <mat-spinner diameter="20" class="mr-2"></mat-spinner>
-                <span>Generando...</span>
-              } @else {
-                <mat-icon>auto_awesome</mat-icon>
-                <span>Generar Método</span>
-              }
-            </button>
-            @if (generandoConIA) {
-              <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">⏳ Esto puede tardar unos segundos...</p>
-            }
-          </div>
-        }
       }
 
       <form (ngSubmit)="guardar()">

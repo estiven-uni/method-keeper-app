@@ -15,6 +15,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MetodosService } from '../../services/metodos.service';
 import { Metodo } from '../../models/metodo.interface';
 import { ConfirmarDialogoComponent } from '../confirmar-dialogo/confirmar-dialogo.component';
+import { GenerarIaDialogoComponent } from '../generar-ia-dialogo/generar-ia-dialogo.component';
 
 @Component({
   selector: 'app-lista-metodos',
@@ -113,6 +114,14 @@ export class ListaMetodosComponent implements OnInit {
 
   nuevoMetodo() {
     this.router.navigate(['/nuevo']);
+  }
+
+  generarConIA() {
+    this.dialog.open(GenerarIaDialogoComponent, {
+      width: '600px',
+      maxWidth: '90vw',
+      disableClose: false
+    });
   }
 
   verDetalle(id: string) {
