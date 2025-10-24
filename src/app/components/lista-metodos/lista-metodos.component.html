@@ -74,16 +74,33 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       @for (metodo of metodosFiltrados; track metodo.id) {
         <mat-card 
-          class="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 relative"
+          class="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 relative overflow-hidden"
           (click)="verDetalle(metodo.id)">
+          @if (metodo.imagenUrl) {
+            <div class="w-full h-48 overflow-hidden bg-white flex items-center justify-center">
+              <img [src]="metodo.imagenUrl" [alt]="metodo.titulo" class="w-full h-full object-contain" />
+            </div>
+          } @else {
+            <div class="w-full h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+              <div class="text-center">
+                <mat-icon class="text-5xl text-gray-400 dark:text-gray-500">image_not_supported</mat-icon>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Sin imagen</p>
+              </div>
+            </div>
+          }
           @if (metodo.activo !== undefined) {
-            <div class="absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1"
+            <div class="absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm bg-white/90 dark:bg-gray-800/90"
                  [ngClass]="{
-                   'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300': metodo.activo,
-                   'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300': !metodo.activo
+                   'shadow-md': true
                  }">
-              <mat-icon class="text-sm">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
-              <span>{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
+              <mat-icon class="text-sm" [ngClass]="{
+                'text-green-600 dark:text-green-400': metodo.activo,
+                'text-red-600 dark:text-red-400': !metodo.activo
+              }">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
+              <span [ngClass]="{
+                'text-green-800 dark:text-green-300': metodo.activo,
+                'text-red-800 dark:text-red-300': !metodo.activo
+              }">{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
             </div>
           }
           <mat-card-header class="mb-3">

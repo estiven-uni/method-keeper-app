@@ -1,11 +1,17 @@
 <div class="max-w-4xl mx-auto animate-fade-in">
-  <div class="mb-4">
-    <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
-      {{ modoEdicion ? 'Editar Método' : 'Nuevo Método' }}
-    </h1>
-    <p class="text-sm text-gray-600 dark:text-gray-400">
-      {{ modoEdicion ? 'Actualiza la información de tu método' : 'Crea un nuevo método o guía personal' }}
-    </p>
+  <div class="mb-4 flex items-start justify-between gap-4">
+    <div class="flex-1">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+        {{ modoEdicion ? 'Editar Método' : 'Nuevo Método' }}
+      </h1>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        {{ modoEdicion ? 'Actualiza la información de tu método' : 'Crea un nuevo método o guía personal' }}
+      </p>
+    </div>
+    <button mat-stroked-button (click)="cancelar()" class="flex items-center justify-center flex-shrink-0">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Volver</span>
+    </button>
   </div>
 
   <mat-card class="bg-white dark:bg-gray-800">
@@ -133,6 +139,26 @@
             name="descripcion"
             rows="2"></textarea>
         </mat-form-field>
+
+        <!-- URL de Imagen -->
+        <mat-form-field class="w-full mb-3" appearance="fill" subscriptSizing="dynamic">
+          <mat-label>URL de Imagen (opcional)</mat-label>
+          <input 
+            matInput 
+            [(ngModel)]="imagenUrl"
+            name="imagenUrl"
+            type="url"
+            >
+          <mat-icon matPrefix class="mr-2">image</mat-icon>
+        </mat-form-field>
+        @if (imagenUrl) {
+          <div class="mb-3 p-3 bg-gray-100 dark:bg-gray-700 rounded">
+            <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">Vista previa:</p>
+            <div class="w-full h-48 bg-white rounded flex items-center justify-center overflow-hidden">
+              <img [src]="imagenUrl" alt="Vista previa" class="w-full h-full object-contain" (error)="imagenUrl = ''" />
+            </div>
+          </div>
+        }
 
         <!-- Estado del Método -->
         <div class="mb-4 p-3 rounded border border-gray-200 dark:border-gray-700">

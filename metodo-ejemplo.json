@@ -4,6 +4,7 @@
     "El campo 'titulo' es OBLIGATORIO - Debe ser descriptivo y claro",
     "El campo 'pasosPrincipales' es OBLIGATORIO - Mínimo 1 paso, máximo recomendado 15 pasos",
     "El campo 'descripcion' es OPCIONAL pero muy recomendado - Breve resumen del método",
+    "El campo 'imagenUrl' es OPCIONAL - URL de una imagen representativa (se mostrará en la tarjeta)",
     "El campo 'pasosPrevios' es OPCIONAL - Usar solo si hay preparaciones necesarias antes de comenzar",
     "El campo 'notas' es OPCIONAL - Usar para advertencias importantes, consejos o información adicional",
     "El campo 'etiquetas' es OPCIONAL - Array de palabras clave para búsqueda (3-6 etiquetas recomendado)",
@@ -16,6 +17,7 @@
   ],
   "titulo": "Título descriptivo del método (ej: Cómo obtener Spotify Premium por 1€)",
   "descripcion": "Descripción breve y clara de qué trata el método y qué se consigue al final",
+  "imagenUrl": "https://ejemplo.com/imagen.jpg",
   "activo": true,
   "pasosPrevios": [
     "Primer requisito o preparación necesaria antes de comenzar",

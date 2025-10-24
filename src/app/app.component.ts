@@ -5,7 +5,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ThemeService } from './services/theme.service';
+import { ConfiguracionDialogoComponent } from './components/configuracion-dialogo/configuracion-dialogo.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,8 @@ import { ThemeService } from './services/theme.service';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -27,7 +30,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     public themeService: ThemeService,
-    public router: Router
+    public router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -42,5 +46,12 @@ export class AppComponent implements OnInit {
 
   navigateHome() {
     this.router.navigate(['/']);
+  }
+
+  abrirConfiguracion() {
+    this.dialog.open(ConfiguracionDialogoComponent, {
+      width: '500px',
+      maxWidth: '90vw'
+    });
   }
 }

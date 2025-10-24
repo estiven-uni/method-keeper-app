@@ -47,6 +47,7 @@ export class FormularioMetodoComponent implements OnInit {
   
   titulo = '';
   descripcion = '';
+  imagenUrl = '';
   pasosPrevios: string[] = [];
   pasosPrincipales: string[] = [];
   notas = '';
@@ -92,6 +93,7 @@ export class FormularioMetodoComponent implements OnInit {
     if (metodo) {
       this.titulo = metodo.titulo;
       this.descripcion = metodo.descripcion;
+      this.imagenUrl = metodo.imagenUrl || '';
       this.pasosPrevios = [...metodo.pasosPrevios];
       this.pasosPrincipales = [...metodo.pasosPrincipales];
       this.notas = metodo.notas;
@@ -189,6 +191,7 @@ export class FormularioMetodoComponent implements OnInit {
     const metodoData = {
       titulo: this.titulo.trim(),
       descripcion: this.descripcion.trim(),
+      imagenUrl: this.imagenUrl.trim(),
       pasosPrevios: this.pasosPrevios,
       pasosPrincipales: this.pasosPrincipales,
       notas: this.notas.trim(),
@@ -239,6 +242,7 @@ export class FormularioMetodoComponent implements OnInit {
         // Cargar los datos del JSON al formulario
         this.titulo = contenido.titulo || '';
         this.descripcion = contenido.descripcion || '';
+        this.imagenUrl = contenido.imagenUrl || '';
         this.pasosPrevios = Array.isArray(contenido.pasosPrevios) ? contenido.pasosPrevios : [];
         this.pasosPrincipales = Array.isArray(contenido.pasosPrincipales) ? contenido.pasosPrincipales : [];
         this.notas = contenido.notas || '';
@@ -268,6 +272,7 @@ export class FormularioMetodoComponent implements OnInit {
   limpiarFormulario() {
     this.titulo = '';
     this.descripcion = '';
+    this.imagenUrl = '';
     this.pasosPrevios = [];
     this.pasosPrincipales = [];
     this.notas = '';
@@ -296,6 +301,7 @@ export class FormularioMetodoComponent implements OnInit {
         // Llenar los campos del formulario con los datos generados
         this.titulo = metodoGenerado.titulo || '';
         this.descripcion = metodoGenerado.descripcion || '';
+        this.imagenUrl = metodoGenerado.imagenUrl || '';
         this.pasosPrevios = Array.isArray(metodoGenerado.pasosPrevios) ? metodoGenerado.pasosPrevios : [];
         this.pasosPrincipales = Array.isArray(metodoGenerado.pasosPrincipales) ? metodoGenerado.pasosPrincipales : [];
         this.notas = metodoGenerado.notas || '';

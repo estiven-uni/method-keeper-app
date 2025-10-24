@@ -15,15 +15,22 @@ interface DeepSeekResponse {
   providedIn: 'root'
 })
 export class DeepseekService {
-  private apiKey = 'sk-84f32f59f9204edf855981a82fc00835';
   private apiUrl = 'https://api.deepseek.com/v1/chat/completions';
 
   constructor(private http: HttpClient) {}
 
+  private getApiKey(): string {
+    const apiKey = localStorage.getItem('deepseek_api_key');
+    if (!apiKey) {
+      throw new Error('No se ha configurado el API Key de Deepseek. Por favor, ve a Configuración.');
+    }
+    return apiKey;
+  }
+
   generarMetodo(prompt: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.apiKey}`
+      'Authorization': `Bearer ${this.getApiKey()}`
     });
 
     const instrucciones = `Eres un asistente que genera métodos en formato JSON siguiendo esta estructura EXACTA.
@@ -32,6 +39,7 @@ REGLAS OBLIGATORIAS:
 - El campo "titulo" es OBLIGATORIO - Debe ser descriptivo y claro
 - El campo "pasosPrincipales" es OBLIGATORIO - Mínimo 1 paso, máximo 15 pasos
 - El campo "descripcion" es OPCIONAL pero recomendado - Breve resumen del método
+- El campo "imagenUrl" es OPCIONAL - URL de una imagen representativa (usa URLs de servicios como Unsplash)
 - El campo "pasosPrevios" es OPCIONAL - Solo si hay preparaciones necesarias
 - El campo "notas" es OPCIONAL - Para advertencias o consejos importantes
 - El campo "etiquetas" es OPCIONAL - Array de 3-6 palabras clave
@@ -50,6 +58,7 @@ Ejemplo de estructura:
 {
   "titulo": "Título del método",
   "descripcion": "Descripción breve",
+  "imagenUrl": "https://images.unsplash.com/photo-example",
   "activo": true,
   "pasosPrevios": ["Paso preparatorio 1", "Paso preparatorio 2"],
   "pasosPrincipales": ["**Paso 1** con detalles", "Paso 2 con https://enlace.com"],

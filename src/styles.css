@@ -221,3 +221,18 @@ textarea::placeholder {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+
+/* Modales en modo oscuro */
+.dark .mat-mdc-dialog-container {
+  --mdc-dialog-container-color: rgb(31, 41, 55);
+  --mdc-dialog-subhead-color: rgb(243, 244, 246);
+  --mdc-dialog-supporting-text-color: rgb(209, 213, 219);
+}
+
+.dark .mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: rgb(31, 41, 55) !important;
+}
+
+.dark .cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
