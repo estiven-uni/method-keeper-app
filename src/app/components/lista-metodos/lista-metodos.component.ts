@@ -11,6 +11,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MetodosService } from '../../services/metodos.service';
 import { Metodo } from '../../models/metodo.interface';
 import { ConfirmarDialogoComponent } from '../confirmar-dialogo/confirmar-dialogo.component';
@@ -29,7 +30,8 @@ import { ConfirmarDialogoComponent } from '../confirmar-dialogo/confirmar-dialog
     MatChipsModule,
     MatDialogModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatPaginatorModule
   ],
   templateUrl: './lista-metodos.component.html',
   styleUrl: './lista-metodos.component.css'
@@ -37,9 +39,15 @@ import { ConfirmarDialogoComponent } from '../confirmar-dialogo/confirmar-dialog
 export class ListaMetodosComponent implements OnInit {
   metodos: Metodo[] = [];
   metodosFiltrados: Metodo[] = [];
+  metodosPaginados: Metodo[] = [];
+  placeholders: number[] = [];
   terminoBusqueda = '';
   ordenSeleccionado: 'asc' | 'desc' = 'desc';
   filtroEstado: 'todos' | 'activos' | 'inactivos' = 'todos';
+  
+  pageSize = 6;
+  pageIndex = 0;
+  pageSizeOptions = [6, 12, 24, 48];
 
   constructor(
     private metodosService: MetodosService,
@@ -76,6 +84,25 @@ export class ListaMetodosComponent implements OnInit {
     }
 
     this.metodosFiltrados = resultados;
+    this.pageIndex = 0;
+    this.actualizarPaginacion();
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.actualizarPaginacion();
+  }
+
+  actualizarPaginacion() {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.metodosPaginados = this.metodosFiltrados.slice(startIndex, endIndex);
+    
+    // Calcular placeholders para rellenar la grilla
+    const itemsEnPagina = this.metodosPaginados.length;
+    const placeholdersNecesarios = itemsEnPagina < this.pageSize ? this.pageSize - itemsEnPagina : 0;
+    this.placeholders = Array(placeholdersNecesarios).fill(0);
   }
 
   onBusquedaCambio() {
