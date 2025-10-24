@@ -1,9 +1,9 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
   <mat-toolbar class="bg-white dark:bg-gray-800 shadow-lg border-b-2 border-gray-200 dark:border-gray-700">
-    <button mat-icon-button (click)="navigateHome()" class="flex items-center justify-center text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">
-      <mat-icon>home</mat-icon>
-    </button>
-    <span class="text-lg font-semibold cursor-pointer ml-2 text-gray-900 dark:text-white" (click)="navigateHome()">{{ title }}</span>
+    <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity" (click)="navigateHome()">
+      <img [src]="isDarkMode ? 'assets/logo-dark.svg' : 'assets/logo-light.svg'" alt="Method Keeper Logo" class="w-8 h-8">
+      <span class="text-lg font-semibold text-gray-900 dark:text-white">{{ title }}</span>
+    </div>
     
     <span class="flex-1"></span>
     
