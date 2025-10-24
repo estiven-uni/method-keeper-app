@@ -53,6 +53,7 @@ export class FormularioMetodoComponent implements OnInit {
   titulo = '';
   descripcion = '';
   imagenUrl = '';
+  videoUrl = '';
   pasosPrevios: string[] = [];
   pasosPrincipales: string[] = [];
   notas = '';
@@ -122,6 +123,7 @@ export class FormularioMetodoComponent implements OnInit {
       this.titulo = metodo.titulo;
       this.descripcion = metodo.descripcion;
       this.imagenUrl = metodo.imagenUrl || '';
+      this.videoUrl = metodo.videoUrl || '';
       this.tamanoVistaPrevia = metodo.tamanoImagen || 100;
       this.imagenCompleta = metodo.imagenCompleta !== undefined ? metodo.imagenCompleta : false;
       this.fondoImagen = metodo.fondoImagen || 'gray';
@@ -223,6 +225,7 @@ export class FormularioMetodoComponent implements OnInit {
       titulo: this.titulo.trim(),
       descripcion: this.descripcion.trim(),
       imagenUrl: this.imagenUrl.trim(),
+      videoUrl: this.videoUrl.trim(),
       tamanoImagen: this.tamanoVistaPrevia,
       imagenCompleta: this.imagenCompleta,
       fondoImagen: this.fondoImagen,
@@ -277,6 +280,7 @@ export class FormularioMetodoComponent implements OnInit {
         this.titulo = contenido.titulo || '';
         this.descripcion = contenido.descripcion || '';
         this.imagenUrl = contenido.imagenUrl || '';
+        this.videoUrl = contenido.videoUrl || '';
         this.tamanoVistaPrevia = contenido.tamanoImagen || 100;
         this.imagenCompleta = contenido.imagenCompleta !== undefined ? contenido.imagenCompleta : false;
         this.fondoImagen = contenido.fondoImagen || 'gray';
@@ -309,6 +313,7 @@ export class FormularioMetodoComponent implements OnInit {
     this.titulo = '';
     this.descripcion = '';
     this.imagenUrl = '';
+    this.videoUrl = '';
     this.tamanoVistaPrevia = 100;
     this.imagenCompleta = false;
     this.fondoImagen = 'gray';
@@ -359,6 +364,7 @@ export class FormularioMetodoComponent implements OnInit {
         this.titulo = metodoGenerado.titulo || '';
         this.descripcion = metodoGenerado.descripcion || '';
         this.imagenUrl = metodoGenerado.imagenUrl || '';
+        this.videoUrl = metodoGenerado.videoUrl || '';
         this.tamanoVistaPrevia = metodoGenerado.tamanoImagen || 100;
         this.imagenCompleta = metodoGenerado.imagenCompleta !== undefined ? metodoGenerado.imagenCompleta : false;
         this.fondoImagen = metodoGenerado.fondoImagen || 'gray';

@@ -6,6 +6,7 @@ export interface Metodo {
   tamanoImagen?: number; // Tamaño en porcentaje (0-100)
   imagenCompleta?: boolean; // true = llenar espacio (cover), false = mostrar completa (contain)
   fondoImagen?: string; // Color de fondo de la imagen
+  videoUrl?: string; // URL del video tutorial (YouTube, Vimeo, etc.)
   pasosPrevios: string[];
   pasosPrincipales: string[];
   notas: string;

@@ -69,17 +69,16 @@
       </button>
     </div>
   } @else {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       @for (metodo of metodosPaginados; track metodo.id) {
         <mat-card 
-          class="cursor-pointer hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 relative overflow-hidden flex flex-col w-full"
-          style="max-width: 405px; height: 522px;"
+          class="cursor-pointer hover:shadow-xl hover:scale-[1.02] transition-all duration-300 bg-white dark:bg-gray-800 relative overflow-hidden flex flex-col"
           (click)="verDetalle(metodo.id)">
           
           <!-- HEADER: Imagen -->
           @if (metodo.imagenUrl) {
-            <div class="w-full overflow-hidden flex items-center justify-center" 
-                 [class.p-3]="!metodo.imagenCompleta"
+            <div class="w-full overflow-hidden flex items-center justify-center relative" 
+                 [class.p-2]="!metodo.imagenCompleta"
                  [ngClass]="{
                    'bg-white': metodo.fondoImagen === 'white',
                    'bg-gray-100': !metodo.fondoImagen || metodo.fondoImagen === 'gray',
@@ -91,7 +90,7 @@
                    'bg-purple-100': metodo.fondoImagen === 'purple',
                    'bg-orange-100': metodo.fondoImagen === 'orange'
                  }"
-                 style="height: 192px;">
+                 style="height: 160px;">
               <img [src]="metodo.imagenUrl" 
                    [alt]="metodo.titulo" 
                    [class.w-full]="metodo.imagenCompleta"
@@ -100,69 +99,92 @@
                    [class.max-w-full]="!metodo.imagenCompleta"
                    [class.object-contain]="!metodo.imagenCompleta"
                    [style.height.%]="!metodo.imagenCompleta ? (metodo.tamanoImagen || 100) : null" />
+              
+              <!-- Badge de estado superpuesto -->
+              @if (metodo.activo !== undefined) {
+                <div class="absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm shadow-lg"
+                     [ngClass]="{
+                       'bg-green-500/90 text-white': metodo.activo,
+                       'bg-red-500/90 text-white': !metodo.activo
+                     }">
+                  <mat-icon class="text-sm">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
+                  <span>{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+              }
             </div>
           } @else {
-            <div class="w-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center" style="height: 192px;">
+            <div class="w-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center relative" style="height: 160px;">
               <div class="text-center">
-                <mat-icon class="text-5xl text-gray-400 dark:text-gray-500">image_not_supported</mat-icon>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Sin imagen</p>
+                <mat-icon class="text-4xl text-gray-400 dark:text-gray-500">image_not_supported</mat-icon>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Sin imagen</p>
               </div>
-            </div>
-          }
-          @if (metodo.activo !== undefined) {
-            <div class="absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm bg-white/90 dark:bg-gray-800/90 shadow-md">
-              <mat-icon class="text-sm" [ngClass]="{
-                'text-green-600 dark:text-green-400': metodo.activo,
-                'text-red-600 dark:text-red-400': !metodo.activo
-              }">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
-              <span [ngClass]="{
-                'text-green-800 dark:text-green-300': metodo.activo,
-                'text-red-800 dark:text-red-300': !metodo.activo
-              }">{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
+              
+              <!-- Badge de estado para sin imagen -->
+              @if (metodo.activo !== undefined) {
+                <div class="absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1"
+                     [ngClass]="{
+                       'bg-green-500 text-white': metodo.activo,
+                       'bg-red-500 text-white': !metodo.activo
+                     }">
+                  <mat-icon class="text-sm">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
+                  <span>{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
+                </div>
+              }
             </div>
           }
 
           <!-- CONTENT -->
-          <mat-card-content class="flex-1 p-4">
-            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 mb-1" style="height: 48px; overflow: hidden;">
+          <mat-card-content class="flex-1 p-3 flex flex-col">
+            <!-- Título -->
+            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 line-clamp-2 mb-2 min-h-[40px]">
               {{ metodo.titulo }}
             </h3>
-            <p class="text-xs text-gray-600 dark:text-gray-400 mb-3" style="height: 20px;">
-              Modificado: {{ formatearFecha(metodo.ultimaModificacion) }}
-            </p>
             
-            <p class="text-sm text-gray-700 dark:text-gray-300 mb-3 line-clamp-2" style="height: 40px; overflow: hidden;">
+            <!-- Descripción -->
+            <p class="text-xs text-gray-600 dark:text-gray-400 line-clamp-2 mb-2 min-h-[32px]">
               {{ metodo.descripcion || 'Sin descripción' }}
             </p>
 
-            <div class="mb-3" style="height: 32px;">
+            <!-- Etiquetas -->
+            <div class="mb-2 min-h-[24px]">
               @if (metodo.etiquetas.length > 0) {
                 <div class="flex flex-wrap gap-1">
-                  @for (etiqueta of metodo.etiquetas.slice(0, 3); track etiqueta) {
-                    <mat-chip class="text-xs h-7">{{ etiqueta }}</mat-chip>
+                  @for (etiqueta of metodo.etiquetas.slice(0, 2); track etiqueta) {
+                    <span class="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-xs">
+                      {{ etiqueta }}
+                    </span>
                   }
-                  @if (metodo.etiquetas.length > 3) {
-                    <mat-chip class="text-xs h-7">+{{ metodo.etiquetas.length - 3 }}</mat-chip>
+                  @if (metodo.etiquetas.length > 2) {
+                    <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs">
+                      +{{ metodo.etiquetas.length - 2 }}
+                    </span>
                   }
                 </div>
               }
             </div>
 
-            <div class="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400" style="height: 24px;">
-              <mat-icon class="text-sm">checklist</mat-icon>
-              <span>{{ metodo.pasosPrincipales.length }} pasos</span>
+            <!-- Metadata -->
+            <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mt-auto pt-2 border-t border-gray-200 dark:border-gray-700">
+              <div class="flex items-center gap-1">
+                <mat-icon class="text-sm">checklist</mat-icon>
+                <span>{{ metodo.pasosPrincipales.length }} pasos</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <mat-icon class="text-sm">update</mat-icon>
+                <span>{{ formatearFecha(metodo.ultimaModificacion) }}</span>
+              </div>
             </div>
           </mat-card-content>
 
           <!-- FOOTER: Botones de acción -->
-          <mat-card-actions class="flex justify-end gap-1 p-2" style="height: 56px;">
+          <mat-card-actions class="flex justify-end gap-1 p-2 border-t border-gray-100 dark:border-gray-700">
             <button 
               mat-icon-button 
               color="primary"
               (click)="editarMetodo(metodo.id, $event)"
               matTooltip="Editar"
               class="flex items-center justify-center">
-              <mat-icon>edit</mat-icon>
+              <mat-icon class="text-lg">edit</mat-icon>
             </button>
             <button 
               mat-icon-button 
@@ -170,31 +192,24 @@
               (click)="eliminarMetodo(metodo, $event)"
               matTooltip="Eliminar"
               class="flex items-center justify-center">
-              <mat-icon>delete</mat-icon>
+              <mat-icon class="text-lg">delete</mat-icon>
             </button>
           </mat-card-actions>
         </mat-card>
       }
-      @for (placeholder of placeholders; track $index) {
-        <mat-card class="border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800/50 w-full hidden lg:flex" style="max-width: 405px; height: 522px;">
-          <div class="h-full flex items-center justify-center w-full">
-            <div class="text-center opacity-40">
-              <mat-icon class="text-4xl text-gray-400 dark:text-gray-500 mb-2">add_box</mat-icon>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Espacio disponible</p>
-            </div>
-          </div>
-        </mat-card>
-      }
     </div>
     
-    <mat-paginator 
-      [length]="metodosFiltrados.length"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      [pageSizeOptions]="pageSizeOptions"
-      (page)="onPageChange($event)"
-      class="mt-4 mb-20 bg-white dark:bg-gray-800">
-    </mat-paginator>
+    <!-- Paginación -->
+    <div class="mt-6 mb-24">
+      <mat-paginator 
+        [length]="metodosFiltrados.length"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"
+        class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 w-full">
+      </mat-paginator>
+    </div>
   }
 
   <!-- Botón fijo en la parte inferior -->

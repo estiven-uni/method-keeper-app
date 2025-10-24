@@ -233,6 +233,19 @@
           </div>
         }
 
+        <!-- URL de Video Tutorial -->
+        <mat-form-field class="w-full mb-3" appearance="fill" subscriptSizing="dynamic">
+          <mat-label>URL de Video Tutorial (opcional)</mat-label>
+          <input 
+            matInput 
+            [(ngModel)]="videoUrl"
+            name="videoUrl"
+            type="url"
+            >
+          <mat-icon matPrefix class="mr-2">videocam</mat-icon>
+          <mat-hint>Soporta YouTube, Vimeo y otros servicios</mat-hint>
+        </mat-form-field>
+
         <!-- Estado del Método -->
         <div class="mb-4 p-3 rounded border border-gray-200 dark:border-gray-700">
           <div class="flex items-center justify-between">

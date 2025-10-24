@@ -40,14 +40,13 @@ export class ListaMetodosComponent implements OnInit {
   metodos: Metodo[] = [];
   metodosFiltrados: Metodo[] = [];
   metodosPaginados: Metodo[] = [];
-  placeholders: number[] = [];
   terminoBusqueda = '';
   ordenSeleccionado: 'asc' | 'desc' = 'desc';
   filtroEstado: 'todos' | 'activos' | 'inactivos' = 'todos';
   
-  pageSize = 6;
+  pageSize = 8;
   pageIndex = 0;
-  pageSizeOptions = [6, 12, 24, 48];
+  pageSizeOptions = [8, 12, 16, 24];
 
   constructor(
     private metodosService: MetodosService,
@@ -98,11 +97,6 @@ export class ListaMetodosComponent implements OnInit {
     const startIndex = this.pageIndex * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.metodosPaginados = this.metodosFiltrados.slice(startIndex, endIndex);
-    
-    // Calcular placeholders para rellenar la grilla
-    const itemsEnPagina = this.metodosPaginados.length;
-    const placeholdersNecesarios = itemsEnPagina < this.pageSize ? this.pageSize - itemsEnPagina : 0;
-    this.placeholders = Array(placeholdersNecesarios).fill(0);
   }
 
   onBusquedaCambio() {

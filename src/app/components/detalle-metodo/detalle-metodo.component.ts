@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -35,7 +36,8 @@ export class DetalleMetodoComponent implements OnInit {
     private metodosService: MetodosService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -94,5 +96,34 @@ export class DetalleMetodoComponent implements OnInit {
       hour: '2-digit',
       minute: '2-digit'
     });
+  }
+
+  getVideoEmbedUrl(url: string): SafeResourceUrl | null {
+    if (!url) return null;
+
+    let embedUrl = '';
+
+    // YouTube
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const youtubeMatch = url.match(youtubeRegex);
+    if (youtubeMatch && youtubeMatch[1]) {
+      embedUrl = `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+      return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+    }
+
+    // Vimeo
+    const vimeoRegex = /vimeo\.com\/(?:.*\/)?(\d+)/;
+    const vimeoMatch = url.match(vimeoRegex);
+    if (vimeoMatch && vimeoMatch[1]) {
+      embedUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+      return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+    }
+
+    // Si no es YouTube ni Vimeo, intentar usar la URL directamente
+    if (url.includes('embed')) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+
+    return null;
   }
 }
