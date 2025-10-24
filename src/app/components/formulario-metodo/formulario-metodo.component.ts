@@ -11,6 +11,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -34,6 +35,7 @@ import { FormatoTextoPipe } from '../../pipes/formato-texto.pipe';
     MatSnackBarModule,
     MatTooltipModule,
     MatSlideToggleModule,
+    MatSliderModule,
     MatProgressSpinnerModule,
     HttpClientModule,
     FormatoTextoPipe
@@ -72,6 +74,9 @@ export class FormularioMetodoComponent implements OnInit {
   promptIA = '';
   generandoConIA = false;
 
+  // Tamaño de vista previa de imagen (porcentaje 0-100)
+  tamanoVistaPrevia: number = 100;
+
   constructor(
     private metodosService: MetodosService,
     private deepseekService: DeepseekService,
@@ -94,6 +99,7 @@ export class FormularioMetodoComponent implements OnInit {
       this.titulo = metodo.titulo;
       this.descripcion = metodo.descripcion;
       this.imagenUrl = metodo.imagenUrl || '';
+      this.tamanoVistaPrevia = metodo.tamanoImagen || 100;
       this.pasosPrevios = [...metodo.pasosPrevios];
       this.pasosPrincipales = [...metodo.pasosPrincipales];
       this.notas = metodo.notas;
@@ -192,6 +198,7 @@ export class FormularioMetodoComponent implements OnInit {
       titulo: this.titulo.trim(),
       descripcion: this.descripcion.trim(),
       imagenUrl: this.imagenUrl.trim(),
+      tamanoImagen: this.tamanoVistaPrevia,
       pasosPrevios: this.pasosPrevios,
       pasosPrincipales: this.pasosPrincipales,
       notas: this.notas.trim(),
@@ -243,6 +250,7 @@ export class FormularioMetodoComponent implements OnInit {
         this.titulo = contenido.titulo || '';
         this.descripcion = contenido.descripcion || '';
         this.imagenUrl = contenido.imagenUrl || '';
+        this.tamanoVistaPrevia = contenido.tamanoImagen || 100;
         this.pasosPrevios = Array.isArray(contenido.pasosPrevios) ? contenido.pasosPrevios : [];
         this.pasosPrincipales = Array.isArray(contenido.pasosPrincipales) ? contenido.pasosPrincipales : [];
         this.notas = contenido.notas || '';
@@ -302,6 +310,7 @@ export class FormularioMetodoComponent implements OnInit {
         this.titulo = metodoGenerado.titulo || '';
         this.descripcion = metodoGenerado.descripcion || '';
         this.imagenUrl = metodoGenerado.imagenUrl || '';
+        this.tamanoVistaPrevia = metodoGenerado.tamanoImagen || 100;
         this.pasosPrevios = Array.isArray(metodoGenerado.pasosPrevios) ? metodoGenerado.pasosPrevios : [];
         this.pasosPrincipales = Array.isArray(metodoGenerado.pasosPrincipales) ? metodoGenerado.pasosPrincipales : [];
         this.notas = metodoGenerado.notas || '';

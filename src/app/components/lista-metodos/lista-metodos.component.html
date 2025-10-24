@@ -85,7 +85,10 @@
           (click)="verDetalle(metodo.id)">
           @if (metodo.imagenUrl) {
             <div class="w-full h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center p-3">
-              <img [src]="metodo.imagenUrl" [alt]="metodo.titulo" class="max-w-full max-h-full object-contain" />
+              <img [src]="metodo.imagenUrl" 
+                   [alt]="metodo.titulo" 
+                   [style.height.%]="metodo.tamanoImagen || 100"
+                   class="max-w-full object-contain" />
             </div>
           } @else {
             <div class="w-full h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">

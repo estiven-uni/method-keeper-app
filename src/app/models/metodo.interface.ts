@@ -3,6 +3,7 @@ export interface Metodo {
   titulo: string;
   descripcion: string;
   imagenUrl?: string;
+  tamanoImagen?: number; // Tamaño en porcentaje (0-100)
   pasosPrevios: string[];
   pasosPrincipales: string[];
   notas: string;

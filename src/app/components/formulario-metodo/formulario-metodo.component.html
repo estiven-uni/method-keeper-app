@@ -134,9 +134,37 @@
         </mat-form-field>
         @if (imagenUrl) {
           <div class="mb-3 p-3 bg-gray-100 dark:bg-gray-700 rounded">
-            <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">Vista previa:</p>
-            <div class="w-full h-48 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center p-3">
-              <img [src]="imagenUrl" alt="Vista previa" class="max-w-full max-h-full object-contain" (error)="imagenUrl = ''" />
+            <div class="mb-3">
+              <div class="flex items-center justify-between mb-2">
+                <label class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                  <mat-icon class="text-sm align-middle mr-1">photo_size_select_actual</mat-icon>
+                  Tamaño de imagen: {{ tamanoVistaPrevia }}%
+                </label>
+                <button 
+                  mat-stroked-button 
+                  type="button"
+                  (click)="tamanoVistaPrevia = 100"
+                  class="flex items-center justify-center text-xs h-7">
+                  <mat-icon class="text-sm mr-1">refresh</mat-icon>
+                  Restablecer
+                </button>
+              </div>
+              <mat-slider 
+                min="10" 
+                max="100" 
+                step="1" 
+                showTickMarks
+                discrete
+                class="w-full">
+                <input matSliderThumb [(ngModel)]="tamanoVistaPrevia" name="tamanoVistaPrevia">
+              </mat-slider>
+            </div>
+            <div class="w-full h-64 bg-white dark:bg-gray-800 rounded flex items-center justify-center p-3 border-2 border-dashed border-gray-300 dark:border-gray-600">
+              <img [src]="imagenUrl" 
+                   alt="Vista previa" 
+                   [style.height.%]="tamanoVistaPrevia"
+                   class="max-w-full object-contain" 
+                   (error)="imagenUrl = ''" />
             </div>
           </div>
         }
