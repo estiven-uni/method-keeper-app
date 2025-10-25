@@ -116,7 +116,10 @@ export class GenerarIaDialogoComponent {
       snackBarRef.onAction().subscribe(() => {
         this.dialog.open(ConfiguracionDialogoComponent, {
           width: '500px',
-          maxWidth: '90vw'
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+          autoFocus: false,
+          restoreFocus: false
         });
       });
       return;

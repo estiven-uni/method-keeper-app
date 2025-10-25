@@ -51,7 +51,10 @@ export class AppComponent implements OnInit {
   abrirConfiguracion() {
     this.dialog.open(ConfiguracionDialogoComponent, {
       width: '500px',
-      maxWidth: '90vw'
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      autoFocus: false,
+      restoreFocus: false
     });
   }
 }
