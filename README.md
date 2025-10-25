@@ -11,6 +11,7 @@ Una aplicación web moderna para organizar, gestionar y compartir métodos, tuto
 
 - 📝 **Crear y editar métodos** con pasos detallados
 - 🤖 **Generación con IA** usando Deepseek API
+- ☁️ **Sincronización en la nube** con JSONBin.io
 - 🎨 **Personalización avanzada** de imágenes (tamaño, fondo, estilo)
 - 🎥 **Videos tutoriales** embebidos (YouTube, Vimeo)
 - 🏷️ **Sistema de etiquetas** para organización
@@ -75,6 +76,31 @@ npm run lint       # Linter
 2. Obtén tu API Key en [Deepseek](https://platform.deepseek.com)
 3. Pégala y guarda
 
+### Sincronizar con la Nube (JSONBin.io)
+
+1. Crea una cuenta gratis en [JSONBin.io](https://jsonbin.io)
+2. Obtén tu **X-Master-Key** desde el dashboard
+3. Ve a **Configuración** (⚙️) en Method Keeper
+4. En la sección "Sincronización en la Nube":
+   - Pega tu **API Key de JSONBin**
+   - (Opcional) Ingresa un **Bin ID** si ya tienes uno
+   - Haz clic en **Guardar Config.**
+
+#### Opciones de sincronización:
+
+- **📤 Subir a la Nube**: Envía tus métodos locales a JSONBin
+  - Si es tu primera vez, se creará un Bin ID automáticamente
+  - Útil para hacer respaldo de tus datos
+
+- **📥 Descargar de la Nube**: Reemplaza tus métodos locales con los de la nube
+  - Requiere que hayas configurado un Bin ID
+  - ⚠️ **Advertencia**: Sobrescribe tus datos locales
+
+- **🔄 Sincronización Bidireccional** (Recomendado): 
+  - Combina tus métodos locales y en la nube sin perder datos
+  - Usa la fecha de modificación para resolver conflictos
+  - Mantiene ambos sincronizados
+
 ## 📂 Estructura del Proyecto
 
 ```
@@ -85,10 +111,12 @@ src/
 │   │   ├── detalle-metodo/         # Vista detallada
 │   │   ├── formulario-metodo/      # Crear/Editar
 │   │   ├── generar-ia-dialogo/     # Generador IA
+│   │   ├── configuracion-dialogo/  # Configuración
 │   │   └── ...
 │   ├── services/
 │   │   ├── metodos.service.ts      # Gestión de métodos
 │   │   ├── deepseek.service.ts     # Integración IA
+│   │   ├── jsonbin.service.ts      # Sincronización nube
 │   │   └── theme.service.ts        # Modo oscuro
 │   └── models/
 │       └── metodo.interface.ts     # Tipos
@@ -101,6 +129,7 @@ src/
 - **UI**: Angular Material + Tailwind CSS
 - **Estado**: RxJS + LocalStorage
 - **IA**: Deepseek API
+- **Cloud Storage**: JSONBin.io
 - **Build**: Vite
 - **Hosting**: Netlify
 
@@ -132,7 +161,12 @@ npm run build
 
 ## 🔐 Privacidad
 
-Todos los datos se almacenan localmente en tu navegador. No se envía información a servidores externos excepto cuando usas la función de IA (solo el prompt).
+Todos los datos se almacenan localmente en tu navegador. La información solo se envía a servicios externos en los siguientes casos:
+
+- **Generación con IA**: Solo el prompt se envía a Deepseek API
+- **Sincronización en la nube** (opcional): Tus métodos se almacenan en JSONBin.io
+
+Ambas funciones son **completamente opcionales** y requieren configuración manual.
 
 ## 🤝 Contribuir
 
@@ -158,6 +192,7 @@ Creado con ❤️ para organizar y compartir conocimiento
 - Material Design
 - Tailwind CSS
 - Deepseek AI
+- JSONBin.io
 
 ---
 

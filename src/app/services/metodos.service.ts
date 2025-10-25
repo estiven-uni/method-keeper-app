@@ -40,8 +40,24 @@ export class MetodosService {
     return this.metodosSubject.value;
   }
 
+  getTodosLosMetodos(): Metodo[] {
+    return this.metodosSubject.value;
+  }
+
   getMetodoById(id: string): Metodo | undefined {
     return this.metodosSubject.value.find(m => m.id === id);
+  }
+
+  getUltimoMetodoId(): string | null {
+    const metodos = this.getMetodos();
+    if (metodos.length === 0) return null;
+    
+    // Ordenar por fecha de creación y obtener el más reciente
+    const ordenados = [...metodos].sort((a, b) => {
+      return new Date(b.fechaCreacion).getTime() - new Date(a.fechaCreacion).getTime();
+    });
+    
+    return ordenados[0].id;
   }
 
   crearMetodo(metodo: Omit<Metodo, 'id' | 'fechaCreacion' | 'ultimaModificacion'>): Metodo {
