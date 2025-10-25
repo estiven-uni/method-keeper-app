@@ -1,34 +1,38 @@
-# 📚 Method Keeper - Mis Métodos
+# Method Keeper 📚
 
-Una aplicación web moderna y ligera para administrar métodos, guías y procedimientos personales. Construida con Angular 17, Angular Material y Tailwind CSS.
+Una aplicación web moderna para organizar, gestionar y compartir métodos, tutoriales y guías paso a paso, con generación inteligente mediante IA.
+
+![Angular](https://img.shields.io/badge/Angular-18-red)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC)
+![Material Design](https://img.shields.io/badge/Material_Design-18-9C27B0)
 
 ## ✨ Características
 
-- ✅ **CRUD Completo**: Crea, lee, actualiza y elimina métodos
-- ✏️ **Edición de Pasos**: Edita pasos individuales con formato de texto
-- 📝 **Formato de Texto**: Soporte para negrilla y enlaces automáticos en pasos
-- 📥 **Importar desde JSON**: Carga métodos completos desde archivos JSON
-- 🔍 **Búsqueda Inteligente**: Busca por título, descripción o etiquetas
-- 🌗 **Modo Oscuro/Claro**: Tema personalizable con persistencia
-- 💾 **LocalStorage**: Persistencia de datos sin necesidad de backend
-- 📱 **Responsive**: Diseño mobile-first que se adapta a cualquier dispositivo
-- ⚡ **Rápido**: Optimizado para velocidad y rendimiento
-- 🎨 **Moderno**: UI limpia y profesional con Material Design
+- 📝 **Crear y editar métodos** con pasos detallados
+- 🤖 **Generación con IA** usando Deepseek API
+- 🎨 **Personalización avanzada** de imágenes (tamaño, fondo, estilo)
+- 🎥 **Videos tutoriales** embebidos (YouTube, Vimeo)
+- 🏷️ **Sistema de etiquetas** para organización
+- 🔍 **Búsqueda y filtros** inteligentes
+- 📱 **Diseño responsive** y moderno
+- 🌓 **Modo oscuro** completo
+- 💾 **Almacenamiento local** con localStorage
+- 📤 **Importar/Exportar** métodos en JSON
+- ✅ **Estados** (Activo/Inactivo)
 
-## 🚀 Comenzar
+## 🚀 Instalación
 
 ### Prerrequisitos
 
-- Node.js (versión 18 o superior)
-- npm (viene con Node.js)
+- Node.js 18+ 
+- npm o yarn
 
-### Instalación
+### Pasos
 
 ```bash
-# Clonar el repositorio (si aplica)
-git clone <tu-repositorio>
-
-# Navegar al directorio
+# Clonar el repositorio
+git clone https://github.com/TU_USUARIO/method-keeper-app.git
 cd method-keeper-app
 
 # Instalar dependencias
@@ -38,182 +42,123 @@ npm install
 npm start
 ```
 
-La aplicación estará disponible en `http://localhost:4200/`
+La aplicación estará disponible en `http://localhost:4200`
 
-## 🛠️ Comandos Disponibles
+## 🔧 Scripts Disponibles
 
 ```bash
-# Desarrollo
-npm start                 # Servidor de desarrollo
-
-# Producción
-npm run build            # Build para producción
-npm run build:prod       # Build optimizado para producción
-
-# Testing
-npm test                 # Ejecutar tests
+npm start          # Servidor de desarrollo
+npm run build      # Build de producción
+npm test           # Tests unitarios
+npm run lint       # Linter
 ```
 
-## 📦 Estructura del Proyecto
+## 🎯 Uso
+
+### Crear un Método Manual
+
+1. Haz clic en **"Nuevo Método"**
+2. Completa el formulario con título, descripción, pasos
+3. Agrega imagen, video y etiquetas (opcional)
+4. Guarda y visualiza
+
+### Generar con IA
+
+1. Haz clic en **"Generar con IA"**
+2. Describe el método que deseas crear
+3. La IA generará el método completo
+4. Se crea automáticamente en tu lista
+
+### Configurar API de Deepseek
+
+1. Ve a **Configuración** (⚙️)
+2. Obtén tu API Key en [Deepseek](https://platform.deepseek.com)
+3. Pégala y guarda
+
+## 📂 Estructura del Proyecto
 
 ```
 src/
 ├── app/
-│   ├── components/           # Componentes de la aplicación
-│   │   ├── lista-metodos/    # Lista y búsqueda de métodos
-│   │   ├── formulario-metodo/# Crear/editar métodos
-│   │   ├── detalle-metodo/   # Ver detalle completo
-│   │   └── confirmar-dialogo/# Diálogo de confirmación
-│   ├── models/               # Interfaces y tipos
-│   │   └── metodo.interface.ts
-│   ├── services/             # Servicios
-│   │   ├── metodos.service.ts    # Gestión de métodos
-│   │   └── theme.service.ts      # Gestión de tema
-│   └── app.routes.ts         # Configuración de rutas
-├── assets/                   # Recursos estáticos
-└── styles.css               # Estilos globales
+│   ├── components/
+│   │   ├── lista-metodos/          # Lista principal
+│   │   ├── detalle-metodo/         # Vista detallada
+│   │   ├── formulario-metodo/      # Crear/Editar
+│   │   ├── generar-ia-dialogo/     # Generador IA
+│   │   └── ...
+│   ├── services/
+│   │   ├── metodos.service.ts      # Gestión de métodos
+│   │   ├── deepseek.service.ts     # Integración IA
+│   │   └── theme.service.ts        # Modo oscuro
+│   └── models/
+│       └── metodo.interface.ts     # Tipos
+└── ...
 ```
 
-## 🎯 Funcionalidades Principales
+## 🎨 Tecnologías
 
-### Gestión de Métodos
+- **Framework**: Angular 18
+- **UI**: Angular Material + Tailwind CSS
+- **Estado**: RxJS + LocalStorage
+- **IA**: Deepseek API
+- **Build**: Vite
+- **Hosting**: Netlify
 
-Cada método incluye:
-- **Título** y **descripción**
-- **Pasos previos**: Preparaciones o requisitos
-- **Pasos principales**: Instrucciones paso a paso
-- **Notas adicionales**: Consejos y advertencias
-- **Etiquetas**: Para organización y búsqueda
-- **Fechas**: Creación y última modificación
+## 🌐 Deploy
 
-### Navegación
-
-- `/` - Lista de todos los métodos
-- `/nuevo` - Crear nuevo método
-- `/editar/:id` - Editar método existente
-- `/ver/:id` - Ver método en detalle
-
-### Importar desde JSON
-
-Puedes cargar métodos completos desde archivos JSON para acelerar la creación:
-
-1. Ve a "Nuevo Método"
-2. Haz clic en "Seleccionar archivo JSON"
-3. Elige tu archivo `.json` con la estructura correcta
-4. El formulario se rellenará automáticamente
-5. Revisa y guarda
-
-**Estructura del JSON:**
-```json
-{
-  "titulo": "Título del método",
-  "descripcion": "Descripción breve",
-  "pasosPrevios": ["Paso 1", "Paso 2"],
-  "pasosPrincipales": ["Paso 1", "Paso 2"],
-  "notas": "Notas adicionales",
-  "etiquetas": ["etiqueta1", "etiqueta2"]
-}
-```
-
-**Ejemplos disponibles:**
-- `metodo-ejemplo-chatgpt.json`: Ejemplo completo de un método real
-- `metodo-ejemplo-simple.json`: Ejemplo simple de preparación de café
-
-📖 **Más información**: Ver [CARGAR_JSON.md](./CARGAR_JSON.md) para documentación completa
-
-### Formato de Texto en Pasos
-
-Los pasos soportan formato especial para mejorar la legibilidad:
-
-**Negrilla:**
-- Usa `**texto**` para destacar palabras importantes
-- Ejemplo: `Crear una **nueva cuenta de Google**`
-
-**Enlaces automáticos:**
-- Las URLs se convierten automáticamente en enlaces clicables
-- Ejemplo: `Visita https://ejemplo.com para más información`
-- Se abren en nueva pestaña automáticamente
-
-**Edición de pasos:**
-- Haz clic en el botón ✏️ de cualquier paso para editarlo
-- Agrega o modifica el formato según necesites
-- Guarda con el botón ✓ o cancela con ✗
-
-📖 **Más información**: Ver [FORMATO_TEXTO.md](./FORMATO_TEXTO.md) para guía completa
-
-## 🌐 Despliegue en Netlify
-
-### Opción 1: Desde repositorio Git
-
-1. Conecta tu repositorio a Netlify
-2. Netlify detectará automáticamente la configuración desde `netlify.toml`
-3. El sitio se desplegará automáticamente
-
-### Opción 2: Deploy manual
+El proyecto está configurado para Netlify:
 
 ```bash
-# Instalar Netlify CLI
-npm install -g netlify-cli
-
-# Build de producción
-npm run build:prod
-
-# Deploy
-netlify deploy --prod --dir=dist/method-keeper-app/browser
+npm run build
+# Los archivos estarán en dist/method-keeper-app/browser
 ```
 
-### Configuración de Netlify
+## 📝 Características Destacadas
 
-El archivo `netlify.toml` ya está configurado:
-- **Build command**: `npm run build`
-- **Publish directory**: `dist/method-keeper-app/browser`
-- **Redirects**: Configurado para SPA (Single Page Application)
+### Personalización de Imágenes
+- Ajuste de tamaño (10-100%)
+- 9 colores de fondo predefinidos
+- Modo "llenar espacio" o "mostrar completa"
 
-## 🎨 Personalización
+### Videos Tutoriales
+- Soporte para YouTube y Vimeo
+- Embed automático
+- Reproductor responsive
 
-### Cambiar Tema de Material
+### Generador con IA
+- Describe el método en lenguaje natural
+- La IA genera: título, descripción, pasos, etiquetas
+- Creación automática sin necesidad de editar
 
-Edita `src/styles.css` para personalizar colores y estilos del tema.
+## 🔐 Privacidad
 
-### Modificar Comportamiento
+Todos los datos se almacenan localmente en tu navegador. No se envía información a servidores externos excepto cuando usas la función de IA (solo el prompt).
 
-Los servicios principales están en:
-- `metodos.service.ts`: Lógica de CRUD y persistencia
-- `theme.service.ts`: Gestión de tema oscuro/claro
+## 🤝 Contribuir
 
-## 📱 Responsive Design
+Las contribuciones son bienvenidas:
 
-La aplicación está optimizada para:
-- 📱 Móviles (< 768px)
-- 📱 Tablets (768px - 1024px)
-- 💻 Desktop (> 1024px)
-
-## 🔧 Tecnologías Utilizadas
-
-- **Angular 17**: Framework principal
-- **Angular Material**: Componentes UI
-- **Tailwind CSS**: Utilidades de estilo
-- **RxJS**: Programación reactiva
-- **TypeScript**: Lenguaje de programación
-- **LocalStorage API**: Persistencia de datos
+1. Fork el proyecto
+2. Crea una rama (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit tus cambios (`git commit -m 'Agregar nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
 
 ## 📄 Licencia
 
 Este proyecto es de código abierto y está disponible bajo la licencia MIT.
 
-## 🤝 Contribuciones
+## 👤 Autor
 
-Las contribuciones son bienvenidas. Por favor:
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+Creado con ❤️ para organizar y compartir conocimiento
 
-## 📧 Contacto
+## 🙏 Agradecimientos
 
-Si tienes preguntas o sugerencias, no dudes en abrir un issue.
+- Angular Team
+- Material Design
+- Tailwind CSS
+- Deepseek AI
 
 ---
 
-Hecho con ❤️ usando Angular 17
+⭐ Si te gusta este proyecto, ¡dale una estrella en GitHub!
