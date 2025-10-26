@@ -16,6 +16,8 @@ import { MetodosService } from '../../services/metodos.service';
 import { Metodo } from '../../models/metodo.interface';
 import { ConfirmarDialogoComponent } from '../confirmar-dialogo/confirmar-dialogo.component';
 import { GenerarIaDialogoComponent } from '../generar-ia-dialogo/generar-ia-dialogo.component';
+import { AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-lista-metodos',
@@ -52,7 +54,9 @@ export class ListaMetodosComponent implements OnInit {
   constructor(
     private metodosService: MetodosService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {

@@ -6,10 +6,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { ThemeService } from './services/theme.service';
+import { AuthService } from './services/auth.service';
 import { MetodosService } from './services/metodos.service';
 import { JsonbinService } from './services/jsonbin.service';
 import { ConfiguracionDialogoComponent } from './components/configuracion-dialogo/configuracion-dialogo.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +24,8 @@ import { ConfiguracionDialogoComponent } from './components/configuracion-dialog
     MatButtonModule,
     MatIconModule,
     MatSlideToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDividerModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -29,19 +33,32 @@ import { ConfiguracionDialogoComponent } from './components/configuracion-dialog
 export class AppComponent implements OnInit {
   title = 'Mis Métodos';
   isDarkMode = false;
+  usuario$: Observable<any>;
+  isLoginPage = false;
 
   constructor(
     public themeService: ThemeService,
     public router: Router,
     private dialog: MatDialog,
+    private authService: AuthService,
     private metodosService: MetodosService,
     private jsonbinService: JsonbinService
-  ) {}
+  ) {
+    this.usuario$ = this.authService.usuario$;
+    
+    // Detectar cambios de ruta
+    this.router.events.subscribe(() => {
+      this.isLoginPage = this.router.url === '/login';
+    });
+  }
 
   ngOnInit() {
     this.themeService.isDarkMode$.subscribe(isDark => {
       this.isDarkMode = isDark;
     });
+    
+    // Cargar usuario del localStorage al iniciar la app
+    this.authService.cargarUsuarioDesdeLoacalStorage();
     
     // Sincronizar automáticamente al cargar si Modo Producción está activo
     this.sincronizarAlCargar();
@@ -117,6 +134,11 @@ export class AppComponent implements OnInit {
 
   navigateHome() {
     this.router.navigate(['/']);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   abrirConfiguracion() {

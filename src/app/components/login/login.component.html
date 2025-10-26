@@ -1,0 +1,78 @@
+<div class="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <!-- Card Principal -->
+    <mat-card class="shadow-lg rounded-lg overflow-hidden">
+      <!-- Header Minimalista -->
+      <div class="p-8 text-center border-b border-gray-200 dark:border-gray-700">
+        <img [src]="isDarkMode ? 'assets/logo-dark.svg' : 'assets/logo-light.svg'" alt="Method Keeper Logo" class="w-12 h-12 mx-auto mb-4">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-1">Method Keeper</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Gestor de Métodos y Guías</p>
+      </div>
+
+      <!-- Contenido del Formulario -->
+      <mat-card-content class="p-8">
+        <form (ngSubmit)="login()" class="space-y-6">
+          <!-- Usuario -->
+          <mat-form-field class="w-full" appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Usuario</mat-label>
+            <mat-icon matPrefix>person</mat-icon>
+            <input 
+              matInput 
+              [(ngModel)]="username"
+              name="username"
+              [disabled]="cargando"
+              (keyup)="presionarEnter($event)"
+              required>
+          </mat-form-field>
+
+          <!-- Contraseña -->
+          <mat-form-field class="w-full" appearance="fill" subscriptSizing="dynamic">
+            <mat-label>Contraseña</mat-label>
+            <mat-icon matPrefix>lock</mat-icon>
+            <input 
+              matInput 
+              [(ngModel)]="password"
+              name="password"
+              [type]="mostrarPassword ? 'text' : 'password'"
+              [disabled]="cargando"
+              (keyup)="presionarEnter($event)"
+              required>
+            <button 
+              mat-icon-button 
+              matSuffix 
+              type="button"
+              (click)="toggleMostrarPassword()"
+              [disabled]="cargando">
+              <mat-icon>{{ mostrarPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <!-- Botón Login -->
+          <button 
+            mat-raised-button 
+            color="primary"
+            type="submit"
+            class="w-full h-11 text-base font-medium mt-8"
+            [disabled]="cargando">
+            @if (cargando) {
+              <mat-spinner diameter="20" class="mr-2"></mat-spinner>
+              <span>Ingresando...</span>
+            } @else {
+              <mat-icon class="mr-2">login</mat-icon>
+              <span>Ingresar</span>
+            }
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <mat-divider class="my-6"></mat-divider>
+
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Footer -->
+    <p class="text-center text-xs text-gray-500 dark:text-gray-400 mt-6">
+      © 2025 Method Keeper. Todos los derechos reservados.
+    </p>
+  </div>
+</div>
