@@ -73,6 +73,10 @@ export class DetalleMetodoComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmarDialogoComponent, {
       width: '350px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      autoFocus: false,
+      restoreFocus: false,
       data: {
         titulo: '¿Eliminar método?',
         mensaje: `¿Estás seguro de que deseas eliminar "${this.metodo.titulo}"? Esta acción no se puede deshacer.`

@@ -120,6 +120,9 @@ export class ListaMetodosComponent implements OnInit {
     this.dialog.open(GenerarIaDialogoComponent, {
       width: '600px',
       maxWidth: '90vw',
+      maxHeight: '90vh',
+      autoFocus: false,
+      restoreFocus: false,
       disableClose: false
     });
   }
@@ -137,6 +140,10 @@ export class ListaMetodosComponent implements OnInit {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ConfirmarDialogoComponent, {
       width: '350px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      autoFocus: false,
+      restoreFocus: false,
       data: {
         titulo: '¿Eliminar método?',
         mensaje: `¿Estás seguro de que deseas eliminar "${metodo.titulo}"? Esta acción no se puede deshacer.`

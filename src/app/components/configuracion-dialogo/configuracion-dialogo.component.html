@@ -1,6 +1,11 @@
-<h2 mat-dialog-title class="flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
-  <mat-icon class="text-indigo-600 dark:text-indigo-400">settings</mat-icon>
-  Configuración
+<h2 mat-dialog-title class="flex items-center justify-between text-2xl font-bold text-gray-900 dark:text-gray-100">
+  <div class="flex items-center gap-2">
+    <mat-icon class="text-indigo-600 dark:text-indigo-400">settings</mat-icon>
+    Configuración
+  </div>
+  <button mat-icon-button (click)="cancelar()">
+    <mat-icon>close</mat-icon>
+  </button>
 </h2>
 
 <mat-dialog-content class="mat-typography">

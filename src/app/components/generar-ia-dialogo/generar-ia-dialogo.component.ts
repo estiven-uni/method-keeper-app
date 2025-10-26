@@ -29,19 +29,17 @@ import { MatDialog } from '@angular/material/dialog';
     MatSnackBarModule
   ],
   template: `
-    <div class="p-6">
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-2">
-          <mat-icon class="text-purple-600 dark:text-purple-400">auto_awesome</mat-icon>
-          <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">
-            Generar Método con IA
-          </h2>
-        </div>
-        <button mat-icon-button (click)="cerrar()" [disabled]="generando">
-          <mat-icon>close</mat-icon>
-        </button>
+    <h2 mat-dialog-title class="flex items-center justify-between text-xl font-bold text-gray-900 dark:text-gray-100">
+      <div class="flex items-center gap-2">
+        <mat-icon class="text-purple-600 dark:text-purple-400">auto_awesome</mat-icon>
+        Generar Método con IA
       </div>
+      <button mat-icon-button (click)="cerrar()" [disabled]="generando">
+        <mat-icon>close</mat-icon>
+      </button>
+    </h2>
 
+    <mat-dialog-content class="mat-typography">
       <mat-form-field class="w-full mb-4" appearance="fill" subscriptSizing="dynamic">
         <mat-label>Describe el método que deseas crear</mat-label>
         <textarea 
@@ -60,31 +58,52 @@ import { MatDialog } from '@angular/material/dialog';
           </p>
         </div>
       }
+    </mat-dialog-content>
 
-      <div class="flex justify-end gap-2 mt-4">
-        <button 
-          mat-stroked-button 
-          (click)="cerrar()"
-          [disabled]="generando">
-          Cancelar
-        </button>
-        <button 
-          mat-raised-button 
-          color="primary"
-          (click)="generar()"
-          [disabled]="generando || !prompt.trim()">
-          @if (generando) {
-            <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
-            <span>Generando...</span>
-          } @else {
-            <mat-icon>auto_awesome</mat-icon>
-            <span>Generar Método</span>
-          }
-        </button>
-      </div>
-    </div>
+    <mat-dialog-actions align="end" class="gap-2">
+      <button 
+        mat-stroked-button 
+        (click)="cerrar()"
+        [disabled]="generando">
+        Cancelar
+      </button>
+      <button 
+        mat-raised-button 
+        color="primary"
+        (click)="generar()"
+        [disabled]="generando || !prompt.trim()">
+        @if (generando) {
+          <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
+          <span>Generando...</span>
+        } @else {
+          <mat-icon>auto_awesome</mat-icon>
+          <span>Generar Método</span>
+        }
+      </button>
+    </mat-dialog-actions>
   `,
-  styles: []
+  styles: [`
+    :host ::ng-deep .mat-mdc-dialog-container {
+      max-height: 90vh;
+    }
+
+    :host ::ng-deep .mat-mdc-dialog-content {
+      max-height: calc(90vh - 180px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 24px;
+    }
+
+    :host ::ng-deep .mat-mdc-dialog-title {
+      padding: 20px 24px 0;
+      margin: 0;
+    }
+
+    :host ::ng-deep .mat-mdc-dialog-actions {
+      padding: 12px 24px;
+      min-height: 52px;
+    }
+  `]
 })
 export class GenerarIaDialogoComponent {
   prompt = '';
