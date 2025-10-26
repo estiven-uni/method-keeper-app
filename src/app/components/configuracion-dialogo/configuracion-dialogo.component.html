@@ -1,5 +1,5 @@
 <div class="relative">
-  <button mat-icon-button (click)="cancelar()" class="absolute top-0 right-0 z-10">
+  <button mat-icon-button (click)="cancelar()" class="absolute top-0 right-0 z-10 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
     <mat-icon>close</mat-icon>
   </button>
   <h2 mat-dialog-title class="flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-gray-100 pr-12">
@@ -149,30 +149,15 @@
       <span class="text-sm text-gray-600 dark:text-gray-400">Sincronizando...</span>
     </div>
   } @else {
-    <div class="flex flex-col gap-3 w-full">
-      <button 
-        mat-raised-button 
-        color="primary"
-        type="button"
-        (click)="guardar()"
-        class="w-full flex items-center justify-center gap-2">
-        <mat-icon>save</mat-icon>
-        <span>Guardar Configuración</span>
-      </button>
-
-      @if (jsonbinApiKey) {
-        <button 
-          mat-raised-button 
-          color="accent"
-          type="button"
-          (click)="sincronizarBidireccional()"
-          class="w-full flex items-center justify-center gap-2"
-          matTooltip="Sincroniza tus métodos locales con la nube de forma bidireccional">
-          <mat-icon>sync</mat-icon>
-          <span>Sincronizar Ahora</span>
-        </button>
-      }
-    </div>
+    <button 
+      mat-raised-button 
+      color="primary"
+      type="button"
+      (click)="guardar()"
+      class="w-full flex items-center justify-center gap-2 h-12">
+      <mat-icon>save</mat-icon>
+      <span>Guardar Configuración</span>
+    </button>
   }
 </mat-dialog-actions>
 
