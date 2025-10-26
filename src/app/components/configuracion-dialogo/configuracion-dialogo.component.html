@@ -1,12 +1,12 @@
-<h2 mat-dialog-title class="flex items-center justify-between text-2xl font-bold text-gray-900 dark:text-gray-100">
-  <div class="flex items-center gap-2">
-    <mat-icon class="text-indigo-600 dark:text-indigo-400">settings</mat-icon>
-    Configuración
-  </div>
-  <button mat-icon-button (click)="cancelar()">
+<div class="relative">
+  <button mat-icon-button (click)="cancelar()" class="absolute top-0 right-0 z-10">
     <mat-icon>close</mat-icon>
   </button>
-</h2>
+  <h2 mat-dialog-title class="flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-gray-100 pr-12">
+    <mat-icon class="text-indigo-600 dark:text-indigo-400">settings</mat-icon>
+    Configuración
+  </h2>
+</div>
 
 <mat-dialog-content class="mat-typography">
   <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
@@ -25,34 +25,22 @@
     </p>
 
     <mat-form-field class="w-full" appearance="fill" subscriptSizing="dynamic">
-      <mat-label>API Key</mat-label>
+      <mat-label>API Key de Deepseek</mat-label>
       <input 
         matInput 
         [(ngModel)]="apiKey"
-        [type]="mostrarApiKey ? 'text' : 'password'"
-        placeholder=""
+        type="text"
         name="apiKey">
+      <mat-icon matPrefix class="mr-2">vpn_key</mat-icon>
       <button 
         mat-icon-button 
         matSuffix 
         type="button"
-        (click)="toggleMostrarApiKey()"
-        [matTooltip]="mostrarApiKey ? 'Ocultar' : 'Mostrar'">
-        <mat-icon>{{ mostrarApiKey ? 'visibility_off' : 'visibility' }}</mat-icon>
+        (click)="pegarDelPortapapeles('apiKey')"
+        matTooltip="Pegar API Key">
+        <mat-icon>content_paste</mat-icon>
       </button>
     </mat-form-field>
-
-    @if (apiKey) {
-      <button 
-        mat-stroked-button 
-        color="warn"
-        type="button"
-        (click)="eliminar()"
-        class="mt-2 flex items-center justify-center">
-        <mat-icon>delete</mat-icon>
-        <span>Eliminar API Key</span>
-      </button>
-    }
   </div>
 
   <mat-divider class="mb-6"></mat-divider>
@@ -75,20 +63,21 @@
       <input 
         matInput 
         [(ngModel)]="jsonbinApiKey"
-        [type]="mostrarJsonbinApiKey ? 'text' : 'password'"
+        type="text"
         name="jsonbinApiKey">
+      <mat-icon matPrefix class="mr-2">cloud</mat-icon>
       <button 
         mat-icon-button 
         matSuffix 
         type="button"
-        (click)="toggleMostrarJsonbinApiKey()"
-        [matTooltip]="mostrarJsonbinApiKey ? 'Ocultar' : 'Mostrar'">
-        <mat-icon>{{ mostrarJsonbinApiKey ? 'visibility_off' : 'visibility' }}</mat-icon>
+        (click)="pegarDelPortapapeles('jsonbinApiKey')"
+        matTooltip="Pegar API Key">
+        <mat-icon>content_paste</mat-icon>
       </button>
     </mat-form-field>
 
     <!-- Bin ID -->
-    <mat-form-field class="w-full mb-3" appearance="fill" subscriptSizing="dynamic">
+    <mat-form-field class="w-full mb-4" appearance="fill" subscriptSizing="dynamic">
       <mat-label>Bin ID (opcional)</mat-label>
       <input 
         matInput 
@@ -96,87 +85,55 @@
         name="jsonbinBinId"
         matTooltip="Se generará automáticamente al subir por primera vez">
       <mat-icon matPrefix class="mr-2">tag</mat-icon>
-      <mat-hint>Déjalo vacío si es tu primera vez</mat-hint>
+      <button 
+        mat-icon-button 
+        matSuffix 
+        type="button"
+        (click)="pegarDelPortapapeles('jsonbinBinId')"
+        matTooltip="Pegar Bin ID">
+        <mat-icon>content_paste</mat-icon>
+      </button>
     </mat-form-field>
 
-    <div class="flex gap-2 mb-3">
-      <button 
-        mat-raised-button 
-        color="primary"
-        type="button"
-        (click)="guardarJsonbin()"
-        class="flex-1 flex items-center justify-center">
-        <mat-icon>save</mat-icon>
-        <span>Guardar Config.</span>
-      </button>
-      @if (jsonbinApiKey) {
-        <button 
-          mat-stroked-button 
-          color="warn"
-          type="button"
-          (click)="eliminarJsonbin()"
-          class="flex items-center justify-center">
-          <mat-icon>delete</mat-icon>
-        </button>
-      }
-    </div>
-
-    <!-- Botones de Sincronización -->
+    <!-- Modo Desarrollo -->
     @if (jsonbinApiKey) {
-      <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-        <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
-          <mat-icon class="text-sm">sync</mat-icon>
-          Opciones de Sincronización
-        </h4>
-
-        @if (sincronizando) {
-          <div class="flex flex-col items-center justify-center py-4 gap-3">
-            <mat-spinner diameter="40"></mat-spinner>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              Sincronizando...
+      <div class="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <mat-icon class="text-amber-600 dark:text-amber-400">code</mat-icon>
+            <div>
+              <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                Modo Desarrollo
+              </h4>
+              <p class="text-xs text-gray-600 dark:text-gray-400">
+                @if (modoDesarrollo) {
+                  Sincronización manual solamente
+                } @else {
+                  Sincronización automática en cada cambio
+                }
+              </p>
+            </div>
+          </div>
+          <mat-slide-toggle 
+            [(ngModel)]="modoDesarrollo"
+            color="warn"
+            name="modoDesarrollo"
+            (ngModelChange)="cambiarModoDesarrollo($event)">
+          </mat-slide-toggle>
+        </div>
+        
+        <!-- Explicación según el estado -->
+        @if (modoDesarrollo) {
+          <div class="bg-white dark:bg-gray-800/50 p-3 rounded border border-amber-300 dark:border-amber-700/50">
+            <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
+              <strong>✋ Modo Desarrollo ACTIVADO:</strong> Los cambios que hagas NO se subirán automáticamente a la nube. Tendrás que hacer clic en el botón <strong>"Sincronizar Ahora"</strong> para subir tus datos manualmente. Ideal para hacer cambios sin afectar la nube inmediatamente.
             </p>
           </div>
         } @else {
-          <div class="grid grid-cols-1 gap-2">
-            <!-- Subir a la nube -->
-            <button 
-              mat-raised-button 
-              color="accent"
-              type="button"
-              (click)="subirANube()"
-              class="flex items-center justify-center">
-              <mat-icon>cloud_upload</mat-icon>
-              <span>📤 Subir a la Nube</span>
-            </button>
-
-            <!-- Descargar de la nube -->
-            <button 
-              mat-stroked-button
-              type="button"
-              (click)="descargarDeNube()"
-              [disabled]="!jsonbinBinId"
-              class="flex items-center justify-center">
-              <mat-icon>cloud_download</mat-icon>
-              <span>📥 Descargar de la Nube</span>
-            </button>
-
-            <!-- Sincronización bidireccional -->
-            <button 
-              mat-raised-button 
-              color="primary"
-              type="button"
-              (click)="sincronizarBidireccional()"
-              [disabled]="!jsonbinBinId"
-              class="flex items-center justify-center">
-              <mat-icon>sync</mat-icon>
-              <span>🔄 Sincronización Bidireccional</span>
-            </button>
-          </div>
-
-          <div class="mt-3 text-xs text-gray-600 dark:text-gray-400">
-            <p class="mb-1"><strong>📤 Subir:</strong> Envía tus métodos locales a la nube</p>
-            <p class="mb-1"><strong>📥 Descargar:</strong> Reemplaza tus métodos locales con los de la nube</p>
-            <p><strong>🔄 Bidireccional:</strong> Combina ambos sin perder datos (recomendado)</p>
+          <div class="bg-white dark:bg-gray-800/50 p-3 rounded border border-green-300 dark:border-green-700/50">
+            <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
+              <strong>🚀 Modo Desarrollo DESACTIVADO:</strong> Todos los cambios que hagas (crear, editar o eliminar métodos) se subirán <strong>automáticamente</strong> a la nube en tiempo real. Es la configuración por defecto de producción.
+            </p>
           </div>
         }
       </div>
@@ -185,23 +142,37 @@
 
 </mat-dialog-content>
 
-<mat-dialog-actions align="end" class="border-t border-gray-200 dark:border-gray-700">
-  <button 
-    mat-stroked-button
-    type="button"
-    (click)="cancelar()"
-    class="flex items-center justify-center">
-    <mat-icon>close</mat-icon>
-    <span>Cerrar</span>
-  </button>
-  <button 
-    mat-raised-button 
-    color="primary"
-    type="button"
-    (click)="guardar()"
-    class="flex items-center justify-center">
-    <mat-icon>save</mat-icon>
-    <span>Guardar Deepseek</span>
-  </button>
+<mat-dialog-actions class="border-t border-gray-200 dark:border-gray-700 !p-4">
+  @if (sincronizando) {
+    <div class="flex items-center gap-3 w-full justify-center py-2">
+      <mat-spinner diameter="30"></mat-spinner>
+      <span class="text-sm text-gray-600 dark:text-gray-400">Sincronizando...</span>
+    </div>
+  } @else {
+    <div class="flex flex-col gap-3 w-full">
+      <button 
+        mat-raised-button 
+        color="primary"
+        type="button"
+        (click)="guardar()"
+        class="w-full flex items-center justify-center gap-2">
+        <mat-icon>save</mat-icon>
+        <span>Guardar Configuración</span>
+      </button>
+
+      @if (jsonbinApiKey) {
+        <button 
+          mat-raised-button 
+          color="accent"
+          type="button"
+          (click)="sincronizarBidireccional()"
+          class="w-full flex items-center justify-center gap-2"
+          matTooltip="Sincroniza tus métodos locales con la nube de forma bidireccional">
+          <mat-icon>sync</mat-icon>
+          <span>Sincronizar Ahora</span>
+        </button>
+      }
+    </div>
+  }
 </mat-dialog-actions>
 

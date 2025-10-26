@@ -10,6 +10,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { JsonbinService } from '../../services/jsonbin.service';
 import { MetodosService } from '../../services/metodos.service';
 
@@ -27,7 +28,8 @@ import { MetodosService } from '../../services/metodos.service';
     MatSnackBarModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSlideToggleModule
   ],
   templateUrl: './configuracion-dialogo.component.html',
   styleUrls: ['./configuracion-dialogo.component.css']
@@ -35,13 +37,12 @@ import { MetodosService } from '../../services/metodos.service';
 export class ConfiguracionDialogoComponent implements OnInit {
   // Deepseek IA
   apiKey: string = '';
-  mostrarApiKey: boolean = false;
 
   // JSONBin Sync
   jsonbinApiKey: string = '';
   jsonbinBinId: string = '';
-  mostrarJsonbinApiKey: boolean = false;
   sincronizando: boolean = false;
+  modoDesarrollo: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<ConfiguracionDialogoComponent>,
@@ -67,23 +68,50 @@ export class ConfiguracionDialogoComponent implements OnInit {
     if (savedBinId) {
       this.jsonbinBinId = savedBinId;
     }
-  }
 
-  toggleMostrarApiKey(): void {
-    this.mostrarApiKey = !this.mostrarApiKey;
+    // Cargar modo desarrollo (por defecto false = producción)
+    const savedModoDesarrollo = localStorage.getItem('modo_desarrollo');
+    this.modoDesarrollo = savedModoDesarrollo === 'true';
   }
 
   guardar(): void {
+    let cambios = false;
+
+    // Guardar API Key de Deepseek
     if (this.apiKey.trim()) {
       localStorage.setItem('deepseek_api_key', this.apiKey.trim());
-      this.snackBar.open('✅ API Key guardada correctamente', 'Cerrar', {
+      cambios = true;
+    } else {
+      localStorage.removeItem('deepseek_api_key');
+    }
+
+    // Guardar configuración de JSONBin
+    if (this.jsonbinApiKey.trim()) {
+      localStorage.setItem('jsonbin_api_key', this.jsonbinApiKey.trim());
+      cambios = true;
+      
+      if (this.jsonbinBinId.trim()) {
+        localStorage.setItem('jsonbin_bin_id', this.jsonbinBinId.trim());
+      } else {
+        localStorage.removeItem('jsonbin_bin_id');
+      }
+    } else {
+      localStorage.removeItem('jsonbin_api_key');
+      localStorage.removeItem('jsonbin_bin_id');
+    }
+
+    // NOTA: modo_desarrollo se guarda automáticamente con cambiarModoDesarrollo()
+    // El botón guardar solo guarda API Keys y Bin ID
+
+    if (cambios) {
+      this.snackBar.open('✅ Configuración guardada correctamente', 'Cerrar', {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'bottom'
       });
       this.dialogRef.close(true);
     } else {
-      this.snackBar.open('⚠️ Por favor ingresa un API Key válido', 'Cerrar', {
+      this.snackBar.open('⚠️ No hay cambios para guardar', 'Cerrar', {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'bottom'
@@ -91,121 +119,10 @@ export class ConfiguracionDialogoComponent implements OnInit {
     }
   }
 
-  eliminar(): void {
-    localStorage.removeItem('deepseek_api_key');
-    this.apiKey = '';
-    this.snackBar.open('🗑️ API Key eliminada', 'Cerrar', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom'
-    });
-  }
-
-  toggleMostrarJsonbinApiKey(): void {
-    this.mostrarJsonbinApiKey = !this.mostrarJsonbinApiKey;
-  }
-
-  guardarJsonbin(): void {
-    if (this.jsonbinApiKey.trim()) {
-      localStorage.setItem('jsonbin_api_key', this.jsonbinApiKey.trim());
-      
-      if (this.jsonbinBinId.trim()) {
-        localStorage.setItem('jsonbin_bin_id', this.jsonbinBinId.trim());
-      }
-
-      this.snackBar.open('✅ Configuración de JSONBin guardada', 'Cerrar', {
-        duration: 3000
-      });
-    } else {
-      this.snackBar.open('⚠️ Por favor ingresa un API Key de JSONBin válido', 'Cerrar', {
-        duration: 3000
-      });
-    }
-  }
-
-  eliminarJsonbin(): void {
-    localStorage.removeItem('jsonbin_api_key');
-    localStorage.removeItem('jsonbin_bin_id');
-    this.jsonbinApiKey = '';
-    this.jsonbinBinId = '';
-    this.snackBar.open('🗑️ Configuración de JSONBin eliminada', 'Cerrar', {
-      duration: 3000
-    });
-  }
-
   // Sincronización
-  subirANube(): void {
-    if (!this.jsonbinApiKey.trim()) {
-      this.snackBar.open('⚠️ Primero configura tu API Key de JSONBin', 'Cerrar', {
-        duration: 3000
-      });
-      return;
-    }
-
-    this.sincronizando = true;
-    const metodos = this.metodosService.getTodosLosMetodos();
-
-    this.jsonbinService.pushData(metodos).subscribe({
-      next: (response) => {
-        this.sincronizando = false;
-        
-        // Si se creó un nuevo bin, actualizar el campo
-        if (response.binId && !this.jsonbinBinId) {
-          this.jsonbinBinId = response.binId;
-        }
-
-        this.snackBar.open(`📤 ${response.message}`, 'Cerrar', {
-          duration: 4000
-        });
-      },
-      error: (error) => {
-        this.sincronizando = false;
-        this.snackBar.open(`❌ ${error.message}`, 'Cerrar', {
-          duration: 5000
-        });
-      }
-    });
-  }
-
-  descargarDeNube(): void {
-    if (!this.jsonbinApiKey.trim()) {
-      this.snackBar.open('⚠️ Primero configura tu API Key de JSONBin', 'Cerrar', {
-        duration: 3000
-      });
-      return;
-    }
-
-    if (!this.jsonbinBinId.trim()) {
-      this.snackBar.open('⚠️ Debes ingresar un Bin ID o primero subir datos', 'Cerrar', {
-        duration: 3000
-      });
-      return;
-    }
-
-    this.sincronizando = true;
-
-    this.jsonbinService.pullData().subscribe({
-      next: (data) => {
-        this.sincronizando = false;
-
-        // Reemplazar métodos locales con los de la nube
-        localStorage.setItem('metodos', JSON.stringify(data.metodos));
-        
-        // Recargar la página para refrescar la lista
-        window.location.reload();
-      },
-      error: (error) => {
-        this.sincronizando = false;
-        this.snackBar.open(`❌ ${error.message}`, 'Cerrar', {
-          duration: 5000
-        });
-      }
-    });
-  }
-
   sincronizarBidireccional(): void {
-    if (!this.jsonbinApiKey.trim() || !this.jsonbinBinId.trim()) {
-      this.snackBar.open('⚠️ Configura API Key y Bin ID para sincronizar', 'Cerrar', {
+    if (!this.jsonbinApiKey.trim()) {
+      this.snackBar.open('⚠️ Primero guarda tu API Key de JSONBin', 'Cerrar', {
         duration: 3000
       });
       return;
@@ -213,7 +130,35 @@ export class ConfiguracionDialogoComponent implements OnInit {
 
     this.sincronizando = true;
 
-    // Primero descargar de la nube
+    // Si no hay Bin ID, solo subir los datos locales
+    if (!this.jsonbinBinId.trim()) {
+      const metodosLocales = this.metodosService.getTodosLosMetodos();
+      
+      this.jsonbinService.pushData(metodosLocales).subscribe({
+        next: (response) => {
+          this.sincronizando = false;
+          
+          // Guardar el nuevo Bin ID
+          if (response.binId) {
+            this.jsonbinBinId = response.binId;
+            localStorage.setItem('jsonbin_bin_id', response.binId);
+          }
+
+          this.snackBar.open('🔄 Sincronización completada', 'Cerrar', {
+            duration: 4000
+          });
+        },
+        error: (error) => {
+          this.sincronizando = false;
+          this.snackBar.open(`❌ ${error.message}`, 'Cerrar', {
+            duration: 5000
+          });
+        }
+      });
+      return;
+    }
+
+    // Si hay Bin ID, hacer sincronización bidireccional
     this.jsonbinService.pullData().subscribe({
       next: (dataNube) => {
         const metodosLocales = this.metodosService.getTodosLosMetodos();
@@ -236,17 +181,32 @@ export class ConfiguracionDialogoComponent implements OnInit {
 
         // Guardar localmente
         localStorage.setItem('metodos', JSON.stringify(metodosSincronizados));
+        
+        // Actualizar el service para reflejar cambios en tiempo real
+        metodosSincronizados.forEach(metodo => {
+          this.metodosService.actualizarMetodo(metodo.id, metodo);
+        });
+
+        // Guardar configuración de la nube si existe
+        if (dataNube.config) {
+          if (dataNube.config.deepseekApiKey) {
+            localStorage.setItem('deepseek_api_key', dataNube.config.deepseekApiKey);
+            this.apiKey = dataNube.config.deepseekApiKey;
+          }
+          // NO sobrescribir modoDesarrollo - respeta la preferencia local
+          // localStorage.setItem('modo_desarrollo', dataNube.config.modoDesarrollo.toString());
+          // this.modoDesarrollo = dataNube.config.modoDesarrollo;
+        }
 
         // Subir a la nube
         this.jsonbinService.pushData(metodosSincronizados).subscribe({
           next: () => {
             this.sincronizando = false;
-            this.snackBar.open('🔄 Sincronización bidireccional completada', 'Cerrar', {
+            this.snackBar.open('✅ Sincronización completada', 'Cerrar', {
               duration: 4000
             });
             
-            // Recargar para mostrar cambios
-            window.location.reload();
+            console.log('✅ Sincronización exitosa sin recargar página');
           },
           error: (error) => {
             this.sincronizando = false;
@@ -267,6 +227,40 @@ export class ConfiguracionDialogoComponent implements OnInit {
 
   cancelar(): void {
     this.dialogRef.close(false);
+  }
+
+  cambiarModoDesarrollo(nuevoValor: boolean): void {
+    if (this.jsonbinApiKey.trim()) {
+      const modoValue = nuevoValor.toString();
+      localStorage.setItem('modo_desarrollo', modoValue);
+      this.snackBar.open(`✅ Modo cambiado a ${nuevoValor ? 'Desarrollo' : 'Producción'}`, 'Cerrar', {
+        duration: 2000
+      });
+    } else {
+      this.modoDesarrollo = false;
+      this.snackBar.open('⚠️ Debes guardar la API Key de JSONBin primero', 'Cerrar', {
+        duration: 2000
+      });
+    }
+  }
+
+  pegarDelPortapapeles(campo: string): void {
+    navigator.clipboard.readText().then((texto) => {
+      if (campo === 'apiKey') {
+        this.apiKey = texto;
+      } else if (campo === 'jsonbinApiKey') {
+        this.jsonbinApiKey = texto;
+      } else if (campo === 'jsonbinBinId') {
+        this.jsonbinBinId = texto;
+      }
+      this.snackBar.open('✅ Contenido pegado', 'Cerrar', {
+        duration: 2000
+      });
+    }).catch(() => {
+      this.snackBar.open('❌ Error al pegar. Verifica permisos del portapapeles', 'Cerrar', {
+        duration: 2000
+      });
+    });
   }
 }
 

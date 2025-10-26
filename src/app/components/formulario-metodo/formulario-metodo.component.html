@@ -285,9 +285,12 @@
             </button>
           </div>
           @if (pasosPrevios.length > 0) {
-            <div class="space-y-2">
+            <div class="space-y-2" cdkDropList #pasosPreviosList="cdkDropList" [cdkDropListData]="pasosPrevios" [cdkDropListDisabled]="false" (cdkDropListDropped)="onDropPasosPrevios($event)" cdkDropListSortingDisabled="false">
               @for (paso of pasosPrevios; track paso; let i = $index) {
-                <div class="flex items-start gap-2 p-2 bg-gray-50 dark:bg-gray-700 rounded border-l-3 border-gray-400 dark:border-gray-500">
+                <div class="flex items-start gap-2 p-2 bg-gray-50 dark:bg-gray-700 rounded border-l-3 border-gray-400 dark:border-gray-500 cursor-move" cdkDrag>
+                  <div cdkDragHandle class="flex-shrink-0 cursor-grab active:cursor-grabbing pt-1">
+                    <mat-icon class="text-gray-500 dark:text-gray-400 text-lg">drag_handle</mat-icon>
+                  </div>
                   <span class="flex-shrink-0 w-6 h-6 bg-gray-500 dark:bg-gray-600 text-white rounded-full flex items-center justify-center text-xs font-semibold">
                     {{ i + 1 }}
                   </span>
@@ -373,9 +376,12 @@
             </button>
           </div>
           @if (pasosPrincipales.length > 0) {
-            <div class="space-y-2">
+            <div class="space-y-2" cdkDropList #pasosPrincipalesList="cdkDropList" [cdkDropListData]="pasosPrincipales" [cdkDropListDisabled]="false" (cdkDropListDropped)="onDropPasosPrincipales($event)" cdkDropListSortingDisabled="false">
               @for (paso of pasosPrincipales; track paso; let i = $index) {
-                <div class="flex items-start gap-2 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded border-l-3 border-indigo-500">
+                <div class="flex items-start gap-2 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded border-l-3 border-indigo-500 cursor-move" cdkDrag>
+                  <div cdkDragHandle class="flex-shrink-0 cursor-grab active:cursor-grabbing pt-1">
+                    <mat-icon class="text-indigo-500 dark:text-indigo-400 text-lg">drag_handle</mat-icon>
+                  </div>
                   <span class="flex-shrink-0 w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs font-semibold">
                     {{ i + 1 }}
                   </span>

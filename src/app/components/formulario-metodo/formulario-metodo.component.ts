@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { DragDropModule, copyArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MetodosService } from '../../services/metodos.service';
 import { DeepseekService } from '../../services/deepseek.service';
 import { Metodo } from '../../models/metodo.interface';
@@ -41,6 +42,7 @@ import { ConfiguracionDialogoComponent } from '../configuracion-dialogo/configur
     MatProgressSpinnerModule,
     MatDialogModule,
     HttpClientModule,
+    DragDropModule,
     FormatoTextoPipe
   ],
   templateUrl: './formulario-metodo.component.html',
@@ -319,6 +321,14 @@ export class FormularioMetodoComponent implements OnInit {
     this.etiquetas = [];
     this.activo = true;
     this.archivoSeleccionado = null;
+  }
+
+  onDropPasosPrevios(event: any) {
+    moveItemInArray(this.pasosPrevios, event.previousIndex, event.currentIndex);
+  }
+
+  onDropPasosPrincipales(event: any) {
+    moveItemInArray(this.pasosPrincipales, event.previousIndex, event.currentIndex);
   }
 
 }

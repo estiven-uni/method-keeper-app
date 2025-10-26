@@ -34,7 +34,11 @@ export class JsonbinService {
 
       const data = {
         metodos: metodos,
-        lastSync: new Date().toISOString()
+        lastSync: new Date().toISOString(),
+        config: {
+          deepseekApiKey: localStorage.getItem('deepseek_api_key') || '',
+          modoDesarrollo: localStorage.getItem('modo_desarrollo') === 'true'
+        }
       };
 
       if (binId) {
@@ -82,7 +86,7 @@ export class JsonbinService {
   /**
    * Descargar datos desde JSONBin
    */
-  pullData(): Observable<{ metodos: Metodo[], lastSync: string }> {
+  pullData(): Observable<{ metodos: Metodo[], lastSync: string, config?: any }> {
     try {
       const binId = localStorage.getItem('jsonbin_bin_id');
       if (!binId) {
@@ -95,7 +99,8 @@ export class JsonbinService {
         map((response: any) => {
           return {
             metodos: response.record.metodos || [],
-            lastSync: response.record.lastSync || new Date().toISOString()
+            lastSync: response.record.lastSync || new Date().toISOString(),
+            config: response.record.config || null
           };
         }),
         catchError(error => {

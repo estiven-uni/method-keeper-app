@@ -22,7 +22,7 @@
     <!-- Tarjeta principal -->
     <mat-card class="bg-white dark:bg-gray-800 mb-4 overflow-hidden">
       @if (metodo.imagenUrl) {
-        <div class="w-full h-64 -mt-4 mb-4 flex items-center justify-center overflow-hidden"
+        <div class="w-full h-64 -mt-4 mb-4 flex items-center justify-center overflow-hidden relative"
              [class.p-6]="!metodo.imagenCompleta"
              [ngClass]="{
                'bg-white': metodo.fondoImagen === 'white',
@@ -43,33 +43,41 @@
                [class.max-w-full]="!metodo.imagenCompleta"
                [class.object-contain]="!metodo.imagenCompleta"
                [style.height.%]="!metodo.imagenCompleta ? (metodo.tamanoImagen || 100) : null" />
+          @if (metodo.activo !== undefined) {
+            <div class="absolute top-6 right-3 px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5" 
+                 [ngClass]="{
+                   'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300': metodo.activo,
+                   'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300': !metodo.activo
+                 }">
+              <mat-icon class="text-base">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
+              <span>{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
+            </div>
+          }
         </div>
       } @else {
-        <div class="w-full h-48 -mx-4 -mt-4 mb-4 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+        <div class="w-full h-48 -mx-4 -mt-4 mb-4 bg-gray-100 dark:bg-gray-700 flex items-center justify-center relative">
           <div class="text-center">
             <mat-icon class="text-6xl text-gray-400 dark:text-gray-500">image_not_supported</mat-icon>
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Sin imagen</p>
           </div>
+          @if (metodo.activo !== undefined) {
+            <div class="absolute top-6 right-3 px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5" 
+                 [ngClass]="{
+                   'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300': metodo.activo,
+                   'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300': !metodo.activo
+                 }">
+              <mat-icon class="text-base">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
+              <span>{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
+            </div>
+          }
         </div>
       }
       <mat-card-header class="mb-4">
         <div class="w-full">
-          <!-- Título y Estado -->
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 flex-1">
-              {{ metodo.titulo }}
-            </h1>
-            @if (metodo.activo !== undefined) {
-              <div class="px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5" 
-                   [ngClass]="{
-                     'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300': metodo.activo,
-                     'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300': !metodo.activo
-                   }">
-                <mat-icon class="text-base">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
-                <span>{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
-              </div>
-            }
-          </div>
+          <!-- Título -->
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3">
+            {{ metodo.titulo }}
+          </h1>
           
           <!-- Fechas -->
           <div class="flex flex-col sm:flex-row gap-3 text-xs text-gray-600 dark:text-gray-400">
