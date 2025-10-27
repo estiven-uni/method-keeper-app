@@ -227,9 +227,33 @@ export class ConfiguracionDialogoComponent implements OnInit {
     if (this.jsonbinApiKey.trim()) {
       const modoValue = nuevoValor.toString();
       localStorage.setItem('modo_desarrollo', modoValue);
-      this.snackBar.open(`✅ Modo cambiado a ${nuevoValor ? 'Desarrollo' : 'Producción'}`, 'Cerrar', {
-        duration: 2000
-      });
+      
+      if (!nuevoValor) {
+        this.sincronizando = true;
+        const metodosLocales = this.metodosService.getTodosLosMetodos();
+        
+        this.jsonbinService.pushData(metodosLocales).subscribe({
+          next: () => {
+            this.sincronizando = false;
+            this.snackBar.open('✅ Sincronizando con la nube...', 'Cerrar', {
+              duration: 1500
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          },
+          error: (error) => {
+            this.sincronizando = false;
+            this.snackBar.open(`❌ Error al sincronizar: ${error.message}`, 'Cerrar', {
+              duration: 3000
+            });
+          }
+        });
+      } else {
+        this.snackBar.open('✅ Modo cambiado a Desarrollo', 'Cerrar', {
+          duration: 2000
+        });
+      }
     } else {
       this.modoDesarrollo = false;
       this.snackBar.open('⚠️ Debes guardar la API Key de JSONBin primero', 'Cerrar', {
