@@ -188,26 +188,24 @@
           </mat-card-content>
 
           <!-- FOOTER: Botones de acción -->
-          @if (authService.isAdmin()) {
-            <mat-card-actions class="flex justify-end gap-1 p-2 border-t border-gray-100 dark:border-gray-700">
-              <button 
-                mat-icon-button 
-                color="primary"
-                (click)="editarMetodo(metodo.id, $event)"
-                matTooltip="Editar"
-                class="flex items-center justify-center">
-                <mat-icon class="text-lg">edit</mat-icon>
-              </button>
-              <button 
-                mat-icon-button 
-                color="warn"
-                (click)="eliminarMetodo(metodo, $event)"
-                matTooltip="Eliminar"
-                class="flex items-center justify-center">
-                <mat-icon class="text-lg">delete</mat-icon>
-              </button>
-            </mat-card-actions>
-          }
+          <mat-card-actions class="flex justify-end gap-1 p-2 border-t border-gray-100 dark:border-gray-700">
+            <button 
+              mat-icon-button 
+              color="primary"
+              (click)="editarMetodo(metodo.id, $event)"
+              matTooltip="Editar"
+              class="flex items-center justify-center">
+              <mat-icon class="text-lg">edit</mat-icon>
+            </button>
+            <button 
+              mat-icon-button 
+              color="warn"
+              (click)="eliminarMetodo(metodo, $event)"
+              matTooltip="Eliminar"
+              class="flex items-center justify-center">
+              <mat-icon class="text-lg">delete</mat-icon>
+            </button>
+          </mat-card-actions>
         </mat-card>
       }
     </div>
@@ -230,25 +228,23 @@
 </div>
 
 <!-- Footer fijo en la parte inferior -->
-@if (authService.isAdmin()) {
-  <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 shadow-2xl z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-end gap-3">
-      <button 
-        mat-raised-button 
-        color="accent"
-        (click)="generarConIA()"
-        class="flex items-center justify-center min-h-[48px]">
-        <mat-icon>auto_awesome</mat-icon>
-        <span class="ml-1">Generar con IA</span>
-      </button>
-      <button 
-        mat-raised-button 
-        color="primary" 
-        (click)="nuevoMetodo()"
-        class="flex items-center justify-center min-h-[48px]">
-        <mat-icon>add</mat-icon>
-        <span class="ml-1">Nuevo Método</span>
-      </button>
-    </div>
+<div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 shadow-2xl z-50">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-end gap-3">
+    <button 
+      mat-raised-button 
+      color="accent"
+      (click)="generarConIA()"
+      class="flex items-center justify-center min-h-[48px]">
+      <mat-icon>auto_awesome</mat-icon>
+      <span class="ml-1">Generar con IA</span>
+    </button>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="nuevoMetodo()"
+      class="flex items-center justify-center min-h-[48px]">
+      <mat-icon>add</mat-icon>
+      <span class="ml-1">Nuevo Método</span>
+    </button>
   </div>
-}
+</div>

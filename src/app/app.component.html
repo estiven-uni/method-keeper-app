@@ -1,41 +1,16 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
   <mat-toolbar class="bg-white dark:bg-gray-800 shadow-lg border-b-2 border-gray-200 dark:border-gray-700">
-    <!-- Logo y Título (siempre visible) -->
-    <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity" (click)="!isLoginPage && navigateHome()">
+    <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity" (click)="navigateHome()">
       <img [src]="isDarkMode ? 'assets/logo-dark.svg' : 'assets/logo-light.svg'" alt="Method Keeper Logo" class="w-8 h-8">
       <span class="text-lg font-semibold text-gray-900 dark:text-white">{{ title }}</span>
     </div>
     
-    <!-- Header del Backoffice (solo en backoffice) -->
-    @if (!isLoginPage) {
-      <span class="flex-1"></span>
-      
-      <div class="flex items-center gap-3">
-        <!-- Usuario actual -->
-        @if (usuario$ | async; as usuario) {
-          <span class="text-sm text-gray-700 dark:text-gray-300 px-2">
-            👤 {{ usuario.username }}
-          </span>
-          <mat-divider [vertical]="true" class="!h-6"></mat-divider>
-        }
-
-        <button mat-icon-button (click)="abrirConfiguracion()" class="flex items-center justify-center text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" matTooltip="Configuración">
-          <mat-icon>settings</mat-icon>
-        </button>
-        
-        <mat-divider [vertical]="true" class="!h-6"></mat-divider>
-
-        <!-- Botón Logout -->
-        <button mat-icon-button (click)="logout()" class="flex items-center justify-center text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" matTooltip="Cerrar sesión">
-          <mat-icon>logout</mat-icon>
-        </button>
-      </div>
-    } @else {
-      <span class="flex-1"></span>
-    }
-
-    <!-- Toggle de tema (siempre visible) -->
+    <span class="flex-1"></span>
+    
     <div class="flex items-center gap-2">
+      <button mat-icon-button (click)="abrirConfiguracion()" class="flex items-center justify-center text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800" matTooltip="Configuración">
+        <mat-icon>settings</mat-icon>
+      </button>
       <mat-icon class="text-gray-800 dark:text-white">{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
       <mat-slide-toggle 
         [checked]="isDarkMode" 
