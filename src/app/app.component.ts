@@ -52,40 +52,14 @@ export class AppComponent implements OnInit {
     const jsonbinApiKey = localStorage.getItem('jsonbin_api_key');
     const jsonbinBinId = localStorage.getItem('jsonbin_bin_id');
     
-    // Si está en Modo Producción (desactivado) y tiene credenciales, sincronizar bidireccional
+    // Si está en Modo Producción (desactivado) y tiene credenciales, sincronizar
     if (!modoDesarrollo && jsonbinApiKey && jsonbinBinId) {
       
       // Descargar datos de la nube
       this.jsonbinService.pullData().subscribe({
         next: (dataNube) => {
-          const metodosLocales = this.metodosService.getTodosLosMetodos();
-          
-          // Merge: combinar ambos sin duplicados (por ID)
-          const metodosMap = new Map();
-          
-          // Primero agregar los de la nube
-          dataNube.metodos.forEach(m => metodosMap.set(m.id, m));
-          
-          // Luego agregar/actualizar con los locales (más recientes ganan)
-          metodosLocales.forEach(m => {
-            const existente = metodosMap.get(m.id);
-            if (!existente || new Date(m.ultimaModificacion) > new Date(existente.ultimaModificacion)) {
-              metodosMap.set(m.id, m);
-            }
-          });
-
-          const metodosSincronizados = Array.from(metodosMap.values());
-
-          // Guardar localmente sin disparar sincronización automática
-          this.metodosService.recargarMetodosSinSincronizar(metodosSincronizados);
-
-          // Subir a la nube
-          this.jsonbinService.pushData(metodosSincronizados).subscribe({
-            next: () => {
-            },
-            error: (error) => {
-            }
-          });
+          // Usar directamente los datos de la nube como fuente de verdad
+          this.metodosService.recargarMetodosSinSincronizar(dataNube.metodos);
         },
         error: (error) => {
         }
