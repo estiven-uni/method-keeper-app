@@ -27,7 +27,7 @@ import { ConfiguracionDialogoComponent } from './components/configuracion-dialog
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  title = 'Mis Métodos';
+  title = 'Mis Métodos2';
   isDarkMode = false;
 
   constructor(
