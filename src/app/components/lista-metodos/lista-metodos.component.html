@@ -80,7 +80,7 @@
       </button>
     </div>
   } @else {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
       @for (metodo of metodosPaginados; track metodo.id) {
         <div class="group cursor-pointer h-full" (click)="verDetalle(metodo.id)">
           <mat-card class="!p-0 !shadow-sm hover:!shadow-xl transition-all duration-300 bg-white dark:bg-gray-800 overflow-hidden !rounded-2xl border border-gray-200 dark:border-gray-700 h-full flex flex-col">
@@ -143,14 +143,14 @@
             }
 
             <!-- INFO -->
-            <div class="p-4 flex-1 flex flex-col">
+            <div class="p-2 md:p-4 flex-1 flex flex-col">
               <!-- Título -->
-              <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 line-clamp-2 leading-tight mb-3 min-h-[56px] group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <h3 class="text-sm md:text-lg font-bold text-gray-900 dark:text-gray-100 line-clamp-2 leading-tight mb-2 md:mb-3 md:min-h-[56px] group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 {{ metodo.titulo }}
               </h3>
               
-              <!-- Metadata compacta -->
-              <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+              <!-- Metadata compacta (solo desktop) -->
+              <div class="hidden md:flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
                 <div class="flex items-center gap-1">
                   <mat-icon class="!text-base text-indigo-500">checklist</mat-icon>
                   <span class="font-semibold">{{ metodo.pasosPrincipales.length }}</span>
@@ -159,13 +159,13 @@
                 <span class="font-medium">{{ formatearFecha(metodo.ultimaModificacion) }}</span>
               </div>
 
-              <!-- Descripción -->
-              <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed mb-4 min-h-[40px]">
+              <!-- Descripción (solo desktop) -->
+              <p class="hidden md:block text-sm text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed mb-4 min-h-[40px]">
                 {{ metodo.descripcion || 'Sin descripción' }}
               </p>
 
-              <!-- Etiquetas -->
-              <div class="mb-4 min-h-[32px]">
+              <!-- Etiquetas (solo desktop) -->
+              <div class="hidden md:block mb-4 min-h-[32px]">
                 @if (metodo.etiquetas.length > 0) {
                   <div class="flex flex-wrap gap-1.5">
                     @for (etiqueta of metodo.etiquetas.slice(0, 2); track etiqueta) {
@@ -182,8 +182,8 @@
                 }
               </div>
 
-              <!-- Botones de acción -->
-              <div class="flex items-center gap-2 pt-3 border-t border-gray-200 dark:border-gray-700 mt-auto">
+              <!-- Botones de acción (solo desktop) -->
+              <div class="hidden md:flex items-center gap-2 pt-3 border-t border-gray-200 dark:border-gray-700 mt-auto">
                 <button 
                   mat-icon-button 
                   color="primary"
