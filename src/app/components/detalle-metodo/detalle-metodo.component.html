@@ -1,29 +1,29 @@
 @if (metodo) {
-  <div class="max-w-4xl mx-auto animate-fade-in">
+  <div class="max-w-4xl mx-auto animate-fade-in pb-8">
     <!-- Cabecera con botones de acción -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 px-4 md:px-0">
       <button mat-stroked-button (click)="volver()" class="flex items-center justify-center">
         <mat-icon>arrow_back</mat-icon>
-        <span>Volver</span>
+        <span class="ml-1">Volver</span>
       </button>
 
-      <div class="flex gap-2">
-        <button mat-raised-button color="primary" (click)="editar()" class="flex items-center justify-center">
+      <div class="flex gap-2 w-full sm:w-auto">
+        <button mat-raised-button color="primary" (click)="editar()" class="flex-1 sm:flex-none flex items-center justify-center">
           <mat-icon>edit</mat-icon>
-          <span>Editar</span>
+          <span class="ml-1">Editar</span>
         </button>
-        <button mat-raised-button color="warn" (click)="eliminar()" class="flex items-center justify-center">
+        <button mat-raised-button color="warn" (click)="eliminar()" class="flex-1 sm:flex-none flex items-center justify-center">
           <mat-icon>delete</mat-icon>
-          <span>Eliminar</span>
+          <span class="ml-1">Eliminar</span>
         </button>
       </div>
     </div>
 
-    <!-- Tarjeta principal -->
-    <mat-card class="bg-white dark:bg-gray-800 mb-4 overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden mb-4">
+      <!-- Hero Image -->
       @if (metodo.imagenUrl) {
-        <div class="w-full h-64 -mt-4 mb-4 flex items-center justify-center overflow-hidden relative"
-             [class.p-6]="!metodo.imagenCompleta"
+        <div class="relative w-full overflow-hidden" 
              [ngClass]="{
                'bg-white': metodo.fondoImagen === 'white',
                'bg-gray-100': !metodo.fondoImagen || metodo.fondoImagen === 'gray',
@@ -34,73 +34,76 @@
                'bg-yellow-100': metodo.fondoImagen === 'yellow',
                'bg-purple-100': metodo.fondoImagen === 'purple',
                'bg-orange-100': metodo.fondoImagen === 'orange'
-             }">
-          <img [src]="metodo.imagenUrl" 
-               [alt]="metodo.titulo" 
-               [class.w-full]="metodo.imagenCompleta"
-               [class.h-full]="metodo.imagenCompleta"
-               [class.object-cover]="metodo.imagenCompleta"
-               [class.max-w-full]="!metodo.imagenCompleta"
-               [class.object-contain]="!metodo.imagenCompleta"
-               [style.height.%]="!metodo.imagenCompleta ? (metodo.tamanoImagen || 100) : null" />
+             }"
+             style="height: 200px;">
+          <div class="w-full h-full flex items-center justify-center" [class.p-4]="!metodo.imagenCompleta">
+            <img [src]="metodo.imagenUrl" 
+                 [alt]="metodo.titulo" 
+                 [class.w-full]="metodo.imagenCompleta"
+                 [class.h-full]="metodo.imagenCompleta"
+                 [class.object-cover]="metodo.imagenCompleta"
+                 [class.max-w-full]="!metodo.imagenCompleta"
+                 [class.max-h-full]="!metodo.imagenCompleta"
+                 [class.object-contain]="!metodo.imagenCompleta"
+                 [style.height.%]="!metodo.imagenCompleta ? (metodo.tamanoImagen || 100) : null" />
+          </div>
+          
           @if (metodo.activo !== undefined) {
-            <div class="absolute top-8 right-2 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm shadow-lg !text-white" 
+            <div class="absolute top-3 right-3 px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1 backdrop-blur-lg shadow-lg !text-white" 
                  [ngClass]="{
-                   'bg-green-500/90': metodo.activo,
-                   'bg-red-500/90': !metodo.activo
+                   'bg-green-600/95': metodo.activo,
+                   'bg-red-600/95': !metodo.activo
                  }">
-              <mat-icon class="text-sm !text-white">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
-              <span class="!text-white">{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
+              <span class="!text-white">{{ metodo.activo ? 'ACTIVO' : 'INACTIVO' }}</span>
             </div>
           }
         </div>
       } @else {
-        <div class="w-full h-48 -mx-4 -mt-4 mb-4 bg-gray-100 dark:bg-gray-700 flex items-center justify-center relative">
+        <div class="relative w-full bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100 dark:from-gray-700 dark:via-gray-800 dark:to-gray-700 flex items-center justify-center" style="height: 200px;">
           <div class="text-center">
-            <mat-icon class="text-6xl text-gray-400 dark:text-gray-500">image_not_supported</mat-icon>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Sin imagen</p>
+            <mat-icon class="text-6xl text-gray-300 dark:text-gray-600">wallpaper</mat-icon>
           </div>
+          
           @if (metodo.activo !== undefined) {
-            <div class="absolute top-8 right-2 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 !text-white" 
+            <div class="absolute top-3 right-3 px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1 shadow-lg !text-white" 
                  [ngClass]="{
-                   'bg-green-500': metodo.activo,
-                   'bg-red-500': !metodo.activo
+                   'bg-green-600': metodo.activo,
+                   'bg-red-600': !metodo.activo
                  }">
-              <mat-icon class="text-sm !text-white">{{ metodo.activo ? 'check_circle' : 'cancel' }}</mat-icon>
-              <span class="!text-white">{{ metodo.activo ? 'Activo' : 'Inactivo' }}</span>
+              <span class="!text-white">{{ metodo.activo ? 'ACTIVO' : 'INACTIVO' }}</span>
             </div>
           }
         </div>
       }
-      <mat-card-header class="mb-4">
-        <div class="w-full">
-          <!-- Título -->
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3">
-            {{ metodo.titulo }}
-          </h1>
-          
-          <!-- Fechas -->
-          <div class="flex flex-col sm:flex-row gap-3 text-xs text-gray-600 dark:text-gray-400">
-            <span class="flex items-center">
-              <mat-icon class="text-sm mr-1">schedule</mat-icon>
-              Creado: {{ formatearFecha(metodo.fechaCreacion) }}
-            </span>
-            <span class="flex items-center">
-              <mat-icon class="text-sm mr-1">update</mat-icon>
-              Modificado: {{ formatearFecha(metodo.ultimaModificacion) }}
-            </span>
+
+      <!-- Header Info -->
+      <div class="p-5">
+        <!-- Título -->
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3 leading-tight">
+          {{ metodo.titulo }}
+        </h1>
+        
+        <!-- Metadata -->
+        <div class="flex flex-wrap items-center gap-3 text-xs text-gray-600 dark:text-gray-400 mb-4">
+          <div class="flex items-center gap-1">
+            <mat-icon class="!text-sm text-indigo-500">checklist</mat-icon>
+            <span class="font-semibold">{{ metodo.pasosPrincipales.length }} pasos</span>
+          </div>
+          <span>•</span>
+          <div class="flex items-center gap-1">
+            <mat-icon class="!text-sm text-gray-500">schedule</mat-icon>
+            <span>{{ formatearFecha(metodo.fechaCreacion) }}</span>
+          </div>
+          <span>•</span>
+          <div class="flex items-center gap-1">
+            <mat-icon class="!text-sm text-gray-500">update</mat-icon>
+            <span>{{ formatearFecha(metodo.ultimaModificacion) }}</span>
           </div>
         </div>
-      </mat-card-header>
 
-      <mat-card-content>
         <!-- Descripción -->
         @if (metodo.descripcion) {
-          <div class="mb-4">
-            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2 flex items-center">
-              <mat-icon class="mr-1 text-lg">description</mat-icon>
-              Descripción
-            </h3>
+          <div class="mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
             <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
               {{ metodo.descripcion }}
             </p>
@@ -109,112 +112,118 @@
 
         <!-- Etiquetas -->
         @if (metodo.etiquetas.length > 0) {
-          <div class="mb-4">
-            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2 flex items-center">
-              <mat-icon class="mr-1 text-lg">label</mat-icon>
-              Etiquetas
-            </h3>
-            <div class="flex flex-wrap gap-2">
-              @for (etiqueta of metodo.etiquetas; track etiqueta) {
-                <mat-chip class="h-7 text-xs">
-                  {{ etiqueta }}
-                </mat-chip>
-              }
-            </div>
+          <div class="flex flex-wrap gap-1.5">
+            @for (etiqueta of metodo.etiquetas; track etiqueta) {
+              <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium">
+                #{{ etiqueta }}
+              </span>
+            }
           </div>
         }
+      </div>
+    </div>
 
-        <!-- Pasos Previos (Acordeón) -->
-        @if (metodo.pasosPrevios.length > 0) {
-          <mat-expansion-panel class="mb-3 bg-white dark:bg-gray-700">
-            <mat-expansion-panel-header>
-              <mat-panel-title class="text-base font-semibold text-gray-900 dark:text-gray-100 flex items-center">
-                <mat-icon class="mr-1 text-lg">playlist_add_check</mat-icon>
-                Pasos Previos ({{ metodo.pasosPrevios.length }})
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="pt-3 space-y-2">
-              @for (paso of metodo.pasosPrevios; track paso; let i = $index) {
-                <div class="flex items-start gap-2 p-2 bg-gray-50 dark:bg-gray-800 rounded border-l-4 border-gray-400 dark:border-gray-500">
-                  <span class="flex-shrink-0 w-6 h-6 bg-gray-500 dark:bg-gray-600 text-white rounded-full flex items-center justify-center text-xs font-semibold">
-                    {{ i + 1 }}
-                  </span>
-                  <div class="flex-1 text-sm text-gray-700 dark:text-gray-300 pt-0.5" [innerHTML]="paso | formatoTexto"></div>
-                </div>
-              }
+    <!-- Pasos Previos -->
+    @if (metodo.pasosPrevios.length > 0) {
+      <mat-expansion-panel class="!mb-3 !rounded-2xl !shadow-md overflow-hidden bg-white dark:bg-gray-800">
+        <mat-expansion-panel-header class="!h-14">
+          <mat-panel-title class="text-base font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <mat-icon class="text-gray-500">playlist_add_check</mat-icon>
+            Pasos Previos
+            <span class="text-sm font-normal text-gray-500">({{ metodo.pasosPrevios.length }})</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="px-5 pb-4 pt-2 space-y-2">
+          @for (paso of metodo.pasosPrevios; track paso; let i = $index) {
+            <div class="flex items-start gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+              <span class="flex-shrink-0 w-7 h-7 bg-gray-500 dark:bg-gray-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                {{ i + 1 }}
+              </span>
+              <div class="flex-1 text-sm text-gray-700 dark:text-gray-300 pt-0.5 leading-relaxed" [innerHTML]="paso | formatoTexto"></div>
             </div>
-          </mat-expansion-panel>
-        }
+          }
+        </div>
+      </mat-expansion-panel>
+    }
 
-        <!-- Pasos Principales (Acordeón expandido por defecto) -->
-        @if (metodo.pasosPrincipales.length > 0) {
-          <mat-expansion-panel class="mb-3 bg-white dark:bg-gray-700">
-            <mat-expansion-panel-header>
-              <mat-panel-title class="text-base font-semibold text-gray-900 dark:text-gray-100 flex items-center">
-                <mat-icon class="mr-1 text-lg">checklist</mat-icon>
-                Pasos Principales ({{ metodo.pasosPrincipales.length }})
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="pt-3 space-y-2">
-              @for (paso of metodo.pasosPrincipales; track paso; let i = $index) {
-                <div class="flex items-start gap-2 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded border-l-4 border-indigo-500">
-                  <span class="flex-shrink-0 w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs font-semibold">
-                    {{ i + 1 }}
-                  </span>
-                  <div class="flex-1 text-sm text-gray-700 dark:text-gray-300 pt-0.5" [innerHTML]="paso | formatoTexto"></div>
-                </div>
-              }
+    <!-- Pasos Principales -->
+    @if (metodo.pasosPrincipales.length > 0) {
+      <mat-expansion-panel class="!mb-3 !rounded-2xl !shadow-md overflow-hidden bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 !border-2 !border-indigo-200 dark:!border-indigo-800">
+        <mat-expansion-panel-header class="!h-14">
+          <mat-panel-title class="text-base font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <mat-icon class="text-indigo-600 dark:text-indigo-400">checklist</mat-icon>
+            Pasos Principales
+            <span class="text-sm font-normal text-gray-500">({{ metodo.pasosPrincipales.length }})</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="px-5 pb-4 pt-2 space-y-2">
+          @for (paso of metodo.pasosPrincipales; track paso; let i = $index) {
+            <div class="flex items-start gap-2 p-3 bg-white dark:bg-gray-800 rounded-lg hover:shadow-md transition-all">
+              <span class="flex-shrink-0 w-7 h-7 bg-indigo-600 dark:bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                {{ i + 1 }}
+              </span>
+              <div class="flex-1 text-sm text-gray-700 dark:text-gray-300 pt-0.5 leading-relaxed" [innerHTML]="paso | formatoTexto"></div>
             </div>
-          </mat-expansion-panel>
-        }
+          }
+        </div>
+      </mat-expansion-panel>
+    }
 
-        <!-- Notas (Acordeón) -->
-        @if (metodo.notas) {
-          <mat-expansion-panel class="mb-3 bg-white dark:bg-gray-700">
-            <mat-expansion-panel-header>
-              <mat-panel-title class="text-base font-semibold text-gray-900 dark:text-gray-100 flex items-center">
-                <mat-icon class="mr-1 text-lg">note</mat-icon>
-                Notas Adicionales
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="pt-3">
-              <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded border-l-4 border-yellow-500">
-                <p class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
-                  {{ metodo.notas }}
-                </p>
-              </div>
-            </div>
-          </mat-expansion-panel>
-        }
-
-        <!-- Video Tutorial -->
-        @if (metodo.videoUrl && getVideoEmbedUrl(metodo.videoUrl)) {
-          <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
-              <mat-icon class="mr-2 text-lg">videocam</mat-icon>
-              Video Tutorial
-            </h3>
-            <div class="relative w-full rounded-lg overflow-hidden shadow-lg" style="padding-bottom: 56.25%;">
-              <iframe 
-                [src]="getVideoEmbedUrl(metodo.videoUrl)"
-                class="absolute top-0 left-0 w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-              </iframe>
-            </div>
+    <!-- Notas -->
+    @if (metodo.notas) {
+      <mat-expansion-panel class="!mb-3 !rounded-2xl !shadow-md overflow-hidden bg-white dark:bg-gray-800">
+        <mat-expansion-panel-header class="!h-14">
+          <mat-panel-title class="text-base font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <mat-icon class="text-yellow-600 dark:text-yellow-500">note</mat-icon>
+            Notas Adicionales
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="px-5 pb-4 pt-2">
+          <div class="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border-l-4 border-yellow-500">
+            <p class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
+              {{ metodo.notas }}
+            </p>
           </div>
-        }
-      </mat-card-content>
-    </mat-card>
+        </div>
+      </mat-expansion-panel>
+    }
+
+    <!-- Video Tutorial -->
+    @if (metodo.videoUrl && getVideoEmbedUrl(metodo.videoUrl)) {
+      <mat-expansion-panel class="!rounded-2xl !shadow-md overflow-hidden bg-white dark:bg-gray-800">
+        <mat-expansion-panel-header class="!h-14">
+          <mat-panel-title class="text-base font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <mat-icon class="text-red-600 dark:text-red-500">videocam</mat-icon>
+            Video Tutorial
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="px-5 pb-4 pt-2">
+          <div class="relative w-full rounded-xl overflow-hidden shadow-lg" style="padding-bottom: 56.25%;">
+            <iframe 
+              [src]="getVideoEmbedUrl(metodo.videoUrl)"
+              class="absolute top-0 left-0 w-full h-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    }
   </div>
 } @else {
-  <div class="text-center py-16">
-    <mat-icon class="text-5xl text-gray-400 mb-3">error_outline</mat-icon>
-    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-3">
-      Método no encontrado
-    </h2>
-    <button mat-raised-button color="primary" (click)="volver()" class="flex items-center justify-center mx-auto">
-      <span>Volver al inicio</span>
-    </button>
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="text-center py-16 px-4">
+      <mat-icon class="text-8xl text-gray-300 dark:text-gray-600 mb-4">error_outline</mat-icon>
+      <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-3">
+        Método no encontrado
+      </h2>
+      <p class="text-gray-500 dark:text-gray-400 mb-6">
+        El método que buscas no existe o fue eliminado
+      </p>
+      <button mat-raised-button color="primary" (click)="volver()" class="!rounded-full px-8 mx-auto">
+        <mat-icon>arrow_back</mat-icon>
+        <span class="ml-1">Volver al inicio</span>
+      </button>
+    </div>
   </div>
 }
