@@ -179,13 +179,8 @@ export class ConfiguracionDialogoComponent implements OnInit {
 
         const metodosSincronizados = Array.from(metodosMap.values());
 
-        // Guardar localmente
-        localStorage.setItem('metodos', JSON.stringify(metodosSincronizados));
-        
-        // Actualizar el service para reflejar cambios en tiempo real
-        metodosSincronizados.forEach(metodo => {
-          this.metodosService.actualizarMetodo(metodo.id, metodo);
-        });
+        // Guardar localmente sin disparar sincronización automática
+        this.metodosService.recargarMetodosSinSincronizar(metodosSincronizados);
 
         // Guardar configuración de la nube si existe
         if (dataNube.config) {
@@ -206,7 +201,6 @@ export class ConfiguracionDialogoComponent implements OnInit {
               duration: 4000
             });
             
-            console.log('✅ Sincronización exitosa sin recargar página');
           },
           error: (error) => {
             this.sincronizando = false;

@@ -52,14 +52,8 @@ export class AppComponent implements OnInit {
     const jsonbinApiKey = localStorage.getItem('jsonbin_api_key');
     const jsonbinBinId = localStorage.getItem('jsonbin_bin_id');
     
-    console.log('🚀 App cargada - Verificando sincronización inicial');
-    console.log('   Modo Desarrollo:', modoDesarrollo);
-    console.log('   API Key existe:', !!jsonbinApiKey);
-    console.log('   Bin ID existe:', !!jsonbinBinId);
-    
     // Si está en Modo Producción (desactivado) y tiene credenciales, sincronizar bidireccional
     if (!modoDesarrollo && jsonbinApiKey && jsonbinBinId) {
-      console.log('🔄 Sincronización bidireccional al cargar...');
       
       // Descargar datos de la nube
       this.jsonbinService.pullData().subscribe({
@@ -82,32 +76,20 @@ export class AppComponent implements OnInit {
 
           const metodosSincronizados = Array.from(metodosMap.values());
 
-          // Guardar localmente
-          localStorage.setItem('metodos', JSON.stringify(metodosSincronizados));
-          
-          // Actualizar el service
-          metodosSincronizados.forEach(metodo => {
-            this.metodosService.actualizarMetodo(metodo.id, metodo);
-          });
+          // Guardar localmente sin disparar sincronización automática
+          this.metodosService.recargarMetodosSinSincronizar(metodosSincronizados);
 
           // Subir a la nube
           this.jsonbinService.pushData(metodosSincronizados).subscribe({
             next: () => {
-              console.log('✅ Sincronización bidireccional completada al cargar');
             },
             error: (error) => {
-              console.error('❌ Error al subir durante sincronización inicial:', error.message);
             }
           });
         },
         error: (error) => {
-          console.error('❌ Error al descargar durante sincronización inicial:', error.message);
         }
       });
-    } else if (modoDesarrollo) {
-      console.log('⏭️ Modo Desarrollo activo - no sincronizar');
-    } else {
-      console.log('⏭️ Sin credenciales configuradas');
     }
   }
 

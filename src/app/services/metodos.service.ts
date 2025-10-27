@@ -24,23 +24,16 @@ export class MetodosService {
         activo: metodo.activo !== undefined ? metodo.activo : true
       }));
     } catch (error) {
-      console.error('Error al cargar métodos:', error);
       return [];
     }
   }
 
   private guardarMetodos(metodos: Metodo[]): void {
-    console.log('💾 guardarMetodos() - Guardando', metodos.length, 'métodos');
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(metodos));
-      console.log('   ✓ Guardado en localStorage');
       this.metodosSubject.next(metodos);
-      console.log('   ✓ Actualizado metodosSubject');
-      console.log('   → Llamando sincronizarAutomaticamente()...');
       this.sincronizarAutomaticamente();
-      console.log('   ✓ sincronizarAutomaticamente() ejecutado');
     } catch (error) {
-      console.error('❌ Error al guardar métodos:', error);
     }
   }
 
@@ -50,14 +43,8 @@ export class MetodosService {
     const modoDesarrollo = modoDesarrolloStr === 'true';
     const jsonbinApiKey = localStorage.getItem('jsonbin_api_key');
     
-    console.log('   🔍 sincronizarAutomaticamente - Verificando condiciones:');
-    console.log('      modo_desarrollo:', modoDesarrolloStr, '→ boolean:', modoDesarrollo);
-    console.log('      jsonbinApiKey existe:', !!jsonbinApiKey);
-    console.log('      Condición (!modoDesarrollo && jsonbinApiKey):', !modoDesarrollo && !!jsonbinApiKey);
-    
     // Solo sincronizar si NO está en modo desarrollo y tiene API Key configurada
     if (!modoDesarrollo && jsonbinApiKey) {
-      console.log('   ✅ SINCRONIZANDO...');
       // Lazy loading del servicio para evitar dependencia circular
       if (!this.jsonbinService) {
         this.jsonbinService = this.injector.get(JsonbinService);
@@ -66,18 +53,14 @@ export class MetodosService {
       const metodos = this.getTodosLosMetodos();
       this.jsonbinService.pushData(metodos).subscribe({
         next: (response) => {
-          console.log('   ✅ Sincronización exitosa');
           // Si se generó un nuevo bin ID, guardarlo
           if (response.binId && !localStorage.getItem('jsonbin_bin_id')) {
             localStorage.setItem('jsonbin_bin_id', response.binId);
           }
         },
         error: (error) => {
-          console.error('   ❌ Error en sincronización:', error.message);
         }
       });
-    } else {
-      console.log('   ⏭️ NO sincronizar:', modoDesarrollo ? 'MODO DESARROLLO' : 'SIN API KEY');
     }
   }
 
@@ -106,7 +89,6 @@ export class MetodosService {
   }
 
   crearMetodo(metodo: Omit<Metodo, 'id' | 'fechaCreacion' | 'ultimaModificacion'>): Metodo {
-    console.log('📝 crearMetodo()');
     const nuevoMetodo: Metodo = {
       ...metodo,
       id: this.generarId(),
@@ -121,16 +103,13 @@ export class MetodosService {
   }
 
   actualizarMetodo(id: string, cambios: Partial<Metodo>): boolean {
-    console.log('✏️ actualizarMetodo() - id:', id);
     const metodos = this.getMetodos();
     const index = metodos.findIndex(m => m.id === id);
     
     if (index === -1) {
-      console.error('❌ Método no encontrado para actualizar, id:', id);
       return false;
     }
 
-    console.log('   Cambios recibidos:', Object.keys(cambios));
     metodos[index] = {
       ...metodos[index],
       ...cambios,
@@ -139,24 +118,28 @@ export class MetodosService {
       ultimaModificacion: new Date().toISOString()
     };
 
-    console.log('   Llamando guardarMetodos()');
     this.guardarMetodos(metodos);
     return true;
   }
 
   eliminarMetodo(id: string): boolean {
-    console.log('🗑️ eliminarMetodo() - id:', id);
     const metodos = this.getMetodos();
     const filtrados = metodos.filter(m => m.id !== id);
     
     if (filtrados.length === metodos.length) {
-      console.error('❌ Método no encontrado para eliminar, id:', id);
       return false;
     }
 
-    console.log('   Llamando guardarMetodos()');
     this.guardarMetodos(filtrados);
     return true;
+  }
+
+  recargarMetodosSinSincronizar(metodos: Metodo[]): void {
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(metodos));
+      this.metodosSubject.next(metodos);
+    } catch (error) {
+    }
   }
 
   buscarMetodos(termino: string): Metodo[] {
