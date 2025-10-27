@@ -14,5 +14,6 @@ export interface Metodo {
   fechaCreacion: string;
   ultimaModificacion: string;
   activo: boolean;
+  fechaExpiracion?: string; // Fecha de expiración del método (formato ISO)
 }
 

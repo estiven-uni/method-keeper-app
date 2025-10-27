@@ -116,11 +116,8 @@
                 <!-- Badge de estado -->
                 @if (metodo.activo !== undefined) {
                   <div class="absolute bottom-2 left-2 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1 backdrop-blur-lg !text-white shadow-lg"
-                       [ngClass]="{
-                         'bg-green-600/90': metodo.activo,
-                         'bg-red-600/90': !metodo.activo
-                       }">
-                    <span class="!text-white">{{ metodo.activo ? 'ACTIVO' : 'INACTIVO' }}</span>
+                       [ngClass]="obtenerColorEstado(obtenerEstado(metodo)) + '/90'">
+                    <span class="!text-white">{{ obtenerEstado(metodo) }}</span>
                   </div>
                 }
               </div>
@@ -132,11 +129,8 @@
                 
                 @if (metodo.activo !== undefined) {
                   <div class="absolute bottom-2 left-2 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1 !text-white shadow-lg"
-                       [ngClass]="{
-                         'bg-green-600': metodo.activo,
-                         'bg-red-600': !metodo.activo
-                       }">
-                    <span class="!text-white">{{ metodo.activo ? 'ACTIVO' : 'INACTIVO' }}</span>
+                       [ngClass]="obtenerColorEstado(obtenerEstado(metodo))">
+                    <span class="!text-white">{{ obtenerEstado(metodo) }}</span>
                   </div>
                 }
               </div>

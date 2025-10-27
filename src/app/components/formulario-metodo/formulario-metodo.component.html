@@ -197,6 +197,24 @@
           <mat-hint>Soporta YouTube, Vimeo y otros servicios</mat-hint>
         </mat-form-field>
 
+        <!-- Fecha de Expiración -->
+        <mat-form-field class="w-full mb-3" appearance="fill" subscriptSizing="dynamic">
+          <mat-label>Fecha de Expiración (opcional)</mat-label>
+          <input 
+            matInput 
+            [(ngModel)]="fechaExpiracion"
+            name="fechaExpiracion"
+            type="date"
+            >
+          <mat-icon matPrefix class="mr-2">event</mat-icon>
+          @if (fechaExpiracion) {
+            <button matSuffix mat-icon-button (click)="fechaExpiracion = ''" type="button" class="flex items-center justify-center">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+          <mat-hint>Fecha en la que el método expirará</mat-hint>
+        </mat-form-field>
+
         <!-- Estado del Método -->
         <div class="mb-4 p-3 rounded border border-gray-200 dark:border-gray-700">
           <div class="flex items-center justify-between">
@@ -214,7 +232,7 @@
               name="activo"
               color="primary">
               <span class="text-sm font-medium" [class.text-green-600]="activo" [class.dark:text-green-400]="activo" [class.text-red-600]="!activo" [class.dark:text-red-400]="!activo">
-                {{ activo ? 'Activo' : 'Inactivo' }}
+                {{ activo ? 'Funcionando' : 'Inactivo' }}
               </span>
             </mat-slide-toggle>
           </div>

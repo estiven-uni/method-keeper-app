@@ -89,7 +89,7 @@ export class MetodosService {
   }
 
   crearMetodo(metodo: Omit<Metodo, 'id' | 'fechaCreacion' | 'ultimaModificacion'>): Metodo {
-    const nuevoMetodo: Metodo = {
+    const nuevoMetodo: any = {
       ...metodo,
       id: this.generarId(),
       fechaCreacion: new Date().toISOString(),
@@ -97,9 +97,14 @@ export class MetodosService {
       activo: metodo.activo !== undefined ? metodo.activo : true
     };
 
-    const metodos = [...this.getMetodos(), nuevoMetodo];
+    // Eliminar propiedades con valor undefined
+    if (nuevoMetodo.fechaExpiracion === undefined) {
+      delete nuevoMetodo.fechaExpiracion;
+    }
+
+    const metodos = [...this.getMetodos(), nuevoMetodo as Metodo];
     this.guardarMetodos(metodos);
-    return nuevoMetodo;
+    return nuevoMetodo as Metodo;
   }
 
   actualizarMetodo(id: string, cambios: Partial<Metodo>): boolean {
@@ -110,7 +115,7 @@ export class MetodosService {
       return false;
     }
 
-    metodos[index] = {
+    const metodoActualizado: any = {
       ...metodos[index],
       ...cambios,
       id: metodos[index].id,
@@ -118,6 +123,12 @@ export class MetodosService {
       ultimaModificacion: new Date().toISOString()
     };
 
+    // Eliminar propiedades con valor undefined
+    if (metodoActualizado.fechaExpiracion === undefined) {
+      delete metodoActualizado.fechaExpiracion;
+    }
+
+    metodos[index] = metodoActualizado as Metodo;
     this.guardarMetodos(metodos);
     return true;
   }

@@ -130,4 +130,28 @@ export class DetalleMetodoComponent implements OnInit {
 
     return null;
   }
+
+  obtenerEstado(metodo: Metodo): 'FUNCIONANDO' | 'INACTIVO' | 'EXPIRADO' {
+    if (metodo.fechaExpiracion) {
+      const ahora = new Date();
+      const fechaExpiracion = new Date(metodo.fechaExpiracion);
+      if (ahora > fechaExpiracion) {
+        return 'EXPIRADO';
+      }
+    }
+    return metodo.activo ? 'FUNCIONANDO' : 'INACTIVO';
+  }
+
+  obtenerColorEstado(estado: string): string {
+    switch (estado) {
+      case 'FUNCIONANDO':
+        return 'bg-green-600';
+      case 'INACTIVO':
+        return 'bg-red-600';
+      case 'EXPIRADO':
+        return 'bg-red-600';
+      default:
+        return 'bg-gray-600';
+    }
+  }
 }

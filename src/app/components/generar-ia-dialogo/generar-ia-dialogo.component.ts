@@ -149,7 +149,7 @@ export class GenerarIaDialogoComponent {
     this.deepseekService.generarMetodo(this.prompt).subscribe({
       next: (metodoGenerado) => {
         // Crear el método directamente
-        const metodoData = {
+        const metodoData: any = {
           titulo: metodoGenerado.titulo || '',
           descripcion: metodoGenerado.descripcion || '',
           imagenUrl: metodoGenerado.imagenUrl || '',
@@ -163,6 +163,10 @@ export class GenerarIaDialogoComponent {
           etiquetas: Array.isArray(metodoGenerado.etiquetas) ? metodoGenerado.etiquetas : [],
           activo: metodoGenerado.activo !== undefined ? metodoGenerado.activo : true
         };
+
+        if (metodoGenerado.fechaExpiracion) {
+          metodoData.fechaExpiracion = metodoGenerado.fechaExpiracion;
+        }
 
         // Guardar el método
         const nuevoMetodo = this.metodosService.crearMetodo(metodoData);

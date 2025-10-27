@@ -61,6 +61,7 @@ export class FormularioMetodoComponent implements OnInit {
   notas = '';
   etiquetas: string[] = [];
   activo = true;
+  fechaExpiracion = '';
 
   nuevoPasoPrevio = '';
   nuevoPasoPrincipal = '';
@@ -130,6 +131,7 @@ export class FormularioMetodoComponent implements OnInit {
       this.notas = metodo.notas;
       this.etiquetas = [...metodo.etiquetas];
       this.activo = metodo.activo !== undefined ? metodo.activo : true;
+      this.fechaExpiracion = metodo.fechaExpiracion ? metodo.fechaExpiracion.split('T')[0] : '';
     } else {
       this.snackBar.open('Método no encontrado', 'Cerrar', { duration: 3000 });
       this.router.navigate(['/']);
@@ -219,7 +221,7 @@ export class FormularioMetodoComponent implements OnInit {
       return;
     }
 
-    const metodoData = {
+    const metodoData: any = {
       titulo: this.titulo.trim(),
       descripcion: this.descripcion.trim(),
       imagenUrl: this.imagenUrl.trim(),
@@ -231,7 +233,8 @@ export class FormularioMetodoComponent implements OnInit {
       pasosPrincipales: this.pasosPrincipales,
       notas: this.notas.trim(),
       etiquetas: this.etiquetas,
-      activo: this.activo
+      activo: this.activo,
+      fechaExpiracion: this.fechaExpiracion ? new Date(this.fechaExpiracion).toISOString() : undefined
     };
 
     if (this.modoEdicion && this.metodoId) {
@@ -287,6 +290,7 @@ export class FormularioMetodoComponent implements OnInit {
         this.notas = contenido.notas || '';
         this.etiquetas = Array.isArray(contenido.etiquetas) ? contenido.etiquetas : [];
         this.activo = contenido.activo !== undefined ? contenido.activo : true;
+        this.fechaExpiracion = contenido.fechaExpiracion ? contenido.fechaExpiracion.split('T')[0] : '';
 
         this.snackBar.open('Método cargado desde JSON correctamente', 'Cerrar', { 
           duration: 3000,
@@ -320,6 +324,7 @@ export class FormularioMetodoComponent implements OnInit {
     this.notas = '';
     this.etiquetas = [];
     this.activo = true;
+    this.fechaExpiracion = '';
     this.archivoSeleccionado = null;
   }
 

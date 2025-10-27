@@ -51,6 +51,7 @@ REGLAS OBLIGATORIAS:
 - El campo "notas" es OPCIONAL - Para advertencias o consejos importantes
 - El campo "etiquetas" es OPCIONAL - Array de 3-6 palabras clave
 - El campo "activo" es OPCIONAL - true si funciona, false si no (por defecto true)
+- El campo "fechaExpiracion" es OPCIONAL - Fecha ISO 8601 cuando el método expira (ej: "2025-12-31T23:59:59.000Z"). Solo incluir si el método tiene una fecha límite específica
 
 FORMATO:
 - Usa **texto** para resaltar palabras importantes en negrita
@@ -67,6 +68,7 @@ Ejemplo de estructura:
   "descripcion": "Descripción breve",
   "imagenUrl": "https://images.unsplash.com/photo-example",
   "activo": true,
+  "fechaExpiracion": "2025-12-31T23:59:59.000Z",
   "pasosPrevios": ["Paso preparatorio 1", "Paso preparatorio 2"],
   "pasosPrincipales": ["**Paso 1** con detalles", "Paso 2 con https://enlace.com"],
   "notas": "⚠️ Notas importantes",
