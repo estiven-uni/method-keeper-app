@@ -145,7 +145,7 @@
                 <!-- Badge de estado -->
                 @if (metodo.activo !== undefined) {
                   <div class="absolute bottom-2 left-2 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1 backdrop-blur-lg !text-white shadow-lg"
-                       [ngClass]="obtenerColorEstado(obtenerEstado(metodo)) + '/90'">
+                       [ngClass]="obtenerColorEstado(obtenerEstado(metodo), true)">
                     <span class="!text-white">{{ obtenerEstado(metodo) }}</span>
                   </div>
                 }
@@ -158,7 +158,7 @@
                 
                 @if (metodo.activo !== undefined) {
                   <div class="absolute bottom-2 left-2 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1 !text-white shadow-lg"
-                       [ngClass]="obtenerColorEstado(obtenerEstado(metodo))">
+                       [ngClass]="obtenerColorEstado(obtenerEstado(metodo), false)">
                     <span class="!text-white">{{ obtenerEstado(metodo) }}</span>
                   </div>
                 }

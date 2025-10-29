@@ -184,16 +184,29 @@ export class ListaMetodosComponent implements OnInit {
     return metodo.activo ? 'FUNCIONANDO' : 'INACTIVO';
   }
 
-  obtenerColorEstado(estado: string): string {
-    switch (estado) {
-      case 'FUNCIONANDO':
-        return 'bg-green-600';
-      case 'INACTIVO':
-        return 'bg-red-600';
-      case 'EXPIRADO':
-        return 'bg-red-600';
-      default:
-        return 'bg-gray-600';
+  obtenerColorEstado(estado: string, conOpacidad: boolean = false): string {
+    if (conOpacidad) {
+      switch (estado) {
+        case 'FUNCIONANDO':
+          return 'bg-green-600/90';
+        case 'INACTIVO':
+          return 'bg-red-600/90';
+        case 'EXPIRADO':
+          return 'bg-red-600/90';
+        default:
+          return 'bg-gray-600/90';
+      }
+    } else {
+      switch (estado) {
+        case 'FUNCIONANDO':
+          return 'bg-green-600';
+        case 'INACTIVO':
+          return 'bg-red-600';
+        case 'EXPIRADO':
+          return 'bg-red-600';
+        default:
+          return 'bg-gray-600';
+      }
     }
   }
 }

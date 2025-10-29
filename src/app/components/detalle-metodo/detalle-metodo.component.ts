@@ -142,16 +142,29 @@ export class DetalleMetodoComponent implements OnInit {
     return metodo.activo ? 'FUNCIONANDO' : 'INACTIVO';
   }
 
-  obtenerColorEstado(estado: string): string {
-    switch (estado) {
-      case 'FUNCIONANDO':
-        return 'bg-green-600';
-      case 'INACTIVO':
-        return 'bg-red-600';
-      case 'EXPIRADO':
-        return 'bg-red-600';
-      default:
-        return 'bg-gray-600';
+  obtenerColorEstado(estado: string, conOpacidad: boolean = false): string {
+    if (conOpacidad) {
+      switch (estado) {
+        case 'FUNCIONANDO':
+          return 'bg-green-600/95';
+        case 'INACTIVO':
+          return 'bg-red-600/95';
+        case 'EXPIRADO':
+          return 'bg-red-600/95';
+        default:
+          return 'bg-gray-600/95';
+      }
+    } else {
+      switch (estado) {
+        case 'FUNCIONANDO':
+          return 'bg-green-600';
+        case 'INACTIVO':
+          return 'bg-red-600';
+        case 'EXPIRADO':
+          return 'bg-red-600';
+        default:
+          return 'bg-gray-600';
+      }
     }
   }
 }
