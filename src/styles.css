@@ -222,6 +222,25 @@ textarea::placeholder {
   transition-duration: 150ms;
 }
 
+/* Modales - z-index correcto para móviles */
+.cdk-overlay-container {
+  z-index: 9999 !important;
+  position: fixed !important;
+  pointer-events: none !important;
+}
+
+.cdk-overlay-backdrop {
+  pointer-events: auto !important;
+}
+
+.cdk-overlay-pane {
+  pointer-events: auto !important;
+}
+
+.mat-mdc-dialog-container {
+  z-index: 10000 !important;
+}
+
 /* Modales en modo oscuro */
 .dark .mat-mdc-dialog-container {
   --mdc-dialog-container-color: rgb(31, 41, 55);
@@ -235,6 +254,52 @@ textarea::placeholder {
 
 .dark .cdk-overlay-backdrop {
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Fix para inputs en modales en móviles */
+@media (max-width: 768px) {
+  .mat-mdc-dialog-container {
+    position: relative !important;
+  }
+  
+  .mat-mdc-dialog-container .mat-mdc-dialog-surface {
+    position: relative !important;
+  }
+  
+  /* Prevenir problemas de touch en modales */
+  .cdk-overlay-pane {
+    touch-action: auto !important;
+  }
+  
+  /* Asegurar que los inputs en modales sean clickeables correctamente */
+  .mat-mdc-dialog-container input,
+  .mat-mdc-dialog-container textarea,
+  .mat-mdc-dialog-container select {
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Fix general para touch en móviles */
+input, textarea, select, button {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  touch-action: manipulation;
+}
+
+/* Prevenir problemas de posicionamiento con header fixed en móviles */
+@supports (-webkit-touch-callout: none) {
+  /* Solo en iOS */
+  body {
+    position: relative;
+    overflow-x: hidden;
+  }
+}
+
+/* Cuando hay modal abierto, prevenir scroll del body */
+body.cdk-global-scrollblock {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* Paginador en modo oscuro */
